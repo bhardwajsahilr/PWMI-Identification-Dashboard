@@ -1,6 +1,6 @@
 export type RiskLevel = 'Low' | 'Moderate' | 'High';
 export type Status = 'Pending' | 'Referred' | 'Completed';
-export type ModuleTab = 'identification' | 'registration' | 'reports';
+export type ModuleTab = 'identification' | 'registration' | 'monthly-monitoring';
 
 export type RegistrationSubStage =
 'screening-diagnosis' |
@@ -162,6 +162,24 @@ export interface AdvocacyMeetingData {
   decisionsOutcomes: string;
   actionItems: string;
   nextMeetingDate: string;
+  completedAt?: string;
+}
+
+export interface MonthlyMonitoringData {
+  id: string;
+  monitoringDate: string;
+  monitoringMonth: string;
+  blockSupervisorName: string;
+  fieldCoordinatorName: string;
+  activitiesDone: string[];
+  activityComments: string;
+  issuesFound: string[];
+  otherIssues: string;
+  actionsTaken: string[];
+  additionalActions: string;
+  overallRating: string;
+  nextReviewDate: string;
+  supervisorRemarks: string;
   completedAt?: string;
 }
 

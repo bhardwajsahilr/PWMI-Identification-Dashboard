@@ -16,8 +16,8 @@ export function TopNavigation() {
     label: 'PWMI Registration & Services'
   },
   {
-    id: 'reports',
-    label: 'Reports'
+    id: 'monthly-monitoring',
+    label: 'Monthly Monitoring'
   }];
 
   return (

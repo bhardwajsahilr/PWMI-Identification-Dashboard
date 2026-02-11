@@ -5,7 +5,8 @@ import {
   ModuleTab,
   RegistrationSubStage,
   IdentificationFormData,
-  RegistrationFormData } from
+  RegistrationFormData,
+  MonthlyMonitoringData } from
 '../types';
 import { mockPatients } from '../data/mockData';
 interface PatientContextType {
@@ -15,6 +16,7 @@ interface PatientContextType {
   activeTab: ModuleTab;
   activeSubStage: RegistrationSubStage;
   filter: FilterState;
+  monitoringRecords: MonthlyMonitoringData[];
   // Actions
   selectPatient: (id: string | null) => void;
   setActiveTab: (tab: ModuleTab) => void;
@@ -32,6 +34,7 @@ interface PatientContextType {
   markCompleted?: boolean)
   => void;
   saveSubStageData: (id: string, stageKey: keyof Patient, data: any) => void;
+  saveMonitoringData: (data: MonthlyMonitoringData) => void;
   addNewPatient: () => void;
   deletePatient: (id: string) => void;
 }
@@ -49,6 +52,9 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
     search: '',
     status: 'All'
   });
+  const [monitoringRecords, setMonitoringRecords] = useState<
+    MonthlyMonitoringData[]>(
+    []);
   const selectedPatient =
   patients.find((p) => p.id === selectedPatientId) || null;
   const selectPatient = (id: string | null) => {
@@ -114,6 +120,9 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
     })
     );
   };
+  const saveMonitoringData = (data: MonthlyMonitoringData) => {
+    setMonitoringRecords((prev) => [...prev, data]);
+  };
   const addNewPatient = () => {
     // In a real app, generate a proper ID
     alert('Add New Client functionality would open a blank form.');
@@ -136,6 +145,7 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
         activeTab,
         activeSubStage,
         filter,
+        monitoringRecords,
         selectPatient,
         setActiveTab,
         setActiveSubStage,
@@ -144,6 +154,7 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
         saveIdentificationData,
         saveRegistrationData,
         saveSubStageData,
+        saveMonitoringData,
         addNewPatient,
         deletePatient
       }}>
