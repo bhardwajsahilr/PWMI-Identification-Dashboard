@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { usePatient } from '../context/PatientContext';
 import { MonthlyMonitoringData } from '../types';
-import { Card } from './ui/Card';
 import { Button } from './ui/Button';
 import { Badge } from './ui/Badge';
 import { Accordion } from './ui/Accordion';
@@ -14,10 +13,17 @@ import {
   Activity,
   BarChart2,
   CheckCircle,
-  AlertCircle } from
+  AlertCircle,
+  Lock } from
 'lucide-react';
-export function MonthlyMonitoringForm() {
+interface MonthlyMonitoringFormProps {
+  viewRecord?: MonthlyMonitoringData | null;
+}
+export function MonthlyMonitoringForm({
+  viewRecord
+}: MonthlyMonitoringFormProps) {
   const { saveMonitoringData } = usePatient();
+  const isViewOnly = !!viewRecord;
   // Form State
   const [monitoringDate, setMonitoringDate] = useState('');
   const [monitoringMonth, setMonitoringMonth] = useState('');
@@ -32,19 +38,57 @@ export function MonthlyMonitoringForm() {
   const [overallRating, setOverallRating] = useState('');
   const [nextReviewDate, setNextReviewDate] = useState('');
   const [supervisorRemarks, setSupervisorRemarks] = useState('');
+  // Pre-fill when viewing an existing record
+  useEffect(() => {
+    if (viewRecord) {
+      setMonitoringDate(viewRecord.monitoringDate);
+      setMonitoringMonth(viewRecord.monitoringMonth);
+      setBlockSupervisorName(viewRecord.blockSupervisorName);
+      setFieldCoordinatorName(viewRecord.fieldCoordinatorName);
+      setActivitiesDone(viewRecord.activitiesDone);
+      setActivityComments(viewRecord.activityComments);
+      setIssuesFound(viewRecord.issuesFound);
+      setOtherIssues(viewRecord.otherIssues);
+      setActionsTaken(viewRecord.actionsTaken);
+      setAdditionalActions(viewRecord.additionalActions);
+      setOverallRating(viewRecord.overallRating);
+      setNextReviewDate(viewRecord.nextReviewDate);
+      setSupervisorRemarks(viewRecord.supervisorRemarks);
+    }
+  }, [viewRecord]);
   const handleActivityChange = (label: string, checked: boolean) => {
+    if (isViewOnly) return;
     if (checked) setActivitiesDone([...activitiesDone, label]);else
     setActivitiesDone(activitiesDone.filter((a) => a !== label));
   };
   const handleIssueChange = (label: string, checked: boolean) => {
+    if (isViewOnly) return;
     if (checked) setIssuesFound([...issuesFound, label]);else
     setIssuesFound(issuesFound.filter((i) => i !== label));
   };
   const handleActionChange = (label: string, checked: boolean) => {
+    if (isViewOnly) return;
     if (checked) setActionsTaken([...actionsTaken, label]);else
     setActionsTaken(actionsTaken.filter((a) => a !== label));
   };
+  const handleReset = () => {
+    if (isViewOnly) return;
+    setMonitoringDate('');
+    setMonitoringMonth('');
+    setBlockSupervisorName('');
+    setFieldCoordinatorName('');
+    setActivitiesDone([]);
+    setActivityComments('');
+    setIssuesFound([]);
+    setOtherIssues('');
+    setActionsTaken([]);
+    setAdditionalActions('');
+    setOverallRating('');
+    setNextReviewDate('');
+    setSupervisorRemarks('');
+  };
   const handleSave = () => {
+    if (isViewOnly) return;
     const data: MonthlyMonitoringData = {
       id: Date.now().toString(),
       monitoringDate,
@@ -84,18 +128,30 @@ export function MonthlyMonitoringForm() {
 
   const hasIssues = issuesFound.length > 0 || otherIssues.length > 0;
   const hasActions = actionsTaken.length > 0 || additionalActions.length > 0;
-  const showActionWarning = hasIssues && !hasActions;
+  const showActionWarning = hasIssues && !hasActions && !isViewOnly;
   const isCritical = overallRating === 'Critical';
   return (
     <div className="h-full flex flex-col bg-gray-50 overflow-hidden">
       <div className="flex-1 overflow-y-auto p-6 space-y-6 max-w-5xl mx-auto w-full">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-neutral-text">
-            Monthly Monitoring Report
-          </h1>
-          <p className="text-neutral-secondary">
-            Record field supervision and monitoring activities.
-          </p>
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-neutral-text">
+              {isViewOnly ?
+              'Monitoring Report' :
+              'New Monthly Monitoring Report'}
+            </h1>
+            <p className="text-neutral-secondary">
+              {isViewOnly ?
+              `${monitoringMonth} ${monitoringDate ? monitoringDate.split('-')[0] : ''} — View only` :
+              'Record field supervision and monitoring activities.'}
+            </p>
+          </div>
+          {isViewOnly &&
+          <div className="flex items-center gap-2 bg-gray-100 text-gray-600 px-3 py-1.5 rounded-lg text-sm font-medium">
+              <Lock className="h-4 w-4" />
+              Read Only
+            </div>
+          }
         </div>
 
         {/* Accordion 1: Monitoring Information */}
@@ -109,41 +165,51 @@ export function MonthlyMonitoringForm() {
               label="Monitoring Date"
               value={monitoringDate}
               onChange={(e) => setMonitoringDate(e.target.value)}
-              required />
+              required
+              disabled={isViewOnly} />
 
             <div>
               <label className="block text-sm font-medium text-neutral-secondary mb-2">
                 Monitoring Month
               </label>
               <select
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal disabled:bg-gray-100 disabled:text-gray-500"
                 value={monitoringMonth}
-                onChange={(e) => setMonitoringMonth(e.target.value)}>
+                onChange={(e) => setMonitoringMonth(e.target.value)}
+                disabled={isViewOnly}>
 
                 <option value="">Select Month</option>
-                <option value="January">January</option>
-                <option value="February">February</option>
-                <option value="March">March</option>
-                <option value="April">April</option>
-                <option value="May">May</option>
-                <option value="June">June</option>
-                <option value="July">July</option>
-                <option value="August">August</option>
-                <option value="September">September</option>
-                <option value="October">October</option>
-                <option value="November">November</option>
-                <option value="December">December</option>
+                {[
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December'].
+                map((m) =>
+                <option key={m} value={m}>
+                    {m}
+                  </option>
+                )}
               </select>
             </div>
             <Input
               label="Block Supervisor Name"
               value={blockSupervisorName}
-              onChange={(e) => setBlockSupervisorName(e.target.value)} />
+              onChange={(e) => setBlockSupervisorName(e.target.value)}
+              disabled={isViewOnly} />
 
             <Input
               label="Field Coordinator Name"
               value={fieldCoordinatorName}
-              onChange={(e) => setFieldCoordinatorName(e.target.value)} />
+              onChange={(e) => setFieldCoordinatorName(e.target.value)}
+              disabled={isViewOnly} />
 
           </div>
         </Accordion>
@@ -162,7 +228,8 @@ export function MonthlyMonitoringForm() {
                 checked={activitiesDone.includes(activity)}
                 onChange={(e) =>
                 handleActivityChange(activity, e.target.checked)
-                } />
+                }
+                disabled={isViewOnly} />
 
               )}
             </div>
@@ -170,7 +237,8 @@ export function MonthlyMonitoringForm() {
               label="Comments / Observations"
               rows={3}
               value={activityComments}
-              onChange={(e) => setActivityComments(e.target.value)} />
+              onChange={(e) => setActivityComments(e.target.value)}
+              disabled={isViewOnly} />
 
           </div>
         </Accordion>
@@ -187,21 +255,24 @@ export function MonthlyMonitoringForm() {
                 key={issue}
                 label={issue}
                 checked={issuesFound.includes(issue)}
-                onChange={(e) => handleIssueChange(issue, e.target.checked)} />
+                onChange={(e) => handleIssueChange(issue, e.target.checked)}
+                disabled={isViewOnly} />
 
               )}
             </div>
             <Input
               label="Other Issues"
               value={otherIssues}
-              onChange={(e) => setOtherIssues(e.target.value)} />
-
+              onChange={(e) => setOtherIssues(e.target.value)}
+              disabled={isViewOnly} />
 
             {hasIssues &&
-            <div className="bg-softPink/20 border border-softPink text-neutral-text p-4 rounded-lg flex items-center gap-3 animate-in fade-in">
+            <div className="bg-softPink/20 border border-softPink text-neutral-text p-4 rounded-lg flex items-center gap-3">
                 <AlertCircle className="h-5 w-5 text-coral" />
                 <p className="font-medium">
-                  Issues identified. Please record actions taken below.
+                  {isViewOnly ?
+                'Issues were identified during this monitoring visit.' :
+                'Issues identified. Please record actions taken below.'}
                 </p>
               </div>
             }
@@ -217,7 +288,8 @@ export function MonthlyMonitoringForm() {
                 key={action}
                 label={action}
                 checked={actionsTaken.includes(action)}
-                onChange={(e) => handleActionChange(action, e.target.checked)} />
+                onChange={(e) => handleActionChange(action, e.target.checked)}
+                disabled={isViewOnly} />
 
               )}
             </div>
@@ -225,11 +297,11 @@ export function MonthlyMonitoringForm() {
               label="Additional Actions Taken"
               rows={3}
               value={additionalActions}
-              onChange={(e) => setAdditionalActions(e.target.value)} />
-
+              onChange={(e) => setAdditionalActions(e.target.value)}
+              disabled={isViewOnly} />
 
             {showActionWarning &&
-            <div className="bg-coral/10 border border-coral text-coral p-4 rounded-lg flex items-center gap-3 animate-in fade-in">
+            <div className="bg-coral/10 border border-coral text-coral p-4 rounded-lg flex items-center gap-3">
                 <AlertTriangle className="h-5 w-5" />
                 <p className="font-bold">
                   Warning: Issues were found but no action has been recorded.
@@ -251,9 +323,10 @@ export function MonthlyMonitoringForm() {
                   Overall Rating
                 </label>
                 <select
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal disabled:bg-gray-100 disabled:text-gray-500"
                   value={overallRating}
-                  onChange={(e) => setOverallRating(e.target.value)}>
+                  onChange={(e) => setOverallRating(e.target.value)}
+                  disabled={isViewOnly}>
 
                   <option value="">Select Rating</option>
                   <option value="Good">Good</option>
@@ -276,12 +349,13 @@ export function MonthlyMonitoringForm() {
                 type="date"
                 label="Next Review Date"
                 value={nextReviewDate}
-                onChange={(e) => setNextReviewDate(e.target.value)} />
+                onChange={(e) => setNextReviewDate(e.target.value)}
+                disabled={isViewOnly} />
 
             </div>
 
             {isCritical &&
-            <div className="bg-coral/10 border border-coral p-4 rounded-lg flex items-start gap-3 animate-in fade-in">
+            <div className="bg-coral/10 border border-coral p-4 rounded-lg flex items-start gap-3">
                 <AlertTriangle className="h-5 w-5 text-coral shrink-0 mt-0.5" />
                 <div>
                   <p className="font-bold text-coral">Critical Status Alert</p>
@@ -297,7 +371,8 @@ export function MonthlyMonitoringForm() {
               label="Supervisor Remarks"
               rows={4}
               value={supervisorRemarks}
-              onChange={(e) => setSupervisorRemarks(e.target.value)} />
+              onChange={(e) => setSupervisorRemarks(e.target.value)}
+              disabled={isViewOnly} />
 
           </div>
         </Accordion>
@@ -305,22 +380,26 @@ export function MonthlyMonitoringForm() {
         <div className="h-20"></div>
       </div>
 
-      {/* Sticky Bottom Action Bar */}
+      {/* Sticky Bottom Action Bar — only for new records */}
+      {!isViewOnly &&
       <div className="bg-white border-t border-softPink p-4 shadow-lg flex justify-between items-center z-20">
-        <Button variant="ghost">Reset Form</Button>
-        <div className="flex gap-3">
-          <Button variant="outline" onClick={handleSave}>
-            Save Draft
+          <Button variant="ghost" onClick={handleReset}>
+            Reset Form
           </Button>
-          <Button
+          <div className="flex gap-3">
+            <Button variant="outline" onClick={handleSave}>
+              Save Draft
+            </Button>
+            <Button
             variant="primary"
             leftIcon={<CheckCircle className="h-4 w-4" />}
             onClick={handleSave}>
 
-            Save & Complete Monitoring
-          </Button>
+              Save & Complete Monitoring
+            </Button>
+          </div>
         </div>
-      </div>
+      }
     </div>);
 
 }

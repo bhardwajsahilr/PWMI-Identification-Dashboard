@@ -23,11 +23,17 @@ export interface IdentificationFormData {
   suicidalThoughts: boolean;
   riskLevel: RiskLevel;
   riskNotes: string;
+  // Referral fields
+  pwmiReferred: string;
+  dateOfReferral: string;
+  referralFacility: string;
+  mentalHealthFacilityName: string;
+  // Consent
+  consentGiven: string;
   completedAt?: string;
 }
 
 export interface RegistrationFormData {
-  // Carry-forward from identification (editable in registration)
   symptoms: string[];
   otherSymptoms: string;
   functionalImpacts: string[];
@@ -35,133 +41,115 @@ export interface RegistrationFormData {
   suicidalThoughts: boolean;
   riskLevel: RiskLevel;
   riskNotes: string;
-
-  // Accordion 4: Referral Facility
   referralFacility: string;
   mentalHealthFacility: string;
   referralDate: string;
-
-  // Accordion 5: Mental Disorder & Disability
   mentalDisorderType: string;
   disabilityType: string;
-
-  // Accordion 6: Diagnosis
   mentalIllnessType: string;
   severityOfIllness: string;
   severityRating: string;
-
-  // Accordion 7: Consent
   consentGiven: boolean;
   enrollmentCompleted: boolean;
-
-  // Meta
   completedAt?: string;
 }
 
-export interface FollowUpFormData {
+// === NEW REPEATABLE ENTRY TYPES ===
+
+export interface FollowUpEntry {
+  id: string;
   followUpDate: string;
-  followUpNotes: string;
-  medicationAdherence: string;
-  symptomChanges: string;
-  referralStatus: string;
+  mode: string; // In-person / Phone / Home visit
+  availedCounselling: boolean;
+  medicationAdherence: string; // Good / Fair / Poor / Stopped
+  currentTreatmentStatus: string; // Active / Discontinued / Changed / Referred
   nextFollowUpDate: string;
+  // Conditional: non-adherence reasons
+  nonAdherenceReasons: string[];
+  otherNonAdherenceReason: string;
+  // Conditional: side effects
+  sideEffectsReported: boolean;
+  daysSinceSideEffects: string;
+  sideEffectTypes: string[];
+  // Caregiver observations
+  caregiverBehaviour: string;
+  caregiverFeedback: string;
+  changesObserved: string;
   completedAt?: string;
 }
 
-export interface CounsellingLogData {
+export interface CounsellingLogEntry {
+  id: string;
   sessionDate: string;
-  sessionNumber: string;
-  sessionType: string;
-  keyIssuesDiscussed: string;
-  interventionsUsed: string[];
-  clientResponse: string;
+  caseHistorySummary: string;
+  severityRating: string; // 1-5
+  counsellingType: string; // Individual / Family / Group / Crisis
+  actionPlan: string;
   nextSessionDate: string;
-  counsellorName: string;
   completedAt?: string;
 }
 
-export interface BeneficiarySchemeData {
-  schemeName: string;
-  schemeType: string;
+export interface BeneficiarySchemeEntry {
+  id: string;
+  schemeApplied: string;
   applicationDate: string;
-  applicationStatus: string;
-  benefitReceived: string;
-  amount: string;
-  remarks: string;
+  currentStatus: string; // Applied / Approved / Rejected / In progress
+  benefitsReceived: string;
   completedAt?: string;
 }
 
 export interface SelfEmploymentData {
-  activityType: string;
-  startDate: string;
-  skillsIdentified: string;
-  trainingProvided: string;
-  financialSupport: string;
-  currentStatus: string;
-  incomeGenerated: string;
-  remarks: string;
+  annualHouseholdIncome: string;
+  monthlyHouseholdIncome: string;
+  natureOfEmployment: string;
+  otherNatureSpecify: string;
+  dateStarted: string;
   completedAt?: string;
 }
 
-export interface VocationalTrainingData {
-  trainingType: string;
-  trainingProvider: string;
-  startDate: string;
-  endDate: string;
-  skillsLearned: string;
-  certificationReceived: boolean;
-  employmentStatus: string;
-  remarks: string;
+export interface VocationalTrainingEntry {
+  id: string;
+  provider: string;
+  trainingApplied: string;
+  enrolmentDate: string;
+  completionStatus: string; // Enrolled / Ongoing / Completed / Dropped
   completedAt?: string;
 }
 
 export interface CaregiverBurdenData {
-  caregiverName: string;
-  relationship: string;
-  burdenLevel: string;
+  // Zarit Burden Interview - 22 questions
+  // Likert scale: 0=Never, 1=Rarely, 2=Sometimes, 3=Frequently, 4=Nearly Always
+  responses: Record<string, number>;
+  // Auto-calculated
+  burdenScore: number;
+  burdenLevel: string; // Low / Moderate / Moderate to Severe / Severe
   assessmentDate: string;
-  physicalHealth: string;
-  emotionalHealth: string;
-  financialImpact: string;
-  supportNeeded: string[];
-  referralForCaregiver: string;
   completedAt?: string;
 }
 
-export interface SupportGroupData {
+export interface SupportGroupEntry {
+  id: string;
+  attended: string; // Yes/No or count
+  topicDiscussed: string;
   meetingDate: string;
-  meetingNumber: string;
-  venue: string;
-  facilitator: string;
-  attendeesCount: string;
-  topicsDiscussed: string;
-  keyOutcomes: string;
-  nextMeetingDate: string;
   completedAt?: string;
 }
 
-export interface PsychoSocialData {
+export interface PsychoSocialEntry {
+  id: string;
+  attended: string; // Yes/No or count
+  topicName: string;
   sessionDate: string;
-  sessionTopic: string;
-  targetGroup: string;
-  facilitator: string;
-  attendeesCount: string;
-  keyMessages: string;
-  participantFeedback: string;
-  nextSessionDate: string;
+  facilitatorName: string;
   completedAt?: string;
 }
 
-export interface AdvocacyMeetingData {
-  meetingDate: string;
+export interface AdvocacyMeetingEntry {
+  id: string;
+  attended: string; // Yes/No or count
   meetingType: string;
-  venue: string;
-  organizer: string;
-  stakeholders: string;
-  agendaTopics: string;
-  decisionsOutcomes: string;
-  actionItems: string;
-  nextMeetingDate: string;
+  institutionName: string;
+  meetingDate: string;
   completedAt?: string;
 }
 
@@ -189,7 +177,7 @@ export interface Patient {
   age: number;
   gender: 'Male' | 'Female' | 'Other';
   phone: string;
-  village: string; // Panchayat
+  village: string;
   status: Status;
   riskLevel: RiskLevel;
   education?: string;
@@ -202,21 +190,22 @@ export interface Patient {
   informantName?: string;
   informantRelation?: string;
   fieldWorker?: string;
+  dateOfBirth?: string;
 
   // Form Data Persistence
   identificationData?: IdentificationFormData;
   registrationData?: RegistrationFormData;
 
-  // Sub-stage data persistence
-  followUpData?: FollowUpFormData;
-  counsellingLogData?: CounsellingLogData;
-  beneficiarySchemeData?: BeneficiarySchemeData;
-  selfEmploymentData?: SelfEmploymentData;
-  vocationalTrainingData?: VocationalTrainingData;
-  caregiverBurdenData?: CaregiverBurdenData;
-  supportGroupData?: SupportGroupData;
-  psychoSocialData?: PsychoSocialData;
-  advocacyMeetingData?: AdvocacyMeetingData;
+  // Sub-stage data persistence (Repeatable Arrays)
+  followUpEntries?: FollowUpEntry[];
+  counsellingLogEntries?: CounsellingLogEntry[];
+  beneficiarySchemeEntries?: BeneficiarySchemeEntry[];
+  selfEmploymentData?: SelfEmploymentData; // Single
+  vocationalTrainingEntries?: VocationalTrainingEntry[];
+  caregiverBurdenData?: CaregiverBurdenData; // Single
+  supportGroupEntries?: SupportGroupEntry[];
+  psychoSocialEntries?: PsychoSocialEntry[];
+  advocacyMeetingEntries?: AdvocacyMeetingEntry[];
 }
 
 export type IdentificationFilter =
@@ -234,5 +223,5 @@ export type RegistrationFilter =
 
 export interface FilterState {
   search: string;
-  status: string; // Keep as string to support both filter types
+  status: string;
 }

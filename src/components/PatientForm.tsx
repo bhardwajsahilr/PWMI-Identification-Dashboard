@@ -8,14 +8,14 @@ import { Accordion } from './ui/Accordion';
 import { Checkbox } from './ui/Checkbox';
 import { Input, TextArea } from './ui/Input';
 import {
-  User,
   Activity,
   AlertTriangle,
   ClipboardCheck,
   Printer,
   Trash2,
   CheckCircle,
-  Save } from
+  Building2,
+  ShieldCheck } from
 'lucide-react';
 export function PatientForm() {
   const {
@@ -32,6 +32,13 @@ export function PatientForm() {
   const [suicidalThoughts, setSuicidalThoughts] = useState(false);
   const [riskLevel, setRiskLevel] = useState<RiskLevel>('Low');
   const [riskNotes, setRiskNotes] = useState('');
+  // Referral fields
+  const [pwmiReferred, setPwmiReferred] = useState('');
+  const [dateOfReferral, setDateOfReferral] = useState('');
+  const [referralFacility, setReferralFacility] = useState('');
+  const [mentalHealthFacilityName, setMentalHealthFacilityName] = useState('');
+  // Consent
+  const [consentGiven, setConsentGiven] = useState('');
   // Load patient data when selected patient changes
   useEffect(() => {
     if (patient) {
@@ -46,33 +53,21 @@ export function PatientForm() {
       setSuicidalThoughts(data?.suicidalThoughts || false);
       setRiskLevel(data?.riskLevel || patient.riskLevel || 'Low');
       setRiskNotes(data?.riskNotes || '');
+      setPwmiReferred(data?.pwmiReferred || '');
+      setDateOfReferral(data?.dateOfReferral || '');
+      setReferralFacility(data?.referralFacility || '');
+      setMentalHealthFacilityName(data?.mentalHealthFacilityName || '');
+      setConsentGiven(data?.consentGiven || '');
     }
   }, [patient]);
-  if (!patient) {
-    return (
-      <div className="h-full flex items-center justify-center bg-gray-50 text-neutral-secondary">
-        <div className="text-center">
-          <User className="h-16 w-16 mx-auto mb-4 text-gray-300" />
-          <p className="text-lg">
-            Select a client from the list or add a new one.
-          </p>
-        </div>
-      </div>);
-
-  }
+  if (!patient) return null;
   const handleSymptomChange = (label: string, checked: boolean) => {
-    if (checked) {
-      setSymptoms([...symptoms, label]);
-    } else {
-      setSymptoms(symptoms.filter((s) => s !== label));
-    }
+    if (checked) setSymptoms([...symptoms, label]);else
+    setSymptoms(symptoms.filter((s) => s !== label));
   };
   const handleImpactChange = (label: string, checked: boolean) => {
-    if (checked) {
-      setFunctionalImpacts([...functionalImpacts, label]);
-    } else {
-      setFunctionalImpacts(functionalImpacts.filter((i) => i !== label));
-    }
+    if (checked) setFunctionalImpacts([...functionalImpacts, label]);else
+    setFunctionalImpacts(functionalImpacts.filter((i) => i !== label));
   };
   const handleSave = (markCompleted = false) => {
     const formData: IdentificationFormData = {
@@ -84,31 +79,36 @@ export function PatientForm() {
       suicidalThoughts,
       riskLevel,
       riskNotes,
+      pwmiReferred,
+      dateOfReferral,
+      referralFacility,
+      mentalHealthFacilityName,
+      consentGiven,
       completedAt: markCompleted ? new Date().toISOString() : undefined
     };
     saveIdentificationData(patient.id, formData, markCompleted);
   };
   const symptomList = [
   'Withdrawal from people or activities',
-  'Talking to self or hearing voices',
+  'Talking to self or hearing voices (hallucinations)',
   'Aggression or violent behaviour',
-  'Not maintaining hygiene',
-  'Strange beliefs or delusions',
-  'Crying often or appearing sad',
-  'Suspiciousness or fear',
+  'Not maintaining hygiene (not bathing, dirty clothes)',
+  'Strange beliefs or delusions (e.g. someone is watching me)',
+  'Crying often or appearing very sad',
+  'Suspiciousness or fear of others',
   'Very quiet or not talking',
   'Poor sleep or food intake',
   'Wandering without reason'];
 
   const impactList = [
-  'Unable to work or perform daily tasks',
-  'Needs help for bathing/dressing',
-  'Caregiver feels burdened',
-  'Kept away by community/stigma'];
+  'Unable to work or do usual tasks',
+  'Needs help for bathing, dressing, etc.',
+  'Caregiver feels burdened or tired',
+  'Kept away or avoided by the community'];
 
   return (
     <div className="h-full flex flex-col bg-gray-50 overflow-hidden">
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      <div className="flex-1 overflow-y-auto p-6 space-y-6 max-w-5xl mx-auto w-full">
         {/* Patient Header Card */}
         <Card accent="top" accentColor="softPink" className="p-6">
           <div className="flex justify-between items-start">
@@ -144,7 +144,6 @@ export function PatientForm() {
                 </div>
               </div>
             </div>
-
             <div className="flex gap-2">
               <Button
                 variant="ghost"
@@ -203,9 +202,9 @@ export function PatientForm() {
           </div>
         </Card>
 
-        {/* Accordion 1: Symptoms */}
+        {/* Accordion 1: Symptoms Screening */}
         <Accordion
-          title="Symptoms Screening"
+          title="Symptoms Screening (Tick all that apply)"
           icon={<Activity className="h-5 w-5" />}>
 
           <div className="space-y-4">
@@ -217,7 +216,6 @@ export function PatientForm() {
                 onChange={(e) => setScreeningDate(e.target.value)} />
 
             </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               {symptomList.map((symptom) =>
               <Checkbox
@@ -230,12 +228,11 @@ export function PatientForm() {
 
               )}
             </div>
-
             <div className="mt-4">
               <TextArea
-                label="Other Symptoms (Optional)"
+                label="Other Symptoms"
                 rows={2}
-                placeholder="Describe any other observed symptoms..."
+                placeholder="No other symptoms"
                 value={otherSymptoms}
                 onChange={(e) => setOtherSymptoms(e.target.value)} />
 
@@ -243,9 +240,9 @@ export function PatientForm() {
           </div>
         </Accordion>
 
-        {/* Accordion 2: Functional Impact */}
+        {/* Accordion 2: Functional Impact Classification */}
         <Accordion
-          title="Functional Impact Classification"
+          title="Functional Impact Classification (Tick all that apply)"
           icon={<ClipboardCheck className="h-5 w-5" />}>
 
           <div className="space-y-4">
@@ -259,12 +256,11 @@ export function PatientForm() {
 
               )}
               <Checkbox
-                label="Has tried to harm self / suicidal thoughts"
+                label="Has tried to harm self or has suicidal thoughts"
                 checked={suicidalThoughts}
                 onChange={(e) => setSuicidalThoughts(e.target.checked)} />
 
             </div>
-
             {suicidalThoughts &&
             <div className="bg-softPink/20 border border-softPink text-neutral-text p-4 rounded-lg flex items-start gap-3 animate-in fade-in slide-in-from-top-2">
                 <AlertTriangle className="h-5 w-5 text-coral shrink-0 mt-0.5" />
@@ -277,11 +273,10 @@ export function PatientForm() {
                 </div>
               </div>
             }
-
             <div className="mt-2">
               <Input
-                label="Other Functional Impacts (Specify)"
-                placeholder="e.g. Financial dependency..."
+                label="Other (Specify)"
+                placeholder="No other"
                 value={otherImpacts}
                 onChange={(e) => setOtherImpacts(e.target.value)} />
 
@@ -289,7 +284,7 @@ export function PatientForm() {
           </div>
         </Accordion>
 
-        {/* Accordion 3: Risk Level */}
+        {/* Accordion 3: Risk Level Classification */}
         <Accordion
           title="Risk Level Classification"
           icon={<AlertTriangle className="h-5 w-5" />}>
@@ -297,25 +292,29 @@ export function PatientForm() {
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-neutral-secondary mb-2">
-                Assessed Risk Level
+                Risk Level
               </label>
               <select
                 className="w-full md:w-1/2 rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={riskLevel}
                 onChange={(e) => setRiskLevel(e.target.value as RiskLevel)}>
 
-                <option value="Low">Low – Monitor</option>
-                <option value="Moderate">Moderate – Needs consultation</option>
-                <option value="High">High – Urgent attention</option>
+                <option value="Low">
+                  Low - Can be managed at community level
+                </option>
+                <option value="Moderate">
+                  Moderate - Needs clinical consultation soon
+                </option>
+                <option value="High">
+                  High - Needs immediate clinical attention
+                </option>
               </select>
             </div>
-
             {riskLevel === 'High' &&
             <div className="space-y-4 animate-in fade-in">
                 <div className="bg-coral/10 border border-coral p-4 rounded-lg">
                   <p className="text-coral font-bold flex items-center gap-2">
-                    <AlertTriangle className="h-5 w-5" />
-                    Urgent Action Required
+                    <AlertTriangle className="h-5 w-5" /> Urgent Action Required
                   </p>
                 </div>
                 <TextArea
@@ -331,6 +330,77 @@ export function PatientForm() {
           </div>
         </Accordion>
 
+        {/* Accordion 4: Referral */}
+        <Accordion title="Referral" icon={<Building2 className="h-5 w-5" />}>
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-neutral-secondary mb-2">
+                  PWMI referred?
+                </label>
+                <select
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                  value={pwmiReferred}
+                  onChange={(e) => setPwmiReferred(e.target.value)}>
+
+                  <option value="">Select or search from the list</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+              <Input
+                type="date"
+                label="Date of Referral"
+                value={dateOfReferral}
+                onChange={(e) => setDateOfReferral(e.target.value)} />
+
+              <div>
+                <label className="block text-sm font-medium text-neutral-secondary mb-2">
+                  Referral facility
+                </label>
+                <select
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                  value={referralFacility}
+                  onChange={(e) => setReferralFacility(e.target.value)}>
+
+                  <option value="">Select or search from the list</option>
+                  <option value="District Hospital">District Hospital</option>
+                  <option value="PHC">PHC</option>
+                  <option value="CHC">CHC</option>
+                  <option value="Private Clinic">Private Clinic</option>
+                  <option value="NGO Partner">NGO Partner</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <Input
+                label="Name of Mental health facility"
+                value={mentalHealthFacilityName}
+                onChange={(e) => setMentalHealthFacilityName(e.target.value)} />
+
+            </div>
+          </div>
+        </Accordion>
+
+        {/* Accordion 5: Consent */}
+        <Accordion title="Consent" icon={<ShieldCheck className="h-5 w-5" />}>
+          <div className="space-y-4">
+            <div className="w-full md:w-1/2">
+              <label className="block text-sm font-medium text-neutral-secondary mb-2">
+                Consent given for enrolling in the program?
+              </label>
+              <select
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                value={consentGiven}
+                onChange={(e) => setConsentGiven(e.target.value)}>
+
+                <option value="">Select or search from the list</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+          </div>
+        </Accordion>
+
         {/* Spacer for bottom bar */}
         <div className="h-20"></div>
       </div>
@@ -340,7 +410,7 @@ export function PatientForm() {
         <Button variant="ghost">Reset Form</Button>
         <div className="flex gap-3">
           <Button variant="outline" onClick={() => handleSave(false)}>
-            Save Draft
+            Cancel
           </Button>
           <Button
             variant="primary"

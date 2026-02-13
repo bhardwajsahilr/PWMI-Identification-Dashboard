@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { usePatient } from '../../context/PatientContext';
 import { RegistrationFormData, RiskLevel } from '../../types';
-import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
 import { Accordion } from '../ui/Accordion';
 import { Input, TextArea } from '../ui/Input';
 import { Checkbox } from '../ui/Checkbox';
 import {
-  User,
-  Printer,
-  Trash2,
   Activity,
   ClipboardCheck,
   AlertTriangle,
@@ -26,7 +22,6 @@ export function ScreeningDiagnosisForm() {
     saveRegistrationData,
     deletePatient
   } = usePatient();
-  // Form State
   const [symptoms, setSymptoms] = useState<string[]>([]);
   const [otherSymptoms, setOtherSymptoms] = useState('');
   const [functionalImpacts, setFunctionalImpacts] = useState<string[]>([]);
@@ -48,7 +43,6 @@ export function ScreeningDiagnosisForm() {
     if (patient) {
       const regData = patient.registrationData;
       const identData = patient.identificationData;
-      // Carry forward or load existing
       setSymptoms(regData?.symptoms || identData?.symptoms || []);
       setOtherSymptoms(regData?.otherSymptoms || identData?.otherSymptoms || '');
       setFunctionalImpacts(
@@ -133,71 +127,6 @@ export function ScreeningDiagnosisForm() {
   severityRating === '5 - Severe';
   return (
     <>
-      {/* Patient Header Card */}
-      <Card accent="top" accentColor="softPink" className="p-6">
-        <div className="flex justify-between items-start">
-          <div className="flex gap-4">
-            <div className="h-16 w-16 rounded-full bg-softPink/30 flex items-center justify-center text-coral font-bold text-xl">
-              {patient.name.charAt(0)}
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold text-neutral-text">
-                {patient.name}
-              </h2>
-              <div className="flex items-center gap-3 text-neutral-secondary mt-1">
-                <span>{patient.age} Years</span>
-                <span>•</span>
-                <span>{patient.gender}</span>
-                <span>•</span>
-                <span className="font-mono tracking-wider">
-                  {patient.phone.replace(
-                    /(\d{2})(\d{4})(\d{4})/,
-                    '+91 $1 $2 $3'
-                  )}
-                </span>
-              </div>
-              <div className="mt-2 text-sm text-neutral-secondary">
-                Primary Caregiver:{' '}
-                <span className="font-medium text-neutral-text">
-                  {patient.fieldWorker || 'Not assigned'}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col items-end gap-2">
-            <Badge
-              variant={
-              riskLevel === 'High' ?
-              'coral' :
-              riskLevel === 'Moderate' ?
-              'softPink' :
-              'teal'
-              }>
-
-              {riskLevel} Risk
-            </Badge>
-            <div className="flex gap-2 mt-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                leftIcon={<Printer className="h-4 w-4" />}>
-
-                Print
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-red-500 hover:text-red-600 hover:bg-red-50"
-                leftIcon={<Trash2 className="h-4 w-4" />}
-                onClick={() => deletePatient(patient.id)}>
-
-                Delete
-              </Button>
-            </div>
-          </div>
-        </div>
-      </Card>
-
       {/* Timeline Strip */}
       <div className="flex items-center justify-between px-8 py-4 bg-white rounded-lg shadow-sm border border-gray-100">
         {[
@@ -241,7 +170,6 @@ export function ScreeningDiagnosisForm() {
         )}
       </div>
 
-      {/* Accordion 1: Symptoms Screening */}
       <Accordion
         title="Symptoms Screening"
         icon={<Activity className="h-5 w-5" />}>
@@ -270,7 +198,6 @@ export function ScreeningDiagnosisForm() {
         </div>
       </Accordion>
 
-      {/* Accordion 2: Functional Impact */}
       <Accordion
         title="Functional Impact Classification"
         icon={<ClipboardCheck className="h-5 w-5" />}>
@@ -296,7 +223,7 @@ export function ScreeningDiagnosisForm() {
 
           </div>
           {suicidalThoughts &&
-          <div className="bg-softPink/20 border border-softPink text-neutral-text p-4 rounded-lg flex items-start gap-3 animate-in fade-in">
+          <div className="bg-softPink/20 border border-softPink text-neutral-text p-4 rounded-lg flex items-start gap-3">
               <AlertTriangle className="h-5 w-5 text-coral shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold text-coral">High Risk Alert</p>
@@ -315,7 +242,6 @@ export function ScreeningDiagnosisForm() {
         </div>
       </Accordion>
 
-      {/* Accordion 3: Risk Level */}
       <Accordion
         title="Risk Level Classification"
         icon={<AlertTriangle className="h-5 w-5" />}>
@@ -336,7 +262,7 @@ export function ScreeningDiagnosisForm() {
             </select>
           </div>
           {riskLevel === 'High' &&
-          <div className="space-y-4 animate-in fade-in">
+          <div className="space-y-4">
               <div className="bg-coral/10 border border-coral p-4 rounded-lg">
                 <p className="text-coral font-bold flex items-center gap-2">
                   <AlertTriangle className="h-5 w-5" /> Urgent Action Required
@@ -354,7 +280,6 @@ export function ScreeningDiagnosisForm() {
         </div>
       </Accordion>
 
-      {/* Accordion 4: Referral Facility */}
       <Accordion
         title="Referral Facility"
         icon={<Building2 className="h-5 w-5" />}>
@@ -410,7 +335,6 @@ export function ScreeningDiagnosisForm() {
         </div>
       </Accordion>
 
-      {/* Accordion 5: Mental Disorder & Disability Type */}
       <Accordion
         title="Mental Disorder & Disability Type"
         icon={<Brain className="h-5 w-5" />}>
@@ -464,7 +388,6 @@ export function ScreeningDiagnosisForm() {
         </div>
       </Accordion>
 
-      {/* Accordion 6: Diagnosis of Mental Illness */}
       <Accordion
         title="Diagnosis of Mental Illness"
         icon={<Stethoscope className="h-5 w-5" />}>
@@ -542,7 +465,6 @@ export function ScreeningDiagnosisForm() {
         </div>
       </Accordion>
 
-      {/* Accordion 7: Consent */}
       <Accordion
         title="Consent & Enrollment"
         icon={<ShieldCheck className="h-5 w-5" />}>
@@ -564,7 +486,6 @@ export function ScreeningDiagnosisForm() {
 
             </button>
           </div>
-
           <div
             className={`transition-opacity ${consentGiven ? 'opacity-100' : 'opacity-50 pointer-events-none'}`}>
 
@@ -575,7 +496,6 @@ export function ScreeningDiagnosisForm() {
               disabled={!consentGiven} />
 
           </div>
-
           {!consentGiven &&
           <div className="bg-softPink/20 border border-softPink text-neutral-text p-4 rounded-lg">
               <p className="text-sm">
@@ -589,7 +509,6 @@ export function ScreeningDiagnosisForm() {
 
       <div className="h-20"></div>
 
-      {/* Sticky Bottom Action Bar */}
       <div className="bg-white border-t border-softPink p-4 shadow-lg flex justify-between items-center z-20">
         <Button variant="ghost">Reset Form</Button>
         <div className="flex gap-3">

@@ -1,155 +1,107 @@
 import React, { useEffect, useState } from 'react';
 import { usePatient } from '../../context/PatientContext';
 import { SelfEmploymentData } from '../../types';
-import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
-import { Badge } from '../ui/Badge';
 import { Accordion } from '../ui/Accordion';
-import { Input, TextArea } from '../ui/Input';
+import { Input } from '../ui/Input';
 import { CheckCircle, Briefcase } from 'lucide-react';
 export function SelfEmploymentForm() {
   const { selectedPatient: patient, saveSubStageData } = usePatient();
-  const [activityType, setActivityType] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [skillsIdentified, setSkillsIdentified] = useState('');
-  const [trainingProvided, setTrainingProvided] = useState('');
-  const [financialSupport, setFinancialSupport] = useState('');
-  const [currentStatus, setCurrentStatus] = useState('');
-  const [incomeGenerated, setIncomeGenerated] = useState('');
-  const [remarks, setRemarks] = useState('');
+  const [annualHouseholdIncome, setAnnualHouseholdIncome] = useState('');
+  const [monthlyHouseholdIncome, setMonthlyHouseholdIncome] = useState('');
+  const [natureOfEmployment, setNatureOfEmployment] = useState('');
+  const [otherNatureSpecify, setOtherNatureSpecify] = useState('');
+  const [dateStarted, setDateStarted] = useState('');
   useEffect(() => {
     if (patient?.selfEmploymentData) {
       const data = patient.selfEmploymentData;
-      setActivityType(data.activityType || '');
-      setStartDate(data.startDate || '');
-      setSkillsIdentified(data.skillsIdentified || '');
-      setTrainingProvided(data.trainingProvided || '');
-      setFinancialSupport(data.financialSupport || '');
-      setCurrentStatus(data.currentStatus || '');
-      setIncomeGenerated(data.incomeGenerated || '');
-      setRemarks(data.remarks || '');
+      setAnnualHouseholdIncome(data.annualHouseholdIncome || '');
+      setMonthlyHouseholdIncome(data.monthlyHouseholdIncome || '');
+      setNatureOfEmployment(data.natureOfEmployment || '');
+      setOtherNatureSpecify(data.otherNatureSpecify || '');
+      setDateStarted(data.dateStarted || '');
     }
   }, [patient]);
   if (!patient) return null;
   const handleSave = () => {
     const data: SelfEmploymentData = {
-      activityType,
-      startDate,
-      skillsIdentified,
-      trainingProvided,
-      financialSupport,
-      currentStatus,
-      incomeGenerated,
-      remarks,
+      annualHouseholdIncome,
+      monthlyHouseholdIncome,
+      natureOfEmployment,
+      otherNatureSpecify,
+      dateStarted,
       completedAt: new Date().toISOString()
     };
     saveSubStageData(patient.id, 'selfEmploymentData', data);
+    alert('Self Employment details saved!');
   };
   return (
-    <>
-      <Card accent="top" accentColor="softPink" className="p-6">
-        <div className="flex justify-between items-start">
-          <div className="flex gap-4">
-            <div className="h-16 w-16 rounded-full bg-softPink/30 flex items-center justify-center text-coral font-bold text-xl">
-              {patient.name.charAt(0)}
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold text-neutral-text">
-                {patient.name}
-              </h2>
-              <div className="flex items-center gap-3 text-neutral-secondary mt-1">
-                <span>{patient.age} Years</span>
-                <span>•</span>
-                <span>{patient.gender}</span>
-              </div>
-            </div>
-          </div>
-          <Badge variant="teal">{patient.riskLevel} Risk</Badge>
-        </div>
-      </Card>
+    <div className="space-y-6">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-bold text-neutral-text">Self Employment</h3>
+      </div>
 
       <Accordion
-        title="Self Employment Details"
+        title="A. Self Employment Details"
         icon={<Briefcase className="h-5 w-5" />}>
 
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
-              label="Activity Type"
-              value={activityType}
-              onChange={(e) => setActivityType(e.target.value)} />
+              label="Annual Household Income (₹)"
+              type="number"
+              value={annualHouseholdIncome}
+              onChange={(e) => setAnnualHouseholdIncome(e.target.value)} />
 
             <Input
-              type="date"
-              label="Start Date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)} />
-
-          </div>
-          <TextArea
-            label="Skills Identified"
-            rows={2}
-            value={skillsIdentified}
-            onChange={(e) => setSkillsIdentified(e.target.value)} />
-
-          <TextArea
-            label="Training Provided"
-            rows={2}
-            value={trainingProvided}
-            onChange={(e) => setTrainingProvided(e.target.value)} />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Input
-              label="Financial Support"
-              value={financialSupport}
-              onChange={(e) => setFinancialSupport(e.target.value)} />
+              label="Monthly Household Income (₹)"
+              type="number"
+              value={monthlyHouseholdIncome}
+              onChange={(e) => setMonthlyHouseholdIncome(e.target.value)} />
 
             <div>
               <label className="block text-sm font-medium text-neutral-secondary mb-2">
-                Current Status
+                Nature of Self-employment
               </label>
               <select
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
-                value={currentStatus}
-                onChange={(e) => setCurrentStatus(e.target.value)}>
+                value={natureOfEmployment}
+                onChange={(e) => setNatureOfEmployment(e.target.value)}>
 
-                <option value="">Select Status</option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-                <option value="Completed">Completed</option>
+                <option value="">Select Nature</option>
+                <option value="Agriculture">Agriculture</option>
+                <option value="Petty shop">Petty shop</option>
+                <option value="Tailoring">Tailoring</option>
+                <option value="Animal husbandry">Animal husbandry</option>
+                <option value="Other">Other</option>
               </select>
             </div>
+            {natureOfEmployment === 'Other' &&
             <Input
-              label="Income Generated"
-              value={incomeGenerated}
-              onChange={(e) => setIncomeGenerated(e.target.value)} />
+              label="Specify Other"
+              value={otherNatureSpecify}
+              onChange={(e) => setOtherNatureSpecify(e.target.value)} />
+
+            }
+            <Input
+              type="date"
+              label="Date Started"
+              value={dateStarted}
+              onChange={(e) => setDateStarted(e.target.value)} />
 
           </div>
-          <TextArea
-            label="Remarks"
-            rows={2}
-            value={remarks}
-            onChange={(e) => setRemarks(e.target.value)} />
-
         </div>
       </Accordion>
 
-      <div className="h-20"></div>
-      <div className="bg-white border-t border-softPink p-4 shadow-lg flex justify-between items-center z-20">
-        <Button variant="ghost">Reset</Button>
-        <div className="flex gap-3">
-          <Button variant="outline" onClick={handleSave}>
-            Save Draft
-          </Button>
-          <Button
-            variant="primary"
-            leftIcon={<CheckCircle className="h-4 w-4" />}
-            onClick={handleSave}>
+      <div className="flex justify-end pt-4">
+        <Button
+          variant="primary"
+          onClick={handleSave}
+          leftIcon={<CheckCircle className="h-4 w-4" />}>
 
-            Save & Complete
-          </Button>
-        </div>
+          Save Details
+        </Button>
       </div>
-    </>);
+    </div>);
 
 }

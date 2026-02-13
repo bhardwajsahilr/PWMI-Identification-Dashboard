@@ -8,7 +8,7 @@ import {
   RegistrationFormData,
   MonthlyMonitoringData } from
 '../types';
-import { mockPatients } from '../data/mockData';
+import { mockPatients, mockMonitoringRecords } from '../data/mockData';
 interface PatientContextType {
   patients: Patient[];
   selectedPatientId: string | null;
@@ -17,6 +17,8 @@ interface PatientContextType {
   activeSubStage: RegistrationSubStage;
   filter: FilterState;
   monitoringRecords: MonthlyMonitoringData[];
+  selectedMonitoringId: string | null;
+  isNewMonitoring: boolean;
   // Actions
   selectPatient: (id: string | null) => void;
   setActiveTab: (tab: ModuleTab) => void;
@@ -34,7 +36,10 @@ interface PatientContextType {
   markCompleted?: boolean)
   => void;
   saveSubStageData: (id: string, stageKey: keyof Patient, data: any) => void;
+  addSubStageEntry: (id: string, fieldKey: keyof Patient, entry: any) => void;
   saveMonitoringData: (data: MonthlyMonitoringData) => void;
+  selectMonitoring: (id: string | null) => void;
+  setIsNewMonitoring: (val: boolean) => void;
   addNewPatient: () => void;
   deletePatient: (id: string) => void;
 }
@@ -42,9 +47,9 @@ const PatientContext = createContext<PatientContextType | undefined>(undefined);
 export function PatientProvider({ children }: {children: ReactNode;}) {
   const [patients, setPatients] = useState<Patient[]>(mockPatients);
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(
-    mockPatients[0].id
+    null
   );
-  const [activeTab, setActiveTab] = useState<ModuleTab>('identification');
+  const [activeTab, setActiveTabState] = useState<ModuleTab>('identification');
   const [activeSubStage, setActiveSubStage] = useState<RegistrationSubStage>(
     'screening-diagnosis'
   );
@@ -54,11 +59,20 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
   });
   const [monitoringRecords, setMonitoringRecords] = useState<
     MonthlyMonitoringData[]>(
-    []);
+    mockMonitoringRecords);
+  const [selectedMonitoringId, setSelectedMonitoringId] = useState<
+    string | null>(
+    null);
+  const [isNewMonitoring, setIsNewMonitoring] = useState(false);
   const selectedPatient =
   patients.find((p) => p.id === selectedPatientId) || null;
   const selectPatient = (id: string | null) => {
     setSelectedPatientId(id);
+  };
+  const setActiveTab = (tab: ModuleTab) => {
+    setActiveTabState(tab);
+    setSelectedMonitoringId(null);
+    setIsNewMonitoring(false);
   };
   const updatePatient = (id: string, updates: Partial<Patient>) => {
     setPatients((prev) =>
@@ -84,12 +98,12 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
         ...p,
         identificationData: data,
         riskLevel: data.riskLevel,
-        status: markCompleted ? 'Pending' : p.status // Move to pending registration if completed
+        status: markCompleted ? 'Pending' : p.status
       };
     })
     );
     if (markCompleted) {
-      setActiveTab('registration');
+      setActiveTabState('registration');
       setActiveSubStage('screening-diagnosis');
     }
   };
@@ -109,6 +123,7 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
     })
     );
   };
+  // For single object updates (SelfEmployment, CaregiverBurden)
   const saveSubStageData = (id: string, stageKey: keyof Patient, data: any) => {
     setPatients((prev) =>
     prev.map((p) => {
@@ -120,11 +135,32 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
     })
     );
   };
+  // For repeatable array updates (FollowUp, CounsellingLog, etc.)
+  const addSubStageEntry = (
+  id: string,
+  fieldKey: keyof Patient,
+  entry: any) =>
+  {
+    setPatients((prev) =>
+    prev.map((p) => {
+      if (p.id !== id) return p;
+      const existingEntries = p[fieldKey] as any[] || [];
+      return {
+        ...p,
+        [fieldKey]: [entry, ...existingEntries]
+      }; // Add new entry to start
+    })
+    );
+  };
   const saveMonitoringData = (data: MonthlyMonitoringData) => {
     setMonitoringRecords((prev) => [...prev, data]);
+    setIsNewMonitoring(false);
+  };
+  const selectMonitoring = (id: string | null) => {
+    setSelectedMonitoringId(id);
+    setIsNewMonitoring(false);
   };
   const addNewPatient = () => {
-    // In a real app, generate a proper ID
     alert('Add New Client functionality would open a blank form.');
     setSelectedPatientId(null);
   };
@@ -146,6 +182,8 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
         activeSubStage,
         filter,
         monitoringRecords,
+        selectedMonitoringId,
+        isNewMonitoring,
         selectPatient,
         setActiveTab,
         setActiveSubStage,
@@ -154,7 +192,10 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
         saveIdentificationData,
         saveRegistrationData,
         saveSubStageData,
+        addSubStageEntry,
         saveMonitoringData,
+        selectMonitoring,
+        setIsNewMonitoring,
         addNewPatient,
         deletePatient
       }}>
