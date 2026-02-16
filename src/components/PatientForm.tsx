@@ -15,7 +15,9 @@ import {
   Trash2,
   CheckCircle,
   Building2,
-  ShieldCheck } from
+  ShieldCheck,
+  Brain,
+  Stethoscope } from
 'lucide-react';
 export function PatientForm() {
   const {
@@ -37,6 +39,13 @@ export function PatientForm() {
   const [dateOfReferral, setDateOfReferral] = useState('');
   const [referralFacility, setReferralFacility] = useState('');
   const [mentalHealthFacilityName, setMentalHealthFacilityName] = useState('');
+  // Mental Disorder & Disability
+  const [mentalDisorderType, setMentalDisorderType] = useState('');
+  const [disabilityType, setDisabilityType] = useState('');
+  // Mental Illness Diagnosis
+  const [mentalIllnessType, setMentalIllnessType] = useState('');
+  const [severityOfIllness, setSeverityOfIllness] = useState('');
+  const [severityRating, setSeverityRating] = useState('');
   // Consent
   const [consentGiven, setConsentGiven] = useState('');
   // Load patient data when selected patient changes
@@ -57,6 +66,11 @@ export function PatientForm() {
       setDateOfReferral(data?.dateOfReferral || '');
       setReferralFacility(data?.referralFacility || '');
       setMentalHealthFacilityName(data?.mentalHealthFacilityName || '');
+      setMentalDisorderType(data?.mentalDisorderType || '');
+      setDisabilityType(data?.disabilityType || '');
+      setMentalIllnessType(data?.mentalIllnessType || '');
+      setSeverityOfIllness(data?.severityOfIllness || '');
+      setSeverityRating(data?.severityRating || '');
       setConsentGiven(data?.consentGiven || '');
     }
   }, [patient]);
@@ -83,6 +97,11 @@ export function PatientForm() {
       dateOfReferral,
       referralFacility,
       mentalHealthFacilityName,
+      mentalDisorderType,
+      disabilityType,
+      mentalIllnessType,
+      severityOfIllness,
+      severityRating,
       consentGiven,
       completedAt: markCompleted ? new Date().toISOString() : undefined
     };
@@ -331,7 +350,10 @@ export function PatientForm() {
         </Accordion>
 
         {/* Accordion 4: Referral */}
-        <Accordion title="Referral" icon={<Building2 className="h-5 w-5" />}>
+        <Accordion
+          title="Referral Details"
+          icon={<Building2 className="h-5 w-5" />}>
+
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -381,8 +403,138 @@ export function PatientForm() {
           </div>
         </Accordion>
 
-        {/* Accordion 5: Consent */}
-        <Accordion title="Consent" icon={<ShieldCheck className="h-5 w-5" />}>
+        {/* Accordion 5: Mental Disorder and Disability Details */}
+        <Accordion
+          title="Mental Disorder and Disability Details"
+          icon={<Brain className="h-5 w-5" />}>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-neutral-secondary mb-2">
+                Type of mental disorder
+              </label>
+              <select
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                value={mentalDisorderType}
+                onChange={(e) => setMentalDisorderType(e.target.value)}>
+
+                <option value="">Select or search from the list</option>
+                <option value="Depression">Depression</option>
+                <option value="Anxiety Disorder">Anxiety Disorder</option>
+                <option value="Bipolar Disorder">Bipolar Disorder</option>
+                <option value="Schizophrenia">Schizophrenia</option>
+                <option value="Substance Use Disorder">
+                  Substance Use Disorder
+                </option>
+                <option value="Intellectual Disability">
+                  Intellectual Disability
+                </option>
+                <option value="Epilepsy">Epilepsy</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-neutral-secondary mb-2">
+                Type of disability
+              </label>
+              <select
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                value={disabilityType}
+                onChange={(e) => setDisabilityType(e.target.value)}>
+
+                <option value="">Select or search from the list</option>
+                <option value="Mental Illness">Mental Illness</option>
+                <option value="Intellectual Disability">
+                  Intellectual Disability
+                </option>
+                <option value="Multiple Disabilities">
+                  Multiple Disabilities
+                </option>
+                <option value="None Identified">None Identified</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+        </Accordion>
+
+        {/* Accordion 6: Mental Illness Diagnosis */}
+        <Accordion
+          title="Mental Illness Diagnosis"
+          icon={<Stethoscope className="h-5 w-5" />}>
+
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-neutral-secondary mb-2">
+                  Type of mental illness
+                </label>
+                <select
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                  value={mentalIllnessType}
+                  onChange={(e) => setMentalIllnessType(e.target.value)}>
+
+                  <option value="">Select or search from the list</option>
+                  <option value="Mild Depression">Mild Depression</option>
+                  <option value="Moderate Depression">
+                    Moderate Depression
+                  </option>
+                  <option value="Severe Depression">Severe Depression</option>
+                  <option value="Generalized Anxiety">
+                    Generalized Anxiety
+                  </option>
+                  <option value="PTSD">PTSD</option>
+                  <option value="Schizophrenia">Schizophrenia</option>
+                  <option value="Bipolar I">Bipolar I</option>
+                  <option value="Bipolar II">Bipolar II</option>
+                  <option value="Substance Dependence">
+                    Substance Dependence
+                  </option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-neutral-secondary mb-2">
+                  Severity of mental illness
+                </label>
+                <select
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                  value={severityOfIllness}
+                  onChange={(e) => setSeverityOfIllness(e.target.value)}>
+
+                  <option value="">Select or search from the list</option>
+                  <option value="Mild">Mild</option>
+                  <option value="Moderate">Moderate</option>
+                  <option value="Severe">Severe</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-neutral-secondary mb-2">
+                  Severity rating
+                </label>
+                <select
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                  value={severityRating}
+                  onChange={(e) => setSeverityRating(e.target.value)}>
+
+                  <option value="">Select or search from the list</option>
+                  <option value="1 - Minimal">1 - Minimal</option>
+                  <option value="2 - Mild">2 - Mild</option>
+                  <option value="3 - Moderate">3 - Moderate</option>
+                  <option value="4 - Moderately Severe">
+                    4 - Moderately Severe
+                  </option>
+                  <option value="5 - Severe">5 - Severe</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </Accordion>
+
+        {/* Accordion 7: Consent for Registration in CHMP Program */}
+        <Accordion
+          title="Consent for Registration in CHMP Program"
+          icon={<ShieldCheck className="h-5 w-5" />}>
+
           <div className="space-y-4">
             <div className="w-full md:w-1/2">
               <label className="block text-sm font-medium text-neutral-secondary mb-2">
@@ -417,7 +569,7 @@ export function PatientForm() {
             leftIcon={<CheckCircle className="h-4 w-4" />}
             onClick={() => handleSave(true)}>
 
-            Save & Proceed to Registration
+            Save
           </Button>
         </div>
       </div>

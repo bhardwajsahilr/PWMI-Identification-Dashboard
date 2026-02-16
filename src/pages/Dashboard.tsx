@@ -7,6 +7,7 @@ import { PatientForm } from '../components/PatientForm';
 import { RegistrationForm } from '../components/RegistrationForm';
 import { MonthlyMonitoringForm } from '../components/MonthlyMonitoringForm';
 import { MonitoringTable } from '../components/MonitoringTable';
+import { NewPatientForm } from '../components/NewPatientForm';
 export function Dashboard() {
   const {
     patients,
@@ -19,6 +20,7 @@ export function Dashboard() {
     monitoringRecords,
     selectedMonitoringId,
     isNewMonitoring,
+    isNewPatientForm,
     selectMonitoring,
     setIsNewMonitoring
   } = usePatient();
@@ -61,6 +63,17 @@ export function Dashboard() {
               onNewMonitoring={() => setIsNewMonitoring(true)} />
 
           </div>
+        </main>
+      </div>);
+
+  }
+  // === NEW PATIENT REGISTRATION FORM ===
+  if (isNewPatientForm) {
+    return (
+      <div className="flex flex-col h-screen w-full bg-neutral-bg overflow-hidden font-sans">
+        <TopNavigation />
+        <main className="flex-1 overflow-hidden">
+          <NewPatientForm />
         </main>
       </div>);
 

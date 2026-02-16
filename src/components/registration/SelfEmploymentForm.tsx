@@ -7,29 +7,34 @@ import { Input } from '../ui/Input';
 import { CheckCircle, Briefcase } from 'lucide-react';
 export function SelfEmploymentForm() {
   const { selectedPatient: patient, saveSubStageData } = usePatient();
+  const [reportDate, setReportDate] = useState(
+    new Date().toISOString().split('T')[0]
+  );
   const [annualHouseholdIncome, setAnnualHouseholdIncome] = useState('');
   const [monthlyHouseholdIncome, setMonthlyHouseholdIncome] = useState('');
-  const [natureOfEmployment, setNatureOfEmployment] = useState('');
-  const [otherNatureSpecify, setOtherNatureSpecify] = useState('');
-  const [dateStarted, setDateStarted] = useState('');
+  const [selfEmploymentInterest, setSelfEmploymentInterest] = useState('');
+  const [amountDisbursed, setAmountDisbursed] = useState('');
+  const [disbursementDate, setDisbursementDate] = useState('');
   useEffect(() => {
     if (patient?.selfEmploymentData) {
       const data = patient.selfEmploymentData;
+      setReportDate(data.reportDate || new Date().toISOString().split('T')[0]);
       setAnnualHouseholdIncome(data.annualHouseholdIncome || '');
       setMonthlyHouseholdIncome(data.monthlyHouseholdIncome || '');
-      setNatureOfEmployment(data.natureOfEmployment || '');
-      setOtherNatureSpecify(data.otherNatureSpecify || '');
-      setDateStarted(data.dateStarted || '');
+      setSelfEmploymentInterest(data.selfEmploymentInterest || '');
+      setAmountDisbursed(data.amountDisbursed || '');
+      setDisbursementDate(data.disbursementDate || '');
     }
   }, [patient]);
   if (!patient) return null;
   const handleSave = () => {
     const data: SelfEmploymentData = {
+      reportDate,
       annualHouseholdIncome,
       monthlyHouseholdIncome,
-      natureOfEmployment,
-      otherNatureSpecify,
-      dateStarted,
+      selfEmploymentInterest,
+      amountDisbursed,
+      disbursementDate,
       completedAt: new Date().toISOString()
     };
     saveSubStageData(patient.id, 'selfEmploymentData', data);
@@ -41,65 +46,75 @@ export function SelfEmploymentForm() {
         <h3 className="text-lg font-bold text-neutral-text">Self Employment</h3>
       </div>
 
+      {/* Report Date — outside accordion */}
+      <div className="w-full md:w-1/2">
+        <Input
+          type="date"
+          label="Report Date *"
+          value={reportDate}
+          onChange={(e) => setReportDate(e.target.value)} />
+
+      </div>
+
       <Accordion
-        title="A. Self Employment Details"
+        title="Self Employment Details"
         icon={<Briefcase className="h-5 w-5" />}>
 
         <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input
-              label="Annual Household Income (₹)"
-              type="number"
-              value={annualHouseholdIncome}
-              onChange={(e) => setAnnualHouseholdIncome(e.target.value)} />
+          <Input
+            label="Annual household income"
+            value={annualHouseholdIncome}
+            onChange={(e) => setAnnualHouseholdIncome(e.target.value)} />
 
-            <Input
-              label="Monthly Household Income (₹)"
-              type="number"
-              value={monthlyHouseholdIncome}
-              onChange={(e) => setMonthlyHouseholdIncome(e.target.value)} />
+          <Input
+            label="Monthly household income"
+            value={monthlyHouseholdIncome}
+            onChange={(e) => setMonthlyHouseholdIncome(e.target.value)} />
 
-            <div>
-              <label className="block text-sm font-medium text-neutral-secondary mb-2">
-                Nature of Self-employment
-              </label>
-              <select
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
-                value={natureOfEmployment}
-                onChange={(e) => setNatureOfEmployment(e.target.value)}>
+          <Input
+            label="Self-Employment interest"
+            value={selfEmploymentInterest}
+            onChange={(e) => setSelfEmploymentInterest(e.target.value)} />
 
-                <option value="">Select Nature</option>
-                <option value="Agriculture">Agriculture</option>
-                <option value="Petty shop">Petty shop</option>
-                <option value="Tailoring">Tailoring</option>
-                <option value="Animal husbandry">Animal husbandry</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            {natureOfEmployment === 'Other' &&
-            <Input
-              label="Specify Other"
-              value={otherNatureSpecify}
-              onChange={(e) => setOtherNatureSpecify(e.target.value)} />
+          <Input
+            label="Amount disbursed"
+            value={amountDisbursed}
+            onChange={(e) => setAmountDisbursed(e.target.value)} />
 
-            }
-            <Input
-              type="date"
-              label="Date Started"
-              value={dateStarted}
-              onChange={(e) => setDateStarted(e.target.value)} />
+          <Input
+            type="date"
+            label="Date of disbursement"
+            value={disbursementDate}
+            onChange={(e) => setDisbursementDate(e.target.value)} />
 
-          </div>
         </div>
       </Accordion>
 
-      <div className="flex justify-end pt-4">
+      <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
+        <Button
+          variant="outline"
+          onClick={() => {
+            if (patient?.selfEmploymentData) {
+              const data = patient.selfEmploymentData;
+              setReportDate(
+                data.reportDate || new Date().toISOString().split('T')[0]
+              );
+              setAnnualHouseholdIncome(data.annualHouseholdIncome || '');
+              setMonthlyHouseholdIncome(data.monthlyHouseholdIncome || '');
+              setSelfEmploymentInterest(data.selfEmploymentInterest || '');
+              setAmountDisbursed(data.amountDisbursed || '');
+              setDisbursementDate(data.disbursementDate || '');
+            }
+          }}>
+
+          Cancel
+        </Button>
         <Button
           variant="primary"
           onClick={handleSave}
           leftIcon={<CheckCircle className="h-4 w-4" />}>
 
-          Save Details
+          Save
         </Button>
       </div>
     </div>);

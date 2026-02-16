@@ -2,6 +2,26 @@ import React from 'react';
 import { Search, Plus, ArrowUpDown } from 'lucide-react';
 import { Patient, FilterState, ModuleTab } from '../types';
 import { Button } from './ui/Button';
+function getConsentStatus(patient: Patient): {
+  label: string;
+  color: string;
+} {
+  const consent = patient.identificationData?.consentGiven;
+  if (consent === 'Yes')
+  return {
+    label: 'Consent Given',
+    color: 'bg-teal/10 text-teal'
+  };
+  if (consent === 'No')
+  return {
+    label: 'Consent Not Given',
+    color: 'bg-coral/10 text-coral'
+  };
+  return {
+    label: 'Consent Pending',
+    color: 'bg-gray-100 text-gray-500'
+  };
+}
 interface PatientTableProps {
   patients: Patient[];
   onSelectPatient: (id: string) => void;
@@ -23,6 +43,10 @@ export function PatientTable({
     p.name.toLowerCase().includes(filter.search.toLowerCase()) ||
     p.phone.includes(filter.search) ||
     p.village.toLowerCase().includes(filter.search.toLowerCase());
+    // For registration tab, only show patients with consent given
+    if (activeTab === 'registration') {
+      return matchesSearch && p.identificationData?.consentGiven === 'Yes';
+    }
     return matchesSearch;
   });
   const stageLabel =
@@ -110,42 +134,66 @@ export function PatientTable({
                   <ArrowUpDown className="h-3 w-3" /> Education
                 </div>
               </th>
+              {activeTab === 'identification' &&
+              <th
+                scope="col"
+                className="px-6 py-3 border-b border-gray-200 font-bold text-skyBlue-dark">
+
+                  <div className="flex items-center gap-1 cursor-pointer hover:text-skyBlue">
+                    <ArrowUpDown className="h-3 w-3" /> Consent Status
+                  </div>
+                </th>
+              }
             </tr>
           </thead>
           <tbody>
             {filteredPatients.length === 0 ?
             <tr>
                 <td
-                colSpan={5}
+                colSpan={activeTab === 'identification' ? 6 : 5}
                 className="px-6 py-10 text-center text-gray-500">
 
                   No patients found matching your criteria.
                 </td>
               </tr> :
 
-            filteredPatients.map((patient) =>
-            <tr
-              key={patient.id}
-              onClick={() => onSelectPatient(patient.id)}
-              className="bg-white border-b border-gray-100 hover:bg-teal/5 cursor-pointer transition-colors">
+            filteredPatients.map((patient) => {
+              const consent = getConsentStatus(patient);
+              return (
+                <tr
+                  key={patient.id}
+                  onClick={() => onSelectPatient(patient.id)}
+                  className="bg-white border-b border-gray-100 hover:bg-teal/5 cursor-pointer transition-colors">
 
-                  <td className="px-6 py-3 font-medium text-gray-900 border-r border-gray-100">
-                    {patient.name}
-                  </td>
-                  <td className="px-6 py-3 text-gray-600 border-r border-gray-100">
-                    {patient.gender}
-                  </td>
-                  <td className="px-6 py-3 text-gray-600 border-r border-gray-100">
-                    {patient.age}
-                  </td>
-                  <td className="px-6 py-3 text-gray-600 border-r border-gray-100">
-                    {patient.dateOfBirth || '-'}
-                  </td>
-                  <td className="px-6 py-3 text-gray-600">
-                    {patient.education || '-'}
-                  </td>
-                </tr>
-            )
+                    <td className="px-6 py-3 font-medium text-gray-900 border-r border-gray-100">
+                      {patient.name}
+                    </td>
+                    <td className="px-6 py-3 text-gray-600 border-r border-gray-100">
+                      {patient.gender}
+                    </td>
+                    <td className="px-6 py-3 text-gray-600 border-r border-gray-100">
+                      {patient.age}
+                    </td>
+                    <td className="px-6 py-3 text-gray-600 border-r border-gray-100">
+                      {patient.dateOfBirth || '-'}
+                    </td>
+                    <td
+                    className={`px-6 py-3 text-gray-600${activeTab === 'identification' ? ' border-r border-gray-100' : ''}`}>
+
+                      {patient.education || '-'}
+                    </td>
+                    {activeTab === 'identification' &&
+                  <td className="px-6 py-3">
+                        <span
+                      className={`inline-block text-xs font-medium px-2.5 py-1 rounded-full ${consent.color}`}>
+
+                          {consent.label}
+                        </span>
+                      </td>
+                  }
+                  </tr>);
+
+            })
             }
           </tbody>
         </table>

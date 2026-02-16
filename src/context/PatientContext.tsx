@@ -19,6 +19,7 @@ interface PatientContextType {
   monitoringRecords: MonthlyMonitoringData[];
   selectedMonitoringId: string | null;
   isNewMonitoring: boolean;
+  isNewPatientForm: boolean;
   // Actions
   selectPatient: (id: string | null) => void;
   setActiveTab: (tab: ModuleTab) => void;
@@ -41,6 +42,8 @@ interface PatientContextType {
   selectMonitoring: (id: string | null) => void;
   setIsNewMonitoring: (val: boolean) => void;
   addNewPatient: () => void;
+  createPatient: (patient: Omit<Patient, 'id' | 'status' | 'riskLevel'>) => void;
+  cancelNewPatient: () => void;
   deletePatient: (id: string) => void;
 }
 const PatientContext = createContext<PatientContextType | undefined>(undefined);
@@ -51,7 +54,7 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
   );
   const [activeTab, setActiveTabState] = useState<ModuleTab>('identification');
   const [activeSubStage, setActiveSubStage] = useState<RegistrationSubStage>(
-    'screening-diagnosis'
+    'identification-summary'
   );
   const [filter, setFilter] = useState<FilterState>({
     search: '',
@@ -64,6 +67,7 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
     string | null>(
     null);
   const [isNewMonitoring, setIsNewMonitoring] = useState(false);
+  const [isNewPatientForm, setIsNewPatientForm] = useState(false);
   const selectedPatient =
   patients.find((p) => p.id === selectedPatientId) || null;
   const selectPatient = (id: string | null) => {
@@ -94,18 +98,26 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
     setPatients((prev) =>
     prev.map((p) => {
       if (p.id !== id) return p;
+      // Determine status based on consent
+      let newStatus = p.status;
+      if (markCompleted) {
+        if (data.consentGiven === 'Yes') {
+          newStatus = 'Referred';
+        } else if (data.consentGiven === 'No') {
+          newStatus = 'Pending';
+        } else {
+          newStatus = 'Pending';
+        }
+      }
       return {
         ...p,
         identificationData: data,
         riskLevel: data.riskLevel,
-        status: markCompleted ? 'Pending' : p.status
+        status: newStatus
       };
     })
     );
-    if (markCompleted) {
-      setActiveTabState('registration');
-      setActiveSubStage('screening-diagnosis');
-    }
+    // Stay on identification — no auto-navigation
   };
   const saveRegistrationData = (
   id: string,
@@ -161,8 +173,24 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
     setIsNewMonitoring(false);
   };
   const addNewPatient = () => {
-    alert('Add New Client functionality would open a blank form.');
+    setIsNewPatientForm(true);
     setSelectedPatientId(null);
+  };
+  const createPatient = (
+  patientData: Omit<Patient, 'id' | 'status' | 'riskLevel'>) =>
+  {
+    const newPatient: Patient = {
+      ...patientData,
+      id: Date.now().toString(),
+      status: 'Pending',
+      riskLevel: 'Low'
+    };
+    setPatients((prev) => [newPatient, ...prev]);
+    setIsNewPatientForm(false);
+    setSelectedPatientId(newPatient.id);
+  };
+  const cancelNewPatient = () => {
+    setIsNewPatientForm(false);
   };
   const deletePatient = (id: string) => {
     if (confirm('Are you sure you want to delete this client?')) {
@@ -184,6 +212,7 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
         monitoringRecords,
         selectedMonitoringId,
         isNewMonitoring,
+        isNewPatientForm,
         selectPatient,
         setActiveTab,
         setActiveSubStage,
@@ -197,6 +226,8 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
         selectMonitoring,
         setIsNewMonitoring,
         addNewPatient,
+        createPatient,
+        cancelNewPatient,
         deletePatient
       }}>
 

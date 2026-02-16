@@ -3,64 +3,88 @@ import { usePatient } from '../../context/PatientContext';
 import { FollowUpEntry } from '../../types';
 import { Button } from '../ui/Button';
 import { Accordion } from '../ui/Accordion';
-import { Input, TextArea } from '../ui/Input';
+import { Input } from '../ui/Input';
 import { Checkbox } from '../ui/Checkbox';
 import {
   Calendar,
   Plus,
-  ChevronDown,
-  ChevronUp,
-  CheckCircle } from
+  CheckCircle,
+  AlertTriangle,
+  Eye,
+  Pill } from
 'lucide-react';
 import { Card } from '../ui/Card';
+import { Badge } from '../ui/Badge';
+const NON_ADHERENCE_REASONS = [
+'Forgot to take medication',
+'Feels better / thinks not needed',
+'Fear of side effects',
+'Medication not available/stockout',
+'Cannot afford medication',
+'Lack of family/caregiver support',
+'Alcohol or substance use',
+'Refusal'];
+
 export function FollowUpForm() {
   const { selectedPatient: patient, addSubStageEntry } = usePatient();
   const [showNewForm, setShowNewForm] = useState(false);
-  // Form State
-  const [followUpDate, setFollowUpDate] = useState('');
+  // Top dates
+  const [followUpDate, setFollowUpDate] = useState(
+    new Date().toISOString().split('T')[0]
+  );
+  const [nextFollowUpDate, setNextFollowUpDate] = useState(
+    new Date().toISOString().split('T')[0]
+  );
+  // Follow-Up Details
   const [mode, setMode] = useState('');
-  const [availedCounselling, setAvailedCounselling] = useState(false);
-  const [medicationAdherence, setMedicationAdherence] = useState('');
-  const [currentTreatmentStatus, setCurrentTreatmentStatus] = useState('');
-  const [nextFollowUpDate, setNextFollowUpDate] = useState('');
-  // Conditional: Non-adherence
+  const [availedCounselling, setAvailedCounselling] = useState('');
+  const [availedTherapy, setAvailedTherapy] = useState('');
+  const [medicationsTaken, setMedicationsTaken] = useState('');
+  // Non-adherence
   const [nonAdherenceReasons, setNonAdherenceReasons] = useState<string[]>([]);
   const [otherNonAdherenceReason, setOtherNonAdherenceReason] = useState('');
-  // Conditional: Side effects
-  const [sideEffectsReported, setSideEffectsReported] = useState(false);
-  const [daysSinceSideEffects, setDaysSinceSideEffects] = useState('');
-  const [sideEffectTypes, setSideEffectTypes] = useState<string[]>([]);
-  // Caregiver Observations
-  const [caregiverBehaviour, setCaregiverBehaviour] = useState('');
-  const [caregiverFeedback, setCaregiverFeedback] = useState('');
-  const [changesObserved, setChangesObserved] = useState('');
+  // Side effects
+  const [sideEffectsReported, setSideEffectsReported] = useState('');
+  const [daysSinceOnset, setDaysSinceOnset] = useState('');
+  const [sideEffectTypes, setSideEffectTypes] = useState('');
+  const [sideEffectSeverity, setSideEffectSeverity] = useState('');
+  // Caregiver observations
+  const [behaviourReported, setBehaviourReported] = useState('');
+  const [caregiverSupport, setCaregiverSupport] = useState('');
+  const [functionalIndependence, setFunctionalIndependence] = useState('');
+  const [severityRating, setSeverityRating] = useState('');
+  // Validation
+  const [dateError, setDateError] = useState('');
   if (!patient) return null;
   const entries = patient.followUpEntries || [];
   const handleNonAdherenceReasonChange = (reason: string, checked: boolean) => {
     if (checked) setNonAdherenceReasons([...nonAdherenceReasons, reason]);else
     setNonAdherenceReasons(nonAdherenceReasons.filter((r) => r !== reason));
   };
-  const handleSideEffectTypeChange = (type: string, checked: boolean) => {
-    if (checked) setSideEffectTypes([...sideEffectTypes, type]);else
-    setSideEffectTypes(sideEffectTypes.filter((t) => t !== type));
-  };
   const handleSave = () => {
+    if (!followUpDate) {
+      setDateError('Date of follow-up is required.');
+      return;
+    }
+    setDateError('');
     const newEntry: FollowUpEntry = {
       id: Date.now().toString(),
       followUpDate,
+      nextFollowUpDate,
       mode,
       availedCounselling,
-      medicationAdherence,
-      currentTreatmentStatus,
-      nextFollowUpDate,
+      availedTherapy,
+      medicationsTaken,
       nonAdherenceReasons,
       otherNonAdherenceReason,
       sideEffectsReported,
-      daysSinceSideEffects,
+      daysSinceOnset,
       sideEffectTypes,
-      caregiverBehaviour,
-      caregiverFeedback,
-      changesObserved,
+      sideEffectSeverity,
+      behaviourReported,
+      caregiverSupport,
+      functionalIndependence,
+      severityRating,
       completedAt: new Date().toISOString()
     };
     addSubStageEntry(patient.id, 'followUpEntries', newEntry);
@@ -68,24 +92,73 @@ export function FollowUpForm() {
     resetForm();
   };
   const resetForm = () => {
-    setFollowUpDate('');
+    setFollowUpDate(new Date().toISOString().split('T')[0]);
+    setNextFollowUpDate(new Date().toISOString().split('T')[0]);
     setMode('');
-    setAvailedCounselling(false);
-    setMedicationAdherence('');
-    setCurrentTreatmentStatus('');
-    setNextFollowUpDate('');
+    setAvailedCounselling('');
+    setAvailedTherapy('');
+    setMedicationsTaken('');
     setNonAdherenceReasons([]);
     setOtherNonAdherenceReason('');
-    setSideEffectsReported(false);
-    setDaysSinceSideEffects('');
-    setSideEffectTypes([]);
-    setCaregiverBehaviour('');
-    setCaregiverFeedback('');
-    setChangesObserved('');
+    setSideEffectsReported('');
+    setDaysSinceOnset('');
+    setSideEffectTypes('');
+    setSideEffectSeverity('');
+    setBehaviourReported('');
+    setCaregiverSupport('');
+    setFunctionalIndependence('');
+    setSeverityRating('');
+    setDateError('');
   };
-  const showNonAdherenceSection =
-  medicationAdherence !== 'Good' && medicationAdherence !== '';
-  const showSideEffectsSection = nonAdherenceReasons.includes('Side effects');
+  const RadioGroup = ({
+    label,
+    value,
+    onChange
+
+
+
+
+  }: {label: string;value: string;onChange: (val: string) => void;}) =>
+  <div className="flex items-center justify-between py-3 px-4 bg-white border-b border-gray-100 last:border-b-0">
+      <span className="text-sm font-medium text-neutral-secondary">
+        {label}
+      </span>
+      <div className="flex items-center gap-6">
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+          type="radio"
+          name={label}
+          checked={value === 'Yes'}
+          onChange={() => onChange('Yes')}
+          className="w-4 h-4 text-teal border-gray-300 focus:ring-teal" />
+
+          <span className="text-sm">Yes</span>
+        </label>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+          type="radio"
+          name={label}
+          checked={value === 'No'}
+          onChange={() => onChange('No')}
+          className="w-4 h-4 text-teal border-gray-300 focus:ring-teal" />
+
+          <span className="text-sm">No</span>
+        </label>
+      </div>
+    </div>;
+
+  const getSeverityShort = (rating: string) => {
+    if (rating.startsWith('Mild')) return 'Mild';
+    if (rating.startsWith('Moderate')) return 'Moderate';
+    if (rating.startsWith('Severe')) return 'Severe';
+    return rating;
+  };
+  const getSeverityVariant = (rating: string): 'teal' | 'coral' | 'gray' => {
+    if (rating.startsWith('Mild')) return 'teal';
+    if (rating.startsWith('Moderate')) return 'gray';
+    if (rating.startsWith('Severe')) return 'coral';
+    return 'gray';
+  };
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -105,192 +178,262 @@ export function FollowUpForm() {
       <div className="animate-in fade-in slide-in-from-top-4 space-y-6 border border-teal/20 rounded-xl p-6 bg-teal/5">
           <h4 className="font-bold text-teal mb-4">New Follow-Up Entry</h4>
 
-          {/* Section A: Follow-Up Details */}
+          {/* Top: Date of follow-up & Date of next follow-up */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Input
+              type="date"
+              label="Date of follow-up *"
+              value={followUpDate}
+              onChange={(e) => {
+                setFollowUpDate(e.target.value);
+                if (e.target.value) setDateError('');
+              }} />
+
+              {dateError &&
+            <p className="text-sm text-coral mt-1.5 font-medium">
+                  {dateError}
+                </p>
+            }
+            </div>
+            <Input
+            type="date"
+            label="Date of next follow-up"
+            value={nextFollowUpDate}
+            onChange={(e) => setNextFollowUpDate(e.target.value)} />
+
+          </div>
+
+          {/* Section 1: Follow-Up Details */}
           <Accordion
-          title="A. Follow-Up Details"
+          title="Follow-Up Details"
           icon={<Calendar className="h-5 w-5" />}>
 
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Input
-                type="date"
-                label="Follow-up Date"
-                value={followUpDate}
-                onChange={(e) => setFollowUpDate(e.target.value)} />
-
-                <div>
-                  <label className="block text-sm font-medium text-neutral-secondary mb-2">
-                    Mode of Follow-up
-                  </label>
-                  <select
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
-                  value={mode}
-                  onChange={(e) => setMode(e.target.value)}>
-
-                    <option value="">Select Mode</option>
-                    <option value="In-person">In-person</option>
-                    <option value="Phone">Phone</option>
-                    <option value="Home visit">Home visit</option>
-                  </select>
-                </div>
-                <div className="flex items-center pt-6">
-                  <Checkbox
-                  label="PwMI availed counselling?"
-                  checked={availedCounselling}
-                  onChange={(e) => setAvailedCounselling(e.target.checked)} />
-
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-neutral-secondary mb-2">
-                    Medication Adherence
-                  </label>
-                  <select
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
-                  value={medicationAdherence}
-                  onChange={(e) => setMedicationAdherence(e.target.value)}>
-
-                    <option value="">Select Status</option>
-                    <option value="Good">Good</option>
-                    <option value="Fair">Fair</option>
-                    <option value="Poor">Poor</option>
-                    <option value="Stopped">Stopped</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-neutral-secondary mb-2">
-                    Current Treatment Status
-                  </label>
-                  <select
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
-                  value={currentTreatmentStatus}
-                  onChange={(e) => setCurrentTreatmentStatus(e.target.value)}>
-
-                    <option value="">Select Status</option>
-                    <option value="Active">Active</option>
-                    <option value="Discontinued">Discontinued</option>
-                    <option value="Changed">Changed</option>
-                    <option value="Referred">Referred</option>
-                  </select>
-                </div>
-                <Input
-                type="date"
-                label="Next Follow-up Date"
-                value={nextFollowUpDate}
-                onChange={(e) => setNextFollowUpDate(e.target.value)} />
+            <div className="space-y-0 rounded-lg border border-gray-200 overflow-hidden">
+              <div className="flex items-center justify-between py-3 px-4 bg-white border-b border-gray-100">
+                <span className="text-sm font-medium text-neutral-secondary">
+                  Mode of Follow-up
+                </span>
+                <input
+                type="text"
+                className="w-1/2 rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:border-teal focus:ring-teal"
+                value={mode}
+                onChange={(e) => setMode(e.target.value)}
+                placeholder="Enter mode" />
 
               </div>
+              <RadioGroup
+              label="PWMI availed counselling?"
+              value={availedCounselling}
+              onChange={setAvailedCounselling} />
+
+              <RadioGroup
+              label="PWMI availed therapy?"
+              value={availedTherapy}
+              onChange={setAvailedTherapy} />
+
+              <RadioGroup
+              label="Medications taken?"
+              value={medicationsTaken}
+              onChange={setMedicationsTaken} />
+
             </div>
           </Accordion>
 
-          {/* Section B: Reason for Non-adherence */}
-          {showNonAdherenceSection &&
-        <Accordion
-          title="B. Reason for Non-adherence"
-          icon={<Calendar className="h-5 w-5" />}>
+          {/* Section 2: Reason for Non-adherence to Medications */}
+          <Accordion
+          title="Reason for Non-adherence to Medications"
+          icon={<Pill className="h-5 w-5" />}>
 
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {[
-              'Forgot to take medication',
-              'Feels better / medication not needed',
-              'Side effects',
-              'Financial issues'].
-              map((reason) =>
-              <Checkbox
-                key={reason}
+            <div className="space-y-0 rounded-lg border border-gray-200 overflow-hidden">
+              {NON_ADHERENCE_REASONS.map((reason, i) =>
+            <div
+              key={reason}
+              className={`flex items-center gap-3 py-3 px-4 ${i % 2 === 0 ? 'bg-gray-50/50' : 'bg-white'} border-b border-gray-100 last:border-b-0`}>
+
+                  <Checkbox
                 label={reason}
                 checked={nonAdherenceReasons.includes(reason)}
                 onChange={(e) =>
                 handleNonAdherenceReasonChange(reason, e.target.checked)
                 } />
 
-              )}
                 </div>
-                <Input
-              label="Other reason (Specify)"
-              value={otherNonAdherenceReason}
-              onChange={(e) => setOtherNonAdherenceReason(e.target.value)} />
+            )}
+              <div className="flex items-center gap-3 py-3 px-4 bg-gray-50/50 border-t border-gray-100">
+                <span className="text-sm font-medium text-neutral-secondary whitespace-nowrap">
+                  Other reasons (specify)
+                </span>
+                <input
+                type="text"
+                className="flex-1 rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:border-teal focus:ring-teal"
+                value={otherNonAdherenceReason}
+                onChange={(e) => setOtherNonAdherenceReason(e.target.value)}
+                placeholder="" />
 
               </div>
-            </Accordion>
-        }
-
-          {/* Section C: Side-effects Details */}
-          {showSideEffectsSection &&
-        <Accordion
-          title="C. Side-effects Details"
-          icon={<Calendar className="h-5 w-5" />}>
-
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <Checkbox
-                label="Side-effects reported?"
-                checked={sideEffectsReported}
-                onChange={(e) => setSideEffectsReported(e.target.checked)} />
-
-                </div>
-                <Input
-              type="number"
-              label="Days since symptoms observed"
-              value={daysSinceSideEffects}
-              onChange={(e) => setDaysSinceSideEffects(e.target.value)} />
-
-                <div>
-                  <label className="block text-sm font-medium text-neutral-secondary mb-2">
-                    Type of Side Effect
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {[
-                'Drowsiness',
-                'Nausea',
-                'Weight gain',
-                'Tremors',
-                'Dizziness',
-                'Other'].
-                map((type) =>
-                <Checkbox
-                  key={type}
-                  label={type}
-                  checked={sideEffectTypes.includes(type)}
-                  onChange={(e) =>
-                  handleSideEffectTypeChange(type, e.target.checked)
-                  } />
-
-                )}
-                  </div>
-                </div>
-              </div>
-            </Accordion>
-        }
-
-          {/* Section D: Caregiver's Observations */}
-          <Accordion
-          title="D. Caregiver's Observations"
-          icon={<Calendar className="h-5 w-5" />}>
-
-            <div className="space-y-4">
-              <TextArea
-              label="Behaviour as reported by caregivers"
-              rows={3}
-              value={caregiverBehaviour}
-              onChange={(e) => setCaregiverBehaviour(e.target.value)} />
-
-              <TextArea
-              label="Caregiver feedback"
-              rows={3}
-              value={caregiverFeedback}
-              onChange={(e) => setCaregiverFeedback(e.target.value)} />
-
-              <TextArea
-              label="Changes observed"
-              rows={3}
-              value={changesObserved}
-              onChange={(e) => setChangesObserved(e.target.value)} />
-
             </div>
           </Accordion>
 
-          <div className="flex justify-end gap-3 pt-4">
+          {/* Section 3: Side-Effects Details */}
+          <Accordion
+          title="Side-Effects Details"
+          icon={<AlertTriangle className="h-5 w-5" />}>
+
+            <div className="space-y-0 rounded-lg border border-gray-200 overflow-hidden">
+              <RadioGroup
+              label="Side-effects reported?"
+              value={sideEffectsReported}
+              onChange={setSideEffectsReported} />
+
+              <div className="flex items-center justify-between py-3 px-4 bg-white border-b border-gray-100">
+                <span className="text-sm font-medium text-neutral-secondary">
+                  Days since symptoms onset
+                </span>
+                <input
+                type="text"
+                className="w-1/2 rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:border-teal focus:ring-teal"
+                value={daysSinceOnset}
+                onChange={(e) => setDaysSinceOnset(e.target.value)}
+                placeholder="" />
+
+              </div>
+              <div className="flex items-center justify-between py-3 px-4 bg-gray-50/50 border-b border-gray-100">
+                <span className="text-sm font-medium text-neutral-secondary">
+                  Type of side-effects
+                </span>
+                <input
+                type="text"
+                className="w-1/2 rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:border-teal focus:ring-teal"
+                value={sideEffectTypes}
+                onChange={(e) => setSideEffectTypes(e.target.value)}
+                placeholder="" />
+
+              </div>
+              <div className="flex items-center justify-between py-3 px-4 bg-white">
+                <span className="text-sm font-medium text-neutral-secondary">
+                  Severity of side effects
+                </span>
+                <input
+                type="text"
+                className="w-1/2 rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:border-teal focus:ring-teal"
+                value={sideEffectSeverity}
+                onChange={(e) => setSideEffectSeverity(e.target.value)}
+                placeholder="" />
+
+              </div>
+            </div>
+          </Accordion>
+
+          {/* Section 4: Caregiver's Observations */}
+          <Accordion
+          title="Caregiver's Observations"
+          icon={<Eye className="h-5 w-5" />}>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-neutral-secondary mb-2">
+                  Behaviour as reported by caregivers
+                </label>
+                <select
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                value={behaviourReported}
+                onChange={(e) => setBehaviourReported(e.target.value)}>
+
+                  <option value="">Select or search from the list</option>
+                  <option value="Aggression">Aggression</option>
+                  <option value="Self-harm">Self-harm</option>
+                  <option value="Wandering">Wandering</option>
+                  <option value="None">None</option>
+                </select>
+                <p className="text-xs text-gray-400 mt-1">
+                  Select or search from the list
+                </p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-neutral-secondary mb-2">
+                  Caregiver support required
+                </label>
+                <select
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                value={caregiverSupport}
+                onChange={(e) => setCaregiverSupport(e.target.value)}>
+
+                  <option value="">Select or search from the list</option>
+                  <option value="High – Caregiver assists in nearly all daily activities (bathing, eating, meds, supervision)">
+                    High – Caregiver assists in nearly all daily activities
+                    (bathing, eating, meds, supervision)
+                  </option>
+                  <option value="Moderate – Caregiver provides regular help (med reminders, check-ins) but PWMI can self-manage some tasks">
+                    Moderate – Caregiver provides regular help (med reminders,
+                    check-ins) but PWMI can self-manage some tasks
+                  </option>
+                  <option value="Low – PWMI is largely independent; caregiver support is occasional">
+                    Low – PWMI is largely independent; caregiver support is
+                    occasional
+                  </option>
+                </select>
+                <p className="text-xs text-gray-400 mt-1">
+                  Select or search from the list
+                </p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-neutral-secondary mb-2">
+                  Functional independence of PWMI
+                </label>
+                <select
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                value={functionalIndependence}
+                onChange={(e) => setFunctionalIndependence(e.target.value)}>
+
+                  <option value="">Select or search from the list</option>
+                  <option value="Independent – Manages self-care, work, and daily tasks without help">
+                    Independent – Manages self-care, work, and daily tasks
+                    without help
+                  </option>
+                  <option value="Partially Independent – Needs reminders or occasional assistance">
+                    Partially Independent – Needs reminders or occasional
+                    assistance
+                  </option>
+                  <option value="Dependent – Requires full assistance for most activities">
+                    Dependent – Requires full assistance for most activities
+                  </option>
+                </select>
+                <p className="text-xs text-gray-400 mt-1">
+                  Select or search from the list
+                </p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-neutral-secondary mb-2">
+                  Severity rating
+                </label>
+                <select
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                value={severityRating}
+                onChange={(e) => setSeverityRating(e.target.value)}>
+
+                  <option value="">Select or search from the list</option>
+                  <option value="Mild – Symptoms manageable; PWMI largely functional">
+                    Mild – Symptoms manageable; PWMI largely functional
+                  </option>
+                  <option value="Moderate – Some functional impairment; needs regular support; no recent high-risk behavior">
+                    Moderate – Some functional impairment; needs regular
+                    support; no recent high-risk behavior
+                  </option>
+                  <option value="Severe – History of aggression/self-harm/wandering; total/near-total dependency; family/work severely disrupted">
+                    Severe – History of aggression/self-harm/wandering;
+                    total/near-total dependency; family/work severely disrupted
+                  </option>
+                </select>
+                <p className="text-xs text-gray-400 mt-1">
+                  Select or search from the list
+                </p>
+              </div>
+            </div>
+          </Accordion>
+
+          {/* Action bar */}
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
             <Button variant="outline" onClick={() => setShowNewForm(false)}>
               Cancel
             </Button>
@@ -299,7 +442,7 @@ export function FollowUpForm() {
             onClick={handleSave}
             leftIcon={<CheckCircle className="h-4 w-4" />}>
 
-              Save Entry
+              Save
             </Button>
           </div>
         </div>
@@ -315,22 +458,50 @@ export function FollowUpForm() {
         entries.map((entry) =>
         <Card key={entry.id} className="p-4 border border-gray-200">
               <div className="flex justify-between items-start">
-                <div>
-                  <div className="font-bold text-lg text-neutral-text">
-                    {entry.followUpDate}
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-neutral-text">
+                      {entry.followUpDate}
+                    </span>
+                    {entry.mode &&
+                <span className="inline-block bg-gray-100 text-gray-600 text-xs px-2.5 py-0.5 rounded-full">
+                        {entry.mode}
+                      </span>
+                }
                   </div>
-                  <div className="text-sm text-neutral-secondary mt-1">
-                    Mode: {entry.mode} • Adherence: {entry.medicationAdherence}
+                  {entry.nextFollowUpDate &&
+              <div className="text-sm text-gray-500">
+                      Next: {entry.nextFollowUpDate}
+                    </div>
+              }
+                  <div className="flex flex-wrap gap-1.5">
+                    {entry.availedCounselling &&
+                <span
+                  className={`inline-block text-xs px-2.5 py-1 rounded-full ${entry.availedCounselling === 'Yes' ? 'bg-teal/10 text-teal' : 'bg-gray-100 text-gray-600'}`}>
+
+                        Counselling: {entry.availedCounselling}
+                      </span>
+                }
+                    {entry.medicationsTaken &&
+                <span
+                  className={`inline-block text-xs px-2.5 py-1 rounded-full ${entry.medicationsTaken === 'Yes' ? 'bg-teal/10 text-teal' : 'bg-gray-100 text-gray-600'}`}>
+
+                        Meds: {entry.medicationsTaken}
+                      </span>
+                }
+                    {entry.behaviourReported &&
+                entry.behaviourReported !== 'None' &&
+                <span className="inline-block text-xs px-2.5 py-1 rounded-full bg-coral/10 text-coral">
+                          {entry.behaviourReported}
+                        </span>
+                }
                   </div>
                 </div>
-                <div className="text-right text-sm">
-                  <div className="font-medium text-teal">
-                    {entry.currentTreatmentStatus}
-                  </div>
-                  <div className="text-gray-500">
-                    Next: {entry.nextFollowUpDate}
-                  </div>
-                </div>
+                {entry.severityRating &&
+            <Badge variant={getSeverityVariant(entry.severityRating)}>
+                    {getSeverityShort(entry.severityRating)}
+                  </Badge>
+            }
               </div>
             </Card>
         )

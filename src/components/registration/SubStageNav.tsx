@@ -2,7 +2,7 @@ import React from 'react';
 import { usePatient } from '../../context/PatientContext';
 import { RegistrationSubStage } from '../../types';
 import {
-  Stethoscope,
+  ClipboardList,
   CalendarCheck,
   MessageSquare,
   Gift,
@@ -21,9 +21,9 @@ export function SubStageNav() {
     icon: React.ReactNode;
   }[] = [
   {
-    id: 'screening-diagnosis',
-    label: 'Screening & Diagnosis',
-    icon: <Stethoscope className="h-4 w-4" />
+    id: 'identification-summary',
+    label: 'Identification Summary',
+    icon: <ClipboardList className="h-4 w-4" />
   },
   {
     id: 'follow-up',

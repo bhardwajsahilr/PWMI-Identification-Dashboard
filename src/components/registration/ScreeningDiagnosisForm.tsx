@@ -510,13 +510,10 @@ export function ScreeningDiagnosisForm() {
       <div className="h-20"></div>
 
       <div className="bg-white border-t border-softPink p-4 shadow-lg flex justify-between items-center z-20">
-        <Button variant="ghost">Reset Form</Button>
+        <Button variant="ghost">Cancel</Button>
         <div className="flex gap-3">
           <Button variant="outline" onClick={() => handleSave(false)}>
-            Save Draft
-          </Button>
-          <Button variant="outline" onClick={() => handleSave(false)}>
-            Save & Continue
+            Save
           </Button>
           <div className="relative group">
             <Button

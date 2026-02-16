@@ -27,6 +27,11 @@ export const mockPatients: Patient[] = [
     dateOfReferral: '2023-10-14',
     referralFacility: 'PHC',
     mentalHealthFacilityName: 'Mysuru DMHP Center',
+    mentalDisorderType: 'Depression',
+    disabilityType: 'Mental Illness',
+    mentalIllnessType: 'Moderate Depression',
+    severityOfIllness: 'Moderate',
+    severityRating: '3 - Moderate',
     consentGiven: 'Yes'
   },
   // Demo sub-stage entries for Kavitha
@@ -34,20 +39,24 @@ export const mockPatients: Patient[] = [
   {
     id: 'fu-k1',
     followUpDate: '2023-11-10',
-    mode: 'Home visit',
-    availedCounselling: true,
-    medicationAdherence: 'Fair',
-    currentTreatmentStatus: 'Active',
     nextFollowUpDate: '2023-12-10',
+    mode: 'Home visit',
+    availedCounselling: 'Yes',
+    availedTherapy: 'No',
+    medicationsTaken: 'Yes',
     nonAdherenceReasons: ['Forgot to take medication'],
     otherNonAdherenceReason: '',
-    sideEffectsReported: false,
-    daysSinceSideEffects: '',
-    sideEffectTypes: [],
-    caregiverBehaviour:
-    'Daughter reports mother is slightly more active but still withdrawn at times.',
-    caregiverFeedback: 'Requests more frequent visits from field worker.',
-    changesObserved: 'Slight improvement in appetite and sleep patterns.',
+    sideEffectsReported: 'No',
+    daysSinceOnset: '',
+    sideEffectTypes: '',
+    sideEffectSeverity: '',
+    behaviourReported: 'None',
+    caregiverSupport:
+    'Moderate – Caregiver provides regular help (med reminders, check-ins) but PWMI can self-manage some tasks',
+    functionalIndependence:
+    'Partially Independent – Needs reminders or occasional assistance',
+    severityRating:
+    'Moderate – Some functional impairment; needs regular support; no recent high-risk behavior',
     completedAt: '2023-11-10T14:30:00Z'
   }],
 
@@ -57,21 +66,25 @@ export const mockPatients: Patient[] = [
     sessionDate: '2023-10-20',
     caseHistorySummary:
     'Kavitha lost her husband 8 months ago. She has been experiencing persistent sadness, loss of interest in daily activities, and poor sleep. Lives with her daughter who is the primary caregiver.',
-    severityRating: '3',
-    counsellingType: 'Individual',
-    actionPlan:
-    'Weekly supportive counselling sessions. Encourage participation in support group. Monitor sleep and appetite.',
-    nextSessionDate: '2023-10-27',
+    severityRating:
+    'Moderate - Some functional impairment; needs regular support; no recent high-risk behavior',
+    lastSessionDate: '',
+    counsellingType: 'Face-to-face',
+    keyObservations:
+    'Persistent grief, sleep disturbance, reduced appetite. No suicidal ideation. Daughter is supportive but showing signs of caregiver fatigue.',
     completedAt: '2023-10-20T11:00:00Z'
   }],
 
   supportGroupEntries: [
   {
     id: 'sg-k1',
+    reportDate: '2023-11-05',
     attended: 'Yes',
-    topicDiscussed:
-    'Coping with grief and loss — sharing personal experiences',
-    meetingDate: '2023-11-05',
+    topicName1: 'Coping with grief and loss — sharing personal experiences',
+    topicName2: '',
+    topicName3: '',
+    topicName4: '',
+    topicName5: '',
     completedAt: '2023-11-05T16:00:00Z'
   }]
 
@@ -105,6 +118,11 @@ export const mockPatients: Patient[] = [
     dateOfReferral: '2023-10-15',
     referralFacility: 'District Hospital',
     mentalHealthFacilityName: 'KIMS Hubballi',
+    mentalDisorderType: 'Schizophrenia',
+    disabilityType: 'Mental Illness',
+    mentalIllnessType: 'Schizophrenia',
+    severityOfIllness: 'Severe',
+    severityRating: '5 - Severe',
     consentGiven: 'Yes'
   }
 },
@@ -134,6 +152,11 @@ export const mockPatients: Patient[] = [
     dateOfReferral: '2023-09-22',
     referralFacility: 'PHC',
     mentalHealthFacilityName: 'DMHP Center',
+    mentalDisorderType: 'Depression',
+    disabilityType: 'Mental Illness',
+    mentalIllnessType: 'Mild Depression',
+    severityOfIllness: 'Mild',
+    severityRating: '2 - Mild',
     consentGiven: 'Yes',
     completedAt: '2023-09-20T10:00:00Z'
   },
@@ -162,43 +185,45 @@ export const mockPatients: Patient[] = [
   {
     id: 'fu-d1',
     followUpDate: '2023-10-22',
-    mode: 'In-person',
-    availedCounselling: true,
-    medicationAdherence: 'Good',
-    currentTreatmentStatus: 'Active',
     nextFollowUpDate: '2023-11-22',
+    mode: 'In-person',
+    availedCounselling: 'Yes',
+    availedTherapy: 'No',
+    medicationsTaken: 'Yes',
     nonAdherenceReasons: [],
     otherNonAdherenceReason: '',
-    sideEffectsReported: false,
-    daysSinceSideEffects: '',
-    sideEffectTypes: [],
-    caregiverBehaviour:
-    'Mother reports Deepa is more communicative and has started helping with household chores again.',
-    caregiverFeedback:
-    'Family is relieved to see improvement. Requests continued counselling support.',
-    changesObserved:
-    'Noticeable improvement in social interaction. Started talking to neighbours again.',
+    sideEffectsReported: 'No',
+    daysSinceOnset: '',
+    sideEffectTypes: '',
+    sideEffectSeverity: '',
+    behaviourReported: 'None',
+    caregiverSupport:
+    'Low – PWMI is largely independent; caregiver support is occasional',
+    functionalIndependence:
+    'Partially Independent – Needs reminders or occasional assistance',
+    severityRating: 'Mild – Symptoms manageable; PWMI largely functional',
     completedAt: '2023-10-22T10:30:00Z'
   },
   {
     id: 'fu-d2',
     followUpDate: '2023-11-22',
-    mode: 'Home visit',
-    availedCounselling: true,
-    medicationAdherence: 'Good',
-    currentTreatmentStatus: 'Active',
     nextFollowUpDate: '2023-12-22',
+    mode: 'Home visit',
+    availedCounselling: 'Yes',
+    availedTherapy: 'No',
+    medicationsTaken: 'Yes',
     nonAdherenceReasons: [],
     otherNonAdherenceReason: '',
-    sideEffectsReported: false,
-    daysSinceSideEffects: '',
-    sideEffectTypes: [],
-    caregiverBehaviour:
-    'Mother says Deepa has been attending the local tailoring class and seems motivated.',
-    caregiverFeedback:
-    'Very positive about the program. Wants Deepa to continue vocational training.',
-    changesObserved:
-    'Significant improvement. Deepa is engaging in daily activities independently.',
+    sideEffectsReported: 'No',
+    daysSinceOnset: '',
+    sideEffectTypes: '',
+    sideEffectSeverity: '',
+    behaviourReported: 'None',
+    caregiverSupport:
+    'Low – PWMI is largely independent; caregiver support is occasional',
+    functionalIndependence:
+    'Independent – Manages self-care, work, and daily tasks without help',
+    severityRating: 'Mild – Symptoms manageable; PWMI largely functional',
     completedAt: '2023-11-22T11:00:00Z'
   }],
 
@@ -208,11 +233,11 @@ export const mockPatients: Patient[] = [
     sessionDate: '2023-10-05',
     caseHistorySummary:
     'Deepa experienced social withdrawal after failing college entrance exams. She stopped talking to family and friends, stayed in her room for weeks. No suicidal ideation. Supportive family environment.',
-    severityRating: '2',
-    counsellingType: 'Individual',
-    actionPlan:
-    'Build rapport and trust. Introduce gradual social re-engagement activities. Explore vocational interests as alternative pathway.',
-    nextSessionDate: '2023-10-12',
+    severityRating: 'Mild - Symptoms manageable; PWMI largely functional',
+    lastSessionDate: '',
+    counsellingType: 'Face-to-face',
+    keyObservations:
+    'Social withdrawal, low self-esteem, feelings of failure. Responsive to conversation. Expressed interest in learning new skills.',
     completedAt: '2023-10-05T14:00:00Z'
   },
   {
@@ -220,11 +245,11 @@ export const mockPatients: Patient[] = [
     sessionDate: '2023-10-12',
     caseHistorySummary:
     'Second session. Deepa opened up about feeling like a failure. Discussed cognitive reframing techniques. She expressed interest in learning tailoring.',
-    severityRating: '2',
-    counsellingType: 'Individual',
-    actionPlan:
-    'Continue cognitive behavioural techniques. Connect with vocational training provider for tailoring course. Encourage support group attendance.',
-    nextSessionDate: '2023-10-26',
+    severityRating: 'Mild - Symptoms manageable; PWMI largely functional',
+    lastSessionDate: '2023-10-05',
+    counsellingType: 'Face-to-face',
+    keyObservations:
+    'Improved engagement. Beginning to reframe negative thoughts. Motivated by vocational training prospect.',
     completedAt: '2023-10-12T15:00:00Z'
   },
   {
@@ -232,56 +257,76 @@ export const mockPatients: Patient[] = [
     sessionDate: '2023-10-26',
     caseHistorySummary:
     'Third session. Deepa attended her first support group meeting and found it helpful. She has enrolled in tailoring training. Mood is noticeably better.',
-    severityRating: '1',
-    counsellingType: 'Individual',
-    actionPlan:
-    'Reduce session frequency to bi-weekly. Monitor progress in vocational training. Continue support group participation.',
-    nextSessionDate: '2023-11-09',
+    severityRating: 'Mild - Symptoms manageable; PWMI largely functional',
+    lastSessionDate: '2023-10-12',
+    counsellingType: 'Phone call',
+    keyObservations:
+    'Significant improvement in social interaction. Started talking to neighbours again. Enrolled in vocational training.',
     completedAt: '2023-10-26T14:30:00Z'
   }],
 
   beneficiarySchemeEntries: [
   {
     id: 'bs-d1',
-    schemeApplied: 'Disability pension',
-    applicationDate: '2023-10-15',
+    reportDate: '2023-10-15',
+    dueDate: '2023-11-15',
+    schemeApplied: 'BPL card',
+    applicationDate: '2023-10-10',
     currentStatus: 'Approved',
-    benefitsReceived:
-    'Monthly pension of ₹1,500 approved and disbursement started from November 2023.',
-    completedAt: '2023-10-15T12:00:00Z'
+    benefitsReceived: 'Yes',
+    rejectionReason: '',
+    completedAt: '2023-10-15T09:00:00Z'
   },
   {
     id: 'bs-d2',
+    reportDate: '2023-11-20',
+    dueDate: '2023-12-20',
     schemeApplied: 'Health insurance',
-    applicationDate: '2023-11-01',
-    currentStatus: 'In progress',
-    benefitsReceived: '',
-    completedAt: '2023-11-01T10:00:00Z'
+    applicationDate: '2023-11-18',
+    currentStatus: 'In process',
+    benefitsReceived: 'No',
+    rejectionReason: 'Verification Pending',
+    completedAt: '2023-11-20T11:00:00Z'
   }],
 
   selfEmploymentData: {
+    reportDate: '2023-11-01',
     annualHouseholdIncome: '72000',
     monthlyHouseholdIncome: '6000',
-    natureOfEmployment: 'Tailoring',
-    otherNatureSpecify: '',
-    dateStarted: '2023-11-15',
-    completedAt: '2023-11-15T09:00:00Z'
+    selfEmploymentInterest: 'Tailoring and garment stitching',
+    amountDisbursed: '15000',
+    disbursementDate: '2023-11-10',
+    completedAt: '2023-11-01T10:00:00Z'
   },
   vocationalTrainingEntries: [
   {
     id: 'vt-d1',
-    provider: "Udupi Women's Self Help Group",
-    trainingApplied: 'Tailoring',
-    enrolmentDate: '2023-10-20',
-    completionStatus: 'Completed',
+    reportDate: '2023-10-20',
+    trainingDate: '2023-10-25',
+    provider: 'NGO',
+    trainingApplied: 'Beautification',
+    applicationDate: '2023-10-18',
+    applicationStatus: 'Approved',
+    rejectionReason: '',
+    trainingStarted: 'Yes',
+    trainingCompleted: 'Yes',
+    employmentStatus: 'Self-employed',
+    otherEmploymentStatus: '',
     completedAt: '2023-10-20T10:00:00Z'
   },
   {
     id: 'vt-d2',
-    provider: 'District Skill Development Centre',
-    trainingApplied: 'Computer skills',
-    enrolmentDate: '2023-12-01',
-    completionStatus: 'Ongoing',
+    reportDate: '2023-12-01',
+    trainingDate: '2023-12-05',
+    provider: 'Government Body',
+    trainingApplied: 'Computer',
+    applicationDate: '2023-11-28',
+    applicationStatus: 'Enrolled',
+    rejectionReason: '',
+    trainingStarted: 'Yes',
+    trainingCompleted: 'No',
+    employmentStatus: '',
+    otherEmploymentStatus: '',
     completedAt: '2023-12-01T09:00:00Z'
   }],
 
@@ -318,61 +363,92 @@ export const mockPatients: Patient[] = [
   supportGroupEntries: [
   {
     id: 'sg-d1',
+    reportDate: '2023-10-18',
     attended: 'Yes',
-    topicDiscussed:
+    topicName1:
     'Understanding depression — signs, symptoms, and recovery journey',
-    meetingDate: '2023-10-18',
+    topicName2: 'Sharing personal experiences and coping strategies',
+    topicName3: '',
+    topicName4: '',
+    topicName5: '',
     completedAt: '2023-10-18T16:30:00Z'
   },
   {
     id: 'sg-d2',
+    reportDate: '2023-11-15',
     attended: 'Yes',
-    topicDiscussed:
-    'Building self-confidence and setting small daily goals',
-    meetingDate: '2023-11-15',
+    topicName1: 'Building self-confidence and setting small daily goals',
+    topicName2: 'Peer support and encouragement techniques',
+    topicName3: '',
+    topicName4: '',
+    topicName5: '',
     completedAt: '2023-11-15T16:30:00Z'
   },
   {
     id: 'sg-d3',
+    reportDate: '2023-12-13',
     attended: 'No',
-    topicDiscussed: 'Medication awareness and adherence',
-    meetingDate: '2023-12-13',
+    topicName1: 'Medication awareness and adherence',
+    topicName2: '',
+    topicName3: '',
+    topicName4: '',
+    topicName5: '',
     completedAt: '2023-12-13T16:30:00Z'
   }],
 
   psychoSocialEntries: [
   {
     id: 'ps-d1',
+    reportDate: '2023-10-22',
+    dueDate: '2023-10-29',
     attended: 'Yes',
-    topicName: 'Stress management and relaxation techniques',
-    sessionDate: '2023-10-22',
-    facilitatorName: 'Dr. Meera Nair',
+    topicName1: 'Stress management and relaxation techniques',
+    topicName2: 'Identifying triggers and coping strategies',
+    topicName3: '',
+    topicName4: '',
+    topicName5: '',
     completedAt: '2023-10-22T14:00:00Z'
   },
   {
     id: 'ps-d2',
+    reportDate: '2023-11-19',
+    dueDate: '2023-11-26',
     attended: 'Yes',
-    topicName: 'Family communication and conflict resolution',
-    sessionDate: '2023-11-19',
-    facilitatorName: 'Shwetha Rao',
+    topicName1: 'Family communication and conflict resolution',
+    topicName2: 'Building healthy daily routines',
+    topicName3: 'Self-esteem and positive self-talk',
+    topicName4: '',
+    topicName5: '',
     completedAt: '2023-11-19T14:00:00Z'
   }],
 
   advocacyMeetingEntries: [
   {
     id: 'am-d1',
+    reportDate: '2023-11-05',
+    dueDate: '2023-11-12',
     attended: 'Yes',
-    meetingType: 'Panchayat meeting',
-    institutionName: 'Udupi Gram Panchayat',
-    meetingDate: '2023-11-05',
+    meetingType: 'Program Awareness and Sensitization',
+    otherMeetingType: '',
+    topicName1: 'Mental health awareness in the community',
+    topicName2: 'Reducing stigma around mental illness',
+    topicName3: '',
+    topicName4: '',
+    topicName5: '',
     completedAt: '2023-11-05T11:00:00Z'
   },
   {
     id: 'am-d2',
+    reportDate: '2023-12-10',
+    dueDate: '2023-12-17',
     attended: 'Yes',
-    meetingType: 'Community awareness',
-    institutionName: 'Udupi Community Hall — Mental Health Awareness Drive',
-    meetingDate: '2023-12-10',
+    meetingType: 'PWMI/Caregiver Rights and Support',
+    otherMeetingType: '',
+    topicName1: 'Rights of persons with mental illness',
+    topicName2: 'Government schemes and entitlements',
+    topicName3: 'Caregiver support resources',
+    topicName4: '',
+    topicName5: '',
     completedAt: '2023-12-10T10:00:00Z'
   }]
 

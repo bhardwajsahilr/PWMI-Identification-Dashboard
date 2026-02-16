@@ -1,7 +1,7 @@
 import React from 'react';
 import { usePatient } from '../context/PatientContext';
 import { SubStageNav } from './registration/SubStageNav';
-import { ScreeningDiagnosisForm } from './registration/ScreeningDiagnosisForm';
+import { IdentificationSummary } from './registration/IdentificationSummary';
 import { FollowUpForm } from './registration/FollowUpForm';
 import { CounsellingLogForm } from './registration/CounsellingLogForm';
 import { BeneficiarySchemeForm } from './registration/BeneficiarySchemeForm';
@@ -68,8 +68,8 @@ export function RegistrationForm() {
         {/* Right: Form Content */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6 min-w-0">
           <div className="max-w-4xl mx-auto w-full">
-            {activeSubStage === 'screening-diagnosis' &&
-            <ScreeningDiagnosisForm />
+            {activeSubStage === 'identification-summary' &&
+            <IdentificationSummary />
             }
             {activeSubStage === 'follow-up' && <FollowUpForm />}
             {activeSubStage === 'counselling-log' && <CounsellingLogForm />}

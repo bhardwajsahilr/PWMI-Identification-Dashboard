@@ -3,7 +3,7 @@ export type Status = 'Pending' | 'Referred' | 'Completed';
 export type ModuleTab = 'identification' | 'registration' | 'monthly-monitoring';
 
 export type RegistrationSubStage =
-'screening-diagnosis' |
+'identification-summary' |
 'follow-up' |
 'counselling-log' |
 'beneficiary-scheme' |
@@ -28,6 +28,13 @@ export interface IdentificationFormData {
   dateOfReferral: string;
   referralFacility: string;
   mentalHealthFacilityName: string;
+  // Mental Disorder & Disability Details
+  mentalDisorderType: string;
+  disabilityType: string;
+  // Mental Illness Diagnosis
+  mentalIllnessType: string;
+  severityOfIllness: string;
+  severityRating: string;
   // Consent
   consentGiven: string;
   completedAt?: string;
@@ -58,61 +65,74 @@ export interface RegistrationFormData {
 
 export interface FollowUpEntry {
   id: string;
-  followUpDate: string;
-  mode: string; // In-person / Phone / Home visit
-  availedCounselling: boolean;
-  medicationAdherence: string; // Good / Fair / Poor / Stopped
-  currentTreatmentStatus: string; // Active / Discontinued / Changed / Referred
+  followUpDate: string; // required
   nextFollowUpDate: string;
-  // Conditional: non-adherence reasons
+  mode: string;
+  availedCounselling: string; // Yes / No
+  availedTherapy: string; // Yes / No
+  medicationsTaken: string; // Yes / No
+  // Non-adherence reasons (checkboxes)
   nonAdherenceReasons: string[];
   otherNonAdherenceReason: string;
-  // Conditional: side effects
-  sideEffectsReported: boolean;
-  daysSinceSideEffects: string;
-  sideEffectTypes: string[];
+  // Side effects
+  sideEffectsReported: string; // Yes / No
+  daysSinceOnset: string;
+  sideEffectTypes: string;
+  sideEffectSeverity: string;
   // Caregiver observations
-  caregiverBehaviour: string;
-  caregiverFeedback: string;
-  changesObserved: string;
+  behaviourReported: string; // Aggression / Self-harm / Wandering / None
+  caregiverSupport: string; // High / Moderate / Low
+  functionalIndependence: string; // Independent / Partially Independent / Dependent
+  severityRating: string; // Mild / Moderate / Severe
   completedAt?: string;
 }
 
 export interface CounsellingLogEntry {
   id: string;
-  sessionDate: string;
-  caseHistorySummary: string;
-  severityRating: string; // 1-5
-  counsellingType: string; // Individual / Family / Group / Crisis
-  actionPlan: string;
-  nextSessionDate: string;
+  sessionDate: string; // Date of counselling (required)
+  caseHistorySummary: string; // Summary of case history
+  severityRating: string; // Mild / Moderate / Severe
+  lastSessionDate: string; // Last counselling session date
+  counsellingType: string; // Face-to-face / Video call / Phone call
+  keyObservations: string; // Key clinical observations
   completedAt?: string;
 }
 
 export interface BeneficiarySchemeEntry {
   id: string;
+  reportDate: string;
+  dueDate: string;
   schemeApplied: string;
   applicationDate: string;
-  currentStatus: string; // Applied / Approved / Rejected / In progress
-  benefitsReceived: string;
+  currentStatus: string; // Submitted / Enrolled / In process / Rejected / Approved / Pending
+  benefitsReceived: string; // Yes / No
+  rejectionReason: string; // Missing Documents / Verification Pending / Ineligible
   completedAt?: string;
 }
 
 export interface SelfEmploymentData {
+  reportDate: string;
   annualHouseholdIncome: string;
   monthlyHouseholdIncome: string;
-  natureOfEmployment: string;
-  otherNatureSpecify: string;
-  dateStarted: string;
+  selfEmploymentInterest: string;
+  amountDisbursed: string;
+  disbursementDate: string;
   completedAt?: string;
 }
 
 export interface VocationalTrainingEntry {
   id: string;
-  provider: string;
-  trainingApplied: string;
-  enrolmentDate: string;
-  completionStatus: string; // Enrolled / Ongoing / Completed / Dropped
+  reportDate: string;
+  trainingDate: string;
+  provider: string; // Government Body / NGO
+  trainingApplied: string; // Beautification / Plumbing / Computer
+  applicationDate: string;
+  applicationStatus: string; // Submitted / Enrolled / In process / Rejected / Approved / Pending
+  rejectionReason: string; // Missing Documents / Verification Pending / Ineligible
+  trainingStarted: string; // Yes / No
+  trainingCompleted: string; // Yes / No
+  employmentStatus: string; // Employed / Self-employed / Unemployed / Others (specify)
+  otherEmploymentStatus: string;
   completedAt?: string;
 }
 
@@ -129,27 +149,41 @@ export interface CaregiverBurdenData {
 
 export interface SupportGroupEntry {
   id: string;
-  attended: string; // Yes/No or count
-  topicDiscussed: string;
-  meetingDate: string;
+  reportDate: string;
+  attended: string; // Yes / No
+  topicName1: string;
+  topicName2: string;
+  topicName3: string;
+  topicName4: string;
+  topicName5: string;
   completedAt?: string;
 }
 
 export interface PsychoSocialEntry {
   id: string;
-  attended: string; // Yes/No or count
-  topicName: string;
-  sessionDate: string;
-  facilitatorName: string;
+  reportDate: string;
+  dueDate: string;
+  attended: string; // Yes / No
+  topicName1: string;
+  topicName2: string;
+  topicName3: string;
+  topicName4: string;
+  topicName5: string;
   completedAt?: string;
 }
 
 export interface AdvocacyMeetingEntry {
   id: string;
-  attended: string; // Yes/No or count
+  reportDate: string;
+  dueDate: string;
+  attended: string; // Yes / No
   meetingType: string;
-  institutionName: string;
-  meetingDate: string;
+  otherMeetingType: string;
+  topicName1: string;
+  topicName2: string;
+  topicName3: string;
+  topicName4: string;
+  topicName5: string;
   completedAt?: string;
 }
 
@@ -185,12 +219,21 @@ export interface Patient {
   caste?: string;
   socioEconomic?: string;
   address?: string;
+  panchayat?: string;
   familyMembers?: number;
   dateIdentified?: string;
   informantName?: string;
   informantRelation?: string;
   fieldWorker?: string;
   dateOfBirth?: string;
+  enrollmentDate?: string;
+  incidentDate?: string;
+  enrollingOrgUnit?: string;
+  referredBySomeone?: string;
+  referrerContact?: string;
+  referrerName?: string;
+  primaryCaregiver?: string;
+  sourceOfInformation?: string;
 
   // Form Data Persistence
   identificationData?: IdentificationFormData;

@@ -3,24 +3,35 @@ import { usePatient } from '../../context/PatientContext';
 import { SupportGroupEntry } from '../../types';
 import { Button } from '../ui/Button';
 import { Accordion } from '../ui/Accordion';
-import { Input, TextArea } from '../ui/Input';
+import { Input } from '../ui/Input';
 import { Plus, CheckCircle, Users } from 'lucide-react';
 import { Card } from '../ui/Card';
+import { Badge } from '../ui/Badge';
 export function SupportGroupForm() {
   const { selectedPatient: patient, addSubStageEntry } = usePatient();
   const [showNewForm, setShowNewForm] = useState(false);
   // Form State
+  const [reportDate, setReportDate] = useState(
+    new Date().toISOString().split('T')[0]
+  );
   const [attended, setAttended] = useState('');
-  const [topicDiscussed, setTopicDiscussed] = useState('');
-  const [meetingDate, setMeetingDate] = useState('');
+  const [topicName1, setTopicName1] = useState('');
+  const [topicName2, setTopicName2] = useState('');
+  const [topicName3, setTopicName3] = useState('');
+  const [topicName4, setTopicName4] = useState('');
+  const [topicName5, setTopicName5] = useState('');
   if (!patient) return null;
   const entries = patient.supportGroupEntries || [];
   const handleSave = () => {
     const newEntry: SupportGroupEntry = {
       id: Date.now().toString(),
+      reportDate,
       attended,
-      topicDiscussed,
-      meetingDate,
+      topicName1,
+      topicName2,
+      topicName3,
+      topicName4,
+      topicName5,
       completedAt: new Date().toISOString()
     };
     addSubStageEntry(patient.id, 'supportGroupEntries', newEntry);
@@ -28,9 +39,22 @@ export function SupportGroupForm() {
     resetForm();
   };
   const resetForm = () => {
+    setReportDate(new Date().toISOString().split('T')[0]);
     setAttended('');
-    setTopicDiscussed('');
-    setMeetingDate('');
+    setTopicName1('');
+    setTopicName2('');
+    setTopicName3('');
+    setTopicName4('');
+    setTopicName5('');
+  };
+  const getTopics = (entry: SupportGroupEntry) => {
+    return [
+    entry.topicName1,
+    entry.topicName2,
+    entry.topicName3,
+    entry.topicName4,
+    entry.topicName5].
+    filter(Boolean);
   };
   return (
     <div className="space-y-6">
@@ -53,38 +77,59 @@ export function SupportGroupForm() {
             New Support Group Meeting
           </h4>
 
+          {/* Report Date — outside accordion */}
+          <div className="w-full md:w-1/2">
+            <Input
+            type="date"
+            label="Report Date *"
+            value={reportDate}
+            onChange={(e) => setReportDate(e.target.value)} />
+
+          </div>
+
           <Accordion
-          title="A. Support Group Meeting Detail"
+          title="Support Group Meeting Detail"
           icon={<Users className="h-5 w-5" />}>
 
             <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-neutral-secondary mb-2">
-                    Meetings Attended
-                  </label>
-                  <select
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
-                  value={attended}
-                  onChange={(e) => setAttended(e.target.value)}>
+              <div>
+                <label className="block text-sm font-medium text-neutral-secondary mb-2">
+                  Support group meetings attended?
+                </label>
+                <select
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
+                value={attended}
+                onChange={(e) => setAttended(e.target.value)}>
 
-                    <option value="">Select</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                  </select>
-                </div>
-                <Input
-                type="date"
-                label="Date of Meeting"
-                value={meetingDate}
-                onChange={(e) => setMeetingDate(e.target.value)} />
-
+                  <option value="">Select or search from the list</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
               </div>
-              <TextArea
-              label="Name of Topic Discussed"
-              rows={2}
-              value={topicDiscussed}
-              onChange={(e) => setTopicDiscussed(e.target.value)} />
+              <Input
+              label="Name of topic (1)"
+              value={topicName1}
+              onChange={(e) => setTopicName1(e.target.value)} />
+
+              <Input
+              label="Name of topic (2)"
+              value={topicName2}
+              onChange={(e) => setTopicName2(e.target.value)} />
+
+              <Input
+              label="Name of topic (3)"
+              value={topicName3}
+              onChange={(e) => setTopicName3(e.target.value)} />
+
+              <Input
+              label="Name of topic (4)"
+              value={topicName4}
+              onChange={(e) => setTopicName4(e.target.value)} />
+
+              <Input
+              label="Name of topic (5)"
+              value={topicName5}
+              onChange={(e) => setTopicName5(e.target.value)} />
 
             </div>
           </Accordion>
@@ -110,23 +155,35 @@ export function SupportGroupForm() {
             No support group meetings recorded yet.
           </div> :
 
-        entries.map((entry) =>
-        <Card key={entry.id} className="p-4 border border-gray-200">
-              <div className="flex justify-between items-center">
-                <div>
-                  <div className="font-bold text-lg text-neutral-text">
-                    {entry.topicDiscussed}
+        entries.map((entry) => {
+          const topics = getTopics(entry);
+          return (
+            <Card key={entry.id} className="p-4 border border-gray-200">
+                <div className="flex justify-between items-start">
+                  <div className="space-y-1.5">
+                    <span className="text-sm text-gray-500">
+                      Report: {entry.reportDate}
+                    </span>
+                    {topics.length > 0 &&
+                  <div className="flex flex-wrap gap-1.5 mt-1">
+                        {topics.map((topic, i) =>
+                    <span
+                      key={i}
+                      className="inline-block bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-full">
+
+                            {topic}
+                          </span>
+                    )}
+                      </div>
+                  }
                   </div>
-                  <div className="text-sm text-neutral-secondary mt-1">
-                    Date: {entry.meetingDate}
-                  </div>
+                  <Badge variant={entry.attended === 'Yes' ? 'teal' : 'coral'}>
+                    {entry.attended === 'Yes' ? 'Attended' : 'Not Attended'}
+                  </Badge>
                 </div>
-                <div className="text-sm font-medium text-teal">
-                  Attended: {entry.attended}
-                </div>
-              </div>
-            </Card>
-        )
+              </Card>);
+
+        })
         }
       </div>
     </div>);

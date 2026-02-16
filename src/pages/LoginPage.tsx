@@ -25,7 +25,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('https://cdn.magicpatterns.com/uploads/kqEFgigkAedaP8hdvXQkaw/Generated_Image_February_12,_2026_-_9_56PM.jpg')`
+          backgroundImage: `url('https://cdn.magicpatterns.com/uploads/bBx2s9PL78xkSLtLfeuDR6/Generated_Image_February_14,_2026_-_3_01PM.jpg')`
         }} />
 
 
@@ -36,21 +36,20 @@ export function LoginPage({ onLogin }: LoginPageProps) {
       <div className="relative z-10 min-h-screen flex items-center">
         <div className="w-full max-w-md ml-12 lg:ml-24">
           {/* Brand Header — Logo + Foundation name */}
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center gap-4 mb-8">
             <img
               src="/Untitled_design_(2).png"
               alt="TLLLF Logo"
-              className="h-12 w-auto" />
+              className="h-20 w-auto" />
 
-            <span className="text-xs font-semibold text-neutral-secondary tracking-[0.15em] uppercase">
-              The Live Love Laugh Foundation
+            <span className="text-base font-bold text-neutral-text tracking-[0.1em] uppercase leading-tight">
+              The Live Love Laugh
+              <br />
+              Foundation
             </span>
           </div>
 
           {/* Tagline — centered with form */}
-          <p className="text-neutral-secondary text-sm italic text-center mb-6">
-            No life should be lost due to mental illness.
-          </p>
 
           {/* Login Card */}
           <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-white/60 p-8">
