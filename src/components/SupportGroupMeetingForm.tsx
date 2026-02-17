@@ -14,7 +14,8 @@ import {
   FileText,
   UserCheck,
   CheckCircle,
-  Lock } from
+  Lock,
+  Search } from
 'lucide-react';
 interface SupportGroupMeetingFormProps {
   viewRecord?: SupportGroupMeetingData | null;
@@ -46,6 +47,7 @@ export function SupportGroupMeetingForm({
   const [completeEvent, setCompleteEvent] = useState(false);
   const [notes, setNotes] = useState('');
   const [attendeePatientIds, setAttendeePatientIds] = useState<string[]>([]);
+  const [memberSearch, setMemberSearch] = useState('');
   // Load data if viewing record
   useEffect(() => {
     if (viewRecord) {
@@ -381,35 +383,132 @@ export function SupportGroupMeetingForm({
 
         </Accordion>
 
-        {/* 12. Members Attended (NEW) */}
+        {/* 12. Members Attended */}
         <Accordion
-          title="Members Attended (PWMI)"
+          title={`Members Attended (PWMI) — ${attendeePatientIds.length} selected`}
           icon={<Users className="h-5 w-5" />}>
 
-          <div className="space-y-2">
-            <p className="text-sm text-neutral-secondary mb-2">
+          <div className="space-y-3">
+            <p className="text-sm text-neutral-secondary">
               Select patients who attended this meeting. This will add the
               meeting to their profile.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-60 overflow-y-auto p-2 border rounded-lg">
-              {eligiblePatients.length === 0 ?
-              <p className="text-sm text-gray-500 col-span-full">
-                  No registered patients found.
-                </p> :
 
-              eligiblePatients.map((patient) =>
-              <Checkbox
-                key={patient.id}
-                label={`${patient.name} (${patient.village})`}
-                checked={attendeePatientIds.includes(patient.id)}
-                onChange={(e) =>
-                handleAttendeeChange(patient.id, e.target.checked)
-                }
+            {/* Search */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search by name, village, phone..."
+                value={memberSearch}
+                onChange={(e) => setMemberSearch(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal focus:border-teal"
                 disabled={isViewOnly} />
 
-              )
-              }
             </div>
+
+            {/* Table */}
+            <div className="border border-gray-200 rounded-lg overflow-hidden max-h-72 overflow-y-auto">
+              <table className="w-full text-sm text-left border-collapse">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0 z-10">
+                  <tr>
+                    <th className="px-4 py-2.5 border-b border-gray-200 w-10 text-center">
+                      <span className="sr-only">Select</span>
+                    </th>
+                    <th className="px-4 py-2.5 border-b border-gray-200 font-bold text-skyBlue-dark">
+                      Name
+                    </th>
+                    <th className="px-4 py-2.5 border-b border-gray-200 font-bold text-skyBlue-dark">
+                      Gender
+                    </th>
+                    <th className="px-4 py-2.5 border-b border-gray-200 font-bold text-skyBlue-dark">
+                      Age
+                    </th>
+                    <th className="px-4 py-2.5 border-b border-gray-200 font-bold text-skyBlue-dark">
+                      Village
+                    </th>
+                    <th className="px-4 py-2.5 border-b border-gray-200 font-bold text-skyBlue-dark">
+                      Education
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {eligiblePatients.length === 0 ?
+                  <tr>
+                      <td
+                      colSpan={6}
+                      className="px-4 py-6 text-center text-gray-500">
+
+                        No registered patients found.
+                      </td>
+                    </tr> :
+
+                  eligiblePatients.
+                  filter((p) => {
+                    if (!memberSearch) return true;
+                    const term = memberSearch.toLowerCase();
+                    return (
+                      p.name.toLowerCase().includes(term) ||
+                      p.village.toLowerCase().includes(term) ||
+                      p.phone.includes(term));
+
+                  }).
+                  map((patient) => {
+                    const isChecked = attendeePatientIds.includes(
+                      patient.id
+                    );
+                    return (
+                      <tr
+                        key={patient.id}
+                        onClick={() => {
+                          if (!isViewOnly)
+                          handleAttendeeChange(patient.id, !isChecked);
+                        }}
+                        className={`border-b border-gray-100 transition-colors ${isChecked ? 'bg-teal/5' : 'bg-white'} ${!isViewOnly ? 'cursor-pointer hover:bg-teal/10' : ''}`}>
+
+                            <td className="px-4 py-2.5 text-center border-r border-gray-100">
+                              <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={(e) =>
+                            handleAttendeeChange(
+                              patient.id,
+                              e.target.checked
+                            )
+                            }
+                            disabled={isViewOnly}
+                            className="h-4 w-4 rounded border-gray-300 text-teal focus:ring-teal cursor-pointer" />
+
+                            </td>
+                            <td className="px-4 py-2.5 font-medium text-gray-900 border-r border-gray-100">
+                              {patient.name}
+                            </td>
+                            <td className="px-4 py-2.5 text-gray-600 border-r border-gray-100">
+                              {patient.gender}
+                            </td>
+                            <td className="px-4 py-2.5 text-gray-600 border-r border-gray-100">
+                              {patient.age}
+                            </td>
+                            <td className="px-4 py-2.5 text-gray-600 border-r border-gray-100">
+                              {patient.village}
+                            </td>
+                            <td className="px-4 py-2.5 text-gray-600">
+                              {patient.education || '-'}
+                            </td>
+                          </tr>);
+
+                  })
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            {/* Selection summary */}
+            {attendeePatientIds.length > 0 &&
+            <p className="text-xs text-teal font-medium">
+                {attendeePatientIds.length} member(s) selected
+              </p>
+            }
           </div>
         </Accordion>
 
