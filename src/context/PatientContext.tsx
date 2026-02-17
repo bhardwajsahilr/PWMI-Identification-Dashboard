@@ -6,9 +6,14 @@ import {
   RegistrationSubStage,
   IdentificationFormData,
   RegistrationFormData,
-  MonthlyMonitoringData } from
+  MonthlyMonitoringData,
+  SupportGroupMeetingData } from
 '../types';
-import { mockPatients, mockMonitoringRecords } from '../data/mockData';
+import {
+  mockPatients,
+  mockMonitoringRecords,
+  mockSupportGroupMeetings } from
+'../data/mockData';
 interface PatientContextType {
   patients: Patient[];
   selectedPatientId: string | null;
@@ -19,6 +24,10 @@ interface PatientContextType {
   monitoringRecords: MonthlyMonitoringData[];
   selectedMonitoringId: string | null;
   isNewMonitoring: boolean;
+  // Support Group Meeting State
+  supportGroupMeetings: SupportGroupMeetingData[];
+  selectedSupportGroupMeetingId: string | null;
+  isNewSupportGroupMeeting: boolean;
   isNewPatientForm: boolean;
   // Actions
   selectPatient: (id: string | null) => void;
@@ -41,6 +50,10 @@ interface PatientContextType {
   saveMonitoringData: (data: MonthlyMonitoringData) => void;
   selectMonitoring: (id: string | null) => void;
   setIsNewMonitoring: (val: boolean) => void;
+  // Support Group Actions
+  saveSupportGroupMeeting: (data: SupportGroupMeetingData) => void;
+  selectSupportGroupMeeting: (id: string | null) => void;
+  setIsNewSupportGroupMeeting: (val: boolean) => void;
   addNewPatient: () => void;
   createPatient: (patient: Omit<Patient, 'id' | 'status' | 'riskLevel'>) => void;
   cancelNewPatient: () => void;
@@ -67,6 +80,14 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
     string | null>(
     null);
   const [isNewMonitoring, setIsNewMonitoring] = useState(false);
+  // Support Group Meeting State
+  const [supportGroupMeetings, setSupportGroupMeetings] = useState<
+    SupportGroupMeetingData[]>(
+    mockSupportGroupMeetings);
+  const [selectedSupportGroupMeetingId, setSelectedSupportGroupMeetingId] =
+  useState<string | null>(null);
+  const [isNewSupportGroupMeeting, setIsNewSupportGroupMeeting] =
+  useState(false);
   const [isNewPatientForm, setIsNewPatientForm] = useState(false);
   const selectedPatient =
   patients.find((p) => p.id === selectedPatientId) || null;
@@ -77,6 +98,8 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
     setActiveTabState(tab);
     setSelectedMonitoringId(null);
     setIsNewMonitoring(false);
+    setSelectedSupportGroupMeetingId(null);
+    setIsNewSupportGroupMeeting(false);
   };
   const updatePatient = (id: string, updates: Partial<Patient>) => {
     setPatients((prev) =>
@@ -200,6 +223,52 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
       }
     }
   };
+  const saveSupportGroupMeeting = (data: SupportGroupMeetingData) => {
+    // 1. Save the meeting itself
+    setSupportGroupMeetings((prev) => {
+      const exists = prev.find((m) => m.id === data.id);
+      if (exists) {
+        return prev.map((m) => m.id === data.id ? data : m);
+      }
+      return [data, ...prev];
+    });
+    // 2. Cross-link: Add this meeting to each attendee's profile
+    // We need to update patients who attended
+    setPatients((prevPatients) =>
+    prevPatients.map((patient) => {
+      // If patient attended this meeting
+      if (data.attendeePatientIds.includes(patient.id)) {
+        const newEntry = {
+          id: Date.now().toString() + Math.random().toString(),
+          reportDate: data.activityDate,
+          attended: 'Yes',
+          topicName1: data.topic1,
+          topicName2: data.topic2,
+          topicName3: data.topic3,
+          topicName4: data.topic4,
+          topicName5: data.topic5,
+          completedAt: new Date().toISOString()
+        };
+        const existingEntries = patient.supportGroupEntries || [];
+        return {
+          ...patient,
+          supportGroupEntries: [newEntry, ...existingEntries]
+        };
+      }
+      return patient;
+    })
+    );
+    setIsNewSupportGroupMeeting(false);
+    setSelectedSupportGroupMeetingId(null);
+  };
+  const selectSupportGroupMeeting = (id: string | null) => {
+    setSelectedSupportGroupMeetingId(id);
+    setIsNewSupportGroupMeeting(false);
+  };
+  const setIsNewSupportGroupMeetingWrapper = (val: boolean) => {
+    setIsNewSupportGroupMeeting(val);
+    setSelectedSupportGroupMeetingId(null);
+  };
   return (
     <PatientContext.Provider
       value={{
@@ -212,6 +281,9 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
         monitoringRecords,
         selectedMonitoringId,
         isNewMonitoring,
+        supportGroupMeetings,
+        selectedSupportGroupMeetingId,
+        isNewSupportGroupMeeting,
         isNewPatientForm,
         selectPatient,
         setActiveTab,
@@ -225,6 +297,9 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
         saveMonitoringData,
         selectMonitoring,
         setIsNewMonitoring,
+        saveSupportGroupMeeting,
+        selectSupportGroupMeeting,
+        setIsNewSupportGroupMeeting: setIsNewSupportGroupMeetingWrapper,
         addNewPatient,
         createPatient,
         cancelNewPatient,

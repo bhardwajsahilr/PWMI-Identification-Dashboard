@@ -11,7 +11,11 @@ export function TopNavigation() {
     selectedMonitoringId,
     isNewMonitoring,
     selectMonitoring,
-    setIsNewMonitoring
+    setIsNewMonitoring,
+    selectedSupportGroupMeetingId,
+    isNewSupportGroupMeeting,
+    selectSupportGroupMeeting,
+    setIsNewSupportGroupMeeting
   } = usePatient();
   const handleTabChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newTab = e.target.value as ModuleTab;
@@ -25,17 +29,25 @@ export function TopNavigation() {
   const showMonitoringBack =
   activeTab === 'monthly-monitoring' && (
   !!selectedMonitoringId || isNewMonitoring);
-  const showBack = showPatientBack || showMonitoringBack;
+  const showSupportGroupBack =
+  activeTab === 'support-group-meeting' && (
+  !!selectedSupportGroupMeetingId || isNewSupportGroupMeeting);
+  const showBack = showPatientBack || showMonitoringBack || showSupportGroupBack;
   const handleBack = () => {
     if (showPatientBack) {
       selectPatient(null);
     } else if (showMonitoringBack) {
       if (selectedMonitoringId) selectMonitoring(null);else
       setIsNewMonitoring(false);
+    } else if (showSupportGroupBack) {
+      if (selectedSupportGroupMeetingId) selectSupportGroupMeeting(null);else
+      setIsNewSupportGroupMeeting(false);
     }
   };
   const backLabel = showMonitoringBack ?
   'Back to Monitoring List' :
+  showSupportGroupBack ?
+  'Back to Meetings List' :
   'Back to Patient List';
   return (
     <div className="z-30 relative">
@@ -73,6 +85,9 @@ export function TopNavigation() {
                   PWMI Registration &amp; Services
                 </option>
                 <option value="monthly-monitoring">Monthly Monitoring</option>
+                <option value="support-group-meeting">
+                  Support Group Meeting
+                </option>
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
                 <ChevronDown className="h-4 w-4" />

@@ -1,4 +1,8 @@
-import { Patient, MonthlyMonitoringData } from '../types';
+import {
+  Patient,
+  MonthlyMonitoringData,
+  SupportGroupMeetingData } from
+'../types';
 
 export const mockPatients: Patient[] = [
 {
@@ -563,4 +567,34 @@ export const mockMonitoringRecords: MonthlyMonitoringData[] = [
   supervisorRemarks:
   'Critical gaps in service delivery. Immediate intervention required. Emergency review scheduled within 7 days.',
   completedAt: '2024-03-10T15:45:00Z'
+}];
+
+
+export const mockSupportGroupMeetings: SupportGroupMeetingData[] = [
+{
+  id: 'sg-1',
+  activityDate: '2023-11-15',
+  organisationUnit: 'A.Konduru',
+  time: '10:00 AM',
+  pwmisParticipated: '5',
+  caregiversParticipated: '3',
+  otherParticipants: '2',
+  topic1: 'Medication Adherence',
+  topic2: 'Hygiene',
+  topic3: '',
+  topic4: '',
+  topic5: '',
+  activities: ['Group discussions', 'Charts'],
+  keyPointsDiscussed: 'Importance of taking medicines on time discussed.',
+  actionItemsFollowUp: 'Check medication stock for next month.',
+  challenges: ['Low turnout'],
+  supportingDocuments: [],
+  supportingPhotographs: [],
+  meetingNotesWrittenBy: 'Ravi Kumar',
+  facilitatorName: 'Dr. Smitha',
+  facilitatorRole: 'Psychologist',
+  completeEvent: true,
+  notes: 'Good session overall.',
+  attendeePatientIds: ['1'], // Deepa
+  completedAt: '2023-11-15T12:00:00Z'
 }];

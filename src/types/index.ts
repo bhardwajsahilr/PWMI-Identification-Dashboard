@@ -1,6 +1,10 @@
 export type RiskLevel = 'Low' | 'Moderate' | 'High';
 export type Status = 'Pending' | 'Referred' | 'Completed';
-export type ModuleTab = 'identification' | 'registration' | 'monthly-monitoring';
+export type ModuleTab =
+'identification' |
+'registration' |
+'monthly-monitoring' |
+'support-group-meeting';
 
 export type RegistrationSubStage =
 'identification-summary' |
@@ -184,6 +188,34 @@ export interface AdvocacyMeetingEntry {
   topicName3: string;
   topicName4: string;
   topicName5: string;
+  completedAt?: string;
+}
+
+export interface SupportGroupMeetingData {
+  id: string;
+  activityDate: string;
+  organisationUnit: string;
+  time: string;
+  pwmisParticipated: string;
+  caregiversParticipated: string;
+  otherParticipants: string;
+  topic1: string;
+  topic2: string;
+  topic3: string;
+  topic4: string;
+  topic5: string;
+  activities: string[]; // Audios, Charts, etc.
+  keyPointsDiscussed: string;
+  actionItemsFollowUp: string;
+  challenges: string[]; // Audio-visual, etc.
+  supportingDocuments: string[]; // Just placeholders for file names
+  supportingPhotographs: string[];
+  meetingNotesWrittenBy: string;
+  facilitatorName: string;
+  facilitatorRole: string;
+  completeEvent: boolean;
+  notes: string;
+  attendeePatientIds: string[]; // IDs of patients who attended
   completedAt?: string;
 }
 
