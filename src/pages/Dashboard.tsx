@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { usePatient } from '../context/PatientContext';
 import { TopNavigation } from '../components/TopNavigation';
 import { OrgUnitTree } from '../components/OrgUnitTree';
@@ -10,7 +10,11 @@ import { MonitoringTable } from '../components/MonitoringTable';
 import { NewPatientForm } from '../components/NewPatientForm';
 import { SupportGroupMeetingTable } from '../components/SupportGroupMeetingTable';
 import { SupportGroupMeetingForm } from '../components/SupportGroupMeetingForm';
-export function Dashboard() {
+import { ProgramType } from '../App';
+interface DashboardProps {
+  program: ProgramType | null;
+}
+export function Dashboard({ program }: DashboardProps) {
   const {
     patients,
     selectedPatientId,
@@ -19,6 +23,7 @@ export function Dashboard() {
     filter,
     setFilter,
     activeTab,
+    setActiveTab,
     monitoringRecords,
     selectedMonitoringId,
     isNewMonitoring,
@@ -32,6 +37,13 @@ export function Dashboard() {
     selectSupportGroupMeeting,
     setIsNewSupportGroupMeeting
   } = usePatient();
+  useEffect(() => {
+    if (program === 'clinical') {
+      setActiveTab('identification');
+    } else if (program === 'community') {
+      setActiveTab('monthly-monitoring');
+    }
+  }, [program, setActiveTab]);
   // === SUPPORT GROUP MEETING VIEWS ===
   if (activeTab === 'support-group-meeting') {
     // View existing record
@@ -42,7 +54,7 @@ export function Dashboard() {
       ) || null;
       return (
         <div className="flex flex-col h-screen w-full bg-neutral-bg overflow-hidden font-sans">
-          <TopNavigation />
+          <TopNavigation program={program} />
           <main className="flex-1 overflow-hidden">
             <SupportGroupMeetingForm viewRecord={record} />
           </main>
@@ -53,7 +65,7 @@ export function Dashboard() {
     if (isNewSupportGroupMeeting) {
       return (
         <div className="flex flex-col h-screen w-full bg-neutral-bg overflow-hidden font-sans">
-          <TopNavigation />
+          <TopNavigation program={program} />
           <main className="flex-1 overflow-hidden">
             <SupportGroupMeetingForm />
           </main>
@@ -63,7 +75,7 @@ export function Dashboard() {
     // List view
     return (
       <div className="flex flex-col h-screen w-full bg-neutral-bg overflow-hidden font-sans">
-        <TopNavigation />
+        <TopNavigation program={program} />
         <main className="flex-1 flex overflow-hidden">
           <OrgUnitTree />
           <div className="flex-1 h-full min-w-0 shadow-xl z-10">
@@ -71,7 +83,7 @@ export function Dashboard() {
               records={supportGroupMeetings}
               onSelectRecord={(id) => selectSupportGroupMeeting(id)}
               onNewMeeting={() => setIsNewSupportGroupMeeting(true)} />
-
+            
           </div>
         </main>
       </div>);
@@ -85,7 +97,7 @@ export function Dashboard() {
       monitoringRecords.find((r) => r.id === selectedMonitoringId) || null;
       return (
         <div className="flex flex-col h-screen w-full bg-neutral-bg overflow-hidden font-sans">
-          <TopNavigation />
+          <TopNavigation program={program} />
           <main className="flex-1 overflow-hidden">
             <MonthlyMonitoringForm viewRecord={record} />
           </main>
@@ -96,7 +108,7 @@ export function Dashboard() {
     if (isNewMonitoring) {
       return (
         <div className="flex flex-col h-screen w-full bg-neutral-bg overflow-hidden font-sans">
-          <TopNavigation />
+          <TopNavigation program={program} />
           <main className="flex-1 overflow-hidden">
             <MonthlyMonitoringForm />
           </main>
@@ -106,7 +118,7 @@ export function Dashboard() {
     // Monitoring list view
     return (
       <div className="flex flex-col h-screen w-full bg-neutral-bg overflow-hidden font-sans">
-        <TopNavigation />
+        <TopNavigation program={program} />
         <main className="flex-1 flex overflow-hidden">
           <OrgUnitTree />
           <div className="flex-1 h-full min-w-0 shadow-xl z-10">
@@ -114,7 +126,7 @@ export function Dashboard() {
               records={monitoringRecords}
               onSelectRecord={(id) => selectMonitoring(id)}
               onNewMonitoring={() => setIsNewMonitoring(true)} />
-
+            
           </div>
         </main>
       </div>);
@@ -124,7 +136,7 @@ export function Dashboard() {
   if (isNewPatientForm) {
     return (
       <div className="flex flex-col h-screen w-full bg-neutral-bg overflow-hidden font-sans">
-        <TopNavigation />
+        <TopNavigation program={program} />
         <main className="flex-1 overflow-hidden">
           <NewPatientForm />
         </main>
@@ -135,7 +147,7 @@ export function Dashboard() {
   if (selectedPatientId) {
     return (
       <div className="flex flex-col h-screen w-full bg-neutral-bg overflow-hidden font-sans">
-        <TopNavigation />
+        <TopNavigation program={program} />
         <main className="flex-1 overflow-hidden">
           {activeTab === 'identification' && <PatientForm />}
           {activeTab === 'registration' && <RegistrationForm />}
@@ -146,7 +158,7 @@ export function Dashboard() {
   // === DEFAULT LIST VIEW (Two Panel: Tree + Table) ===
   return (
     <div className="flex flex-col h-screen w-full bg-neutral-bg overflow-hidden font-sans">
-      <TopNavigation />
+      <TopNavigation program={program} />
       <main className="flex-1 flex overflow-hidden">
         <OrgUnitTree />
         <div className="flex-1 h-full min-w-0 shadow-xl z-10">
@@ -157,7 +169,7 @@ export function Dashboard() {
             filter={filter}
             onFilterChange={setFilter}
             activeTab={activeTab} />
-
+          
         </div>
       </main>
     </div>);

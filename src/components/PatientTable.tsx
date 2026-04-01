@@ -75,7 +75,7 @@ export function PatientTable({
             })
             }
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal focus:border-teal" />
-
+          
         </div>
 
         {activeTab === 'identification' &&
@@ -83,7 +83,7 @@ export function PatientTable({
           onClick={onAddNew}
           leftIcon={<Plus className="h-4 w-4" />}
           className="flex-shrink-0">
-
+          
             Register
           </Button>
         }
@@ -97,7 +97,7 @@ export function PatientTable({
               <th
                 scope="col"
                 className="px-6 py-3 border-b border-gray-200 font-bold text-skyBlue-dark w-1/3">
-
+                
                 <div className="flex items-center gap-1 cursor-pointer hover:text-skyBlue">
                   <ArrowUpDown className="h-3 w-3" /> Name of the individual
                 </div>
@@ -105,7 +105,7 @@ export function PatientTable({
               <th
                 scope="col"
                 className="px-6 py-3 border-b border-gray-200 font-bold text-skyBlue-dark">
-
+                
                 <div className="flex items-center gap-1 cursor-pointer hover:text-skyBlue">
                   <ArrowUpDown className="h-3 w-3" /> Gender
                 </div>
@@ -113,7 +113,7 @@ export function PatientTable({
               <th
                 scope="col"
                 className="px-6 py-3 border-b border-gray-200 font-bold text-skyBlue-dark">
-
+                
                 <div className="flex items-center gap-1 cursor-pointer hover:text-skyBlue">
                   <ArrowUpDown className="h-3 w-3" /> Age
                 </div>
@@ -121,7 +121,7 @@ export function PatientTable({
               <th
                 scope="col"
                 className="px-6 py-3 border-b border-gray-200 font-bold text-skyBlue-dark">
-
+                
                 <div className="flex items-center gap-1 cursor-pointer hover:text-skyBlue">
                   <ArrowUpDown className="h-3 w-3" /> Date of Birth
                 </div>
@@ -129,7 +129,7 @@ export function PatientTable({
               <th
                 scope="col"
                 className="px-6 py-3 border-b border-gray-200 font-bold text-skyBlue-dark">
-
+                
                 <div className="flex items-center gap-1 cursor-pointer hover:text-skyBlue">
                   <ArrowUpDown className="h-3 w-3" /> Education
                 </div>
@@ -138,7 +138,7 @@ export function PatientTable({
               <th
                 scope="col"
                 className="px-6 py-3 border-b border-gray-200 font-bold text-skyBlue-dark">
-
+                
                   <div className="flex items-center gap-1 cursor-pointer hover:text-skyBlue">
                     <ArrowUpDown className="h-3 w-3" /> Consent Status
                   </div>
@@ -152,7 +152,7 @@ export function PatientTable({
                 <td
                 colSpan={activeTab === 'identification' ? 6 : 5}
                 className="px-6 py-10 text-center text-gray-500">
-
+                
                   No patients found matching your criteria.
                 </td>
               </tr> :
@@ -164,7 +164,7 @@ export function PatientTable({
                   key={patient.id}
                   onClick={() => onSelectPatient(patient.id)}
                   className="bg-white border-b border-gray-100 hover:bg-teal/5 cursor-pointer transition-colors">
-
+                  
                     <td className="px-6 py-3 font-medium text-gray-900 border-r border-gray-100">
                       {patient.name}
                     </td>
@@ -179,14 +179,14 @@ export function PatientTable({
                     </td>
                     <td
                     className={`px-6 py-3 text-gray-600${activeTab === 'identification' ? ' border-r border-gray-100' : ''}`}>
-
+                    
                       {patient.education || '-'}
                     </td>
                     {activeTab === 'identification' &&
                   <td className="px-6 py-3">
                         <span
                       className={`inline-block text-xs font-medium px-2.5 py-1 rounded-full ${consent.color}`}>
-
+                      
                           {consent.label}
                         </span>
                       </td>
@@ -216,7 +216,7 @@ export function PatientTable({
               type="text"
               defaultValue="1"
               className="w-8 border border-gray-300 rounded px-1 py-0.5 text-center" />
-
+            
           </div>
           <div className="flex gap-1">
             <button className="px-1 hover:text-black">«</button>

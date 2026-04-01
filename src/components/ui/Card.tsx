@@ -31,7 +31,7 @@ export function Card({
     <div
       className={`bg-white rounded-lg shadow-soft ${combinedAccent} ${onClick ? 'cursor-pointer hover:shadow-md transition-shadow' : ''} ${className}`}
       onClick={onClick}>
-
+      
       {children}
     </div>);
 

@@ -158,7 +158,7 @@ export function MonthlyMonitoringForm({
         <Accordion
           title="Monitoring Information"
           icon={<ClipboardList className="h-5 w-5" />}>
-
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Input
               type="date"
@@ -167,7 +167,7 @@ export function MonthlyMonitoringForm({
               onChange={(e) => setMonitoringDate(e.target.value)}
               required
               disabled={isViewOnly} />
-
+            
             <div>
               <label className="block text-sm font-medium text-neutral-secondary mb-2">
                 Monitoring Month
@@ -177,7 +177,7 @@ export function MonthlyMonitoringForm({
                 value={monitoringMonth}
                 onChange={(e) => setMonitoringMonth(e.target.value)}
                 disabled={isViewOnly}>
-
+                
                 <option value="">Select Month</option>
                 {[
                 'January',
@@ -204,13 +204,13 @@ export function MonthlyMonitoringForm({
               value={blockSupervisorName}
               onChange={(e) => setBlockSupervisorName(e.target.value)}
               disabled={isViewOnly} />
-
+            
             <Input
               label="Field Coordinator Name"
               value={fieldCoordinatorName}
               onChange={(e) => setFieldCoordinatorName(e.target.value)}
               disabled={isViewOnly} />
-
+            
           </div>
         </Accordion>
 
@@ -218,7 +218,7 @@ export function MonthlyMonitoringForm({
         <Accordion
           title="Activities Done"
           icon={<CheckSquare className="h-5 w-5" />}>
-
+          
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {activitiesList.map((activity) =>
@@ -239,7 +239,7 @@ export function MonthlyMonitoringForm({
               value={activityComments}
               onChange={(e) => setActivityComments(e.target.value)}
               disabled={isViewOnly} />
-
+            
           </div>
         </Accordion>
 
@@ -247,7 +247,7 @@ export function MonthlyMonitoringForm({
         <Accordion
           title="Issues Found"
           icon={<AlertTriangle className="h-5 w-5" />}>
-
+          
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {issuesList.map((issue) =>
@@ -265,7 +265,7 @@ export function MonthlyMonitoringForm({
               value={otherIssues}
               onChange={(e) => setOtherIssues(e.target.value)}
               disabled={isViewOnly} />
-
+            
             {hasIssues &&
             <div className="bg-softPink/20 border border-softPink text-neutral-text p-4 rounded-lg flex items-center gap-3">
                 <AlertCircle className="h-5 w-5 text-coral" />
@@ -299,7 +299,7 @@ export function MonthlyMonitoringForm({
               value={additionalActions}
               onChange={(e) => setAdditionalActions(e.target.value)}
               disabled={isViewOnly} />
-
+            
             {showActionWarning &&
             <div className="bg-coral/10 border border-coral text-coral p-4 rounded-lg flex items-center gap-3">
                 <AlertTriangle className="h-5 w-5" />
@@ -315,7 +315,7 @@ export function MonthlyMonitoringForm({
         <Accordion
           title="Overall Monitoring Status"
           icon={<BarChart2 className="h-5 w-5" />}>
-
+          
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -327,7 +327,7 @@ export function MonthlyMonitoringForm({
                   value={overallRating}
                   onChange={(e) => setOverallRating(e.target.value)}
                   disabled={isViewOnly}>
-
+                  
                   <option value="">Select Rating</option>
                   <option value="Good">Good</option>
                   <option value="Needs Improvement">Needs Improvement</option>
@@ -351,7 +351,7 @@ export function MonthlyMonitoringForm({
                 value={nextReviewDate}
                 onChange={(e) => setNextReviewDate(e.target.value)}
                 disabled={isViewOnly} />
-
+              
             </div>
 
             {isCritical &&
@@ -373,7 +373,7 @@ export function MonthlyMonitoringForm({
               value={supervisorRemarks}
               onChange={(e) => setSupervisorRemarks(e.target.value)}
               disabled={isViewOnly} />
-
+            
           </div>
         </Accordion>
 
@@ -394,7 +394,7 @@ export function MonthlyMonitoringForm({
             variant="primary"
             leftIcon={<CheckCircle className="h-4 w-4" />}
             onClick={handleSave}>
-
+            
               Save & Complete Monitoring
             </Button>
           </div>

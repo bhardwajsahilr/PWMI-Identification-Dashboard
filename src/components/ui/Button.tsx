@@ -36,7 +36,7 @@ export function Button({
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
       disabled={disabled || isLoading}
       {...props}>
-
+      
       {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
       {!isLoading && leftIcon && <span className="mr-2">{leftIcon}</span>}
       {children}

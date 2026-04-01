@@ -73,7 +73,7 @@ export function CounsellingLogForm() {
           onClick={() => setShowNewForm(!showNewForm)}
           leftIcon={showNewForm ? undefined : <Plus className="h-4 w-4" />}
           variant={showNewForm ? 'ghost' : 'primary'}>
-
+          
           {showNewForm ? 'Cancel' : 'Add Session'}
         </Button>
       </div>
@@ -86,7 +86,7 @@ export function CounsellingLogForm() {
           <Accordion
           title="Counselling Information"
           icon={<FileText className="h-5 w-5" />}>
-
+          
             <div className="space-y-4">
               <div>
                 <Input
@@ -97,7 +97,7 @@ export function CounsellingLogForm() {
                   setSessionDate(e.target.value);
                   if (e.target.value) setDateError('');
                 }} />
-
+              
                 {dateError &&
               <p className="text-sm text-coral mt-1.5 font-medium">
                     {dateError}
@@ -111,7 +111,7 @@ export function CounsellingLogForm() {
           <Accordion
           title="Counselling Details"
           icon={<ClipboardList className="h-5 w-5" />}>
-
+          
             <div className="space-y-4">
               <TextArea
               label="Summary of the case history"
@@ -119,7 +119,7 @@ export function CounsellingLogForm() {
               value={caseHistorySummary}
               onChange={(e) => setCaseHistorySummary(e.target.value)}
               placeholder="Write a brief summary…" />
-
+            
               <div>
                 <label className="block text-sm font-medium text-neutral-secondary mb-2">
                   Severity rating
@@ -128,7 +128,7 @@ export function CounsellingLogForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={severityRating}
                 onChange={(e) => setSeverityRating(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Mild - Symptoms manageable; PWMI largely functional">
                     Mild - Symptoms manageable; PWMI largely functional
@@ -151,7 +151,7 @@ export function CounsellingLogForm() {
               label="Last counselling session date"
               value={lastSessionDate}
               onChange={(e) => setLastSessionDate(e.target.value)} />
-
+            
               <div>
                 <label className="block text-sm font-medium text-neutral-secondary mb-2">
                   Counseling type
@@ -160,7 +160,7 @@ export function CounsellingLogForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={counsellingType}
                 onChange={(e) => setCounsellingType(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Face-to-face">Face-to-face</option>
                   <option value="Video call">Video call</option>
@@ -176,7 +176,7 @@ export function CounsellingLogForm() {
               value={keyObservations}
               onChange={(e) => setKeyObservations(e.target.value)}
               placeholder="Key symptoms, behaviours, risks, progress…" />
-
+            
             </div>
           </Accordion>
 
@@ -189,7 +189,7 @@ export function CounsellingLogForm() {
             variant="primary"
             onClick={handleSave}
             leftIcon={<CheckCircle className="h-4 w-4" />}>
-
+            
               Save
             </Button>
           </div>

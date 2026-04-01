@@ -87,10 +87,10 @@ export function SubStageNav() {
                 flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-left transition-colors w-full
                 ${isActive ? 'bg-teal/10 text-teal border-l-3 border-teal' : 'text-gray-600 border-l-3 border-transparent hover:bg-gray-50 hover:text-gray-900'}
               `}>
-
+              
               <span
                 className={`flex-shrink-0 ${isActive ? 'text-teal' : 'text-gray-400'}`}>
-
+                
                 {stage.icon}
               </span>
               <span className="truncate">{stage.label}</span>

@@ -53,40 +53,40 @@ export function SelfEmploymentForm() {
           label="Report Date *"
           value={reportDate}
           onChange={(e) => setReportDate(e.target.value)} />
-
+        
       </div>
 
       <Accordion
         title="Self Employment Details"
         icon={<Briefcase className="h-5 w-5" />}>
-
+        
         <div className="space-y-4">
           <Input
             label="Annual household income"
             value={annualHouseholdIncome}
             onChange={(e) => setAnnualHouseholdIncome(e.target.value)} />
-
+          
           <Input
             label="Monthly household income"
             value={monthlyHouseholdIncome}
             onChange={(e) => setMonthlyHouseholdIncome(e.target.value)} />
-
+          
           <Input
             label="Self-Employment interest"
             value={selfEmploymentInterest}
             onChange={(e) => setSelfEmploymentInterest(e.target.value)} />
-
+          
           <Input
             label="Amount disbursed"
             value={amountDisbursed}
             onChange={(e) => setAmountDisbursed(e.target.value)} />
-
+          
           <Input
             type="date"
             label="Date of disbursement"
             value={disbursementDate}
             onChange={(e) => setDisbursementDate(e.target.value)} />
-
+          
         </div>
       </Accordion>
 
@@ -106,14 +106,14 @@ export function SelfEmploymentForm() {
               setDisbursementDate(data.disbursementDate || '');
             }
           }}>
-
+          
           Cancel
         </Button>
         <Button
           variant="primary"
           onClick={handleSave}
           leftIcon={<CheckCircle className="h-4 w-4" />}>
-
+          
           Save
         </Button>
       </div>

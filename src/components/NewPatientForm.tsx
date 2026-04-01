@@ -102,7 +102,7 @@ export function NewPatientForm() {
           title="Enrollment Details"
           icon={<Calendar className="h-5 w-5" />}
           defaultOpen={true}>
-
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               label="Enrolling Organisation Unit"
@@ -111,19 +111,19 @@ export function NewPatientForm() {
               placeholder="Enter organisation unit name"
               readOnly
               className="bg-gray-100 cursor-not-allowed" />
-
+            
             <Input
               type="date"
               label="Enrollment Date"
               value={enrollmentDate}
               onChange={(e) => setEnrollmentDate(e.target.value)} />
-
+            
             <Input
               type="date"
               label="Incident Date"
               value={incidentDate}
               onChange={(e) => setIncidentDate(e.target.value)} />
-
+            
           </div>
         </Accordion>
 
@@ -132,7 +132,7 @@ export function NewPatientForm() {
           title="Profile Details"
           icon={<User className="h-5 w-5" />}
           defaultOpen={true}>
-
+          
           <div className="space-y-6">
             {/* Basic Info */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -141,7 +141,7 @@ export function NewPatientForm() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Full Name" />
-
+              
               <div>
                 <label className="block text-sm font-medium text-neutral-secondary mb-2">
                   Gender *
@@ -150,7 +150,7 @@ export function NewPatientForm() {
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}>
-
+                  
                   <option value="">Select Gender</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
@@ -162,13 +162,13 @@ export function NewPatientForm() {
                 label="Age"
                 value={age}
                 onChange={(e) => setAge(e.target.value)} />
-
+              
               <Input
                 type="date"
                 label="Date of Birth"
                 value={dateOfBirth}
                 onChange={(e) => setDateOfBirth(e.target.value)} />
-
+              
               <div>
                 <label className="block text-sm font-medium text-neutral-secondary mb-2">
                   Education
@@ -177,7 +177,7 @@ export function NewPatientForm() {
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                   value={education}
                   onChange={(e) => setEducation(e.target.value)}>
-
+                  
                   <option value="">Select Education</option>
                   <option value="Matric">Matric</option>
                   <option value="Illiterate">Illiterate</option>
@@ -196,7 +196,7 @@ export function NewPatientForm() {
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                   value={maritalStatus}
                   onChange={(e) => setMaritalStatus(e.target.value)}>
-
+                  
                   <option value="">Select Status</option>
                   <option value="Widowed">Widowed</option>
                   <option value="Separated">Separated</option>
@@ -213,7 +213,7 @@ export function NewPatientForm() {
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                   value={caste}
                   onChange={(e) => setCaste(e.target.value)}>
-
+                  
                   <option value="">Select Caste</option>
                   <option value="General">General</option>
                   <option value="OBC">OBC</option>
@@ -232,7 +232,7 @@ export function NewPatientForm() {
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                   value={socioEconomic}
                   onChange={(e) => setSocioEconomic(e.target.value)}>
-
+                  
                   <option value="">Select Class</option>
                   <option value="BPL">BPL</option>
                   <option value="APL">APL</option>
@@ -249,23 +249,23 @@ export function NewPatientForm() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="10-digit mobile number" />
-
+              
               <Input
                 label="Address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)} />
-
+              
               <Input
                 label="Panchayat"
                 value={panchayat}
                 onChange={(e) => setPanchayat(e.target.value)} />
-
+              
               <Input
                 type="number"
                 label="No. of family members"
                 value={familyMembers}
                 onChange={(e) => setFamilyMembers(e.target.value)} />
-
+              
             </div>
 
             {/* Identification Details */}
@@ -275,17 +275,17 @@ export function NewPatientForm() {
                 label="Date of Identification"
                 value={dateIdentified}
                 onChange={(e) => setDateIdentified(e.target.value)} />
-
+              
               <Input
                 label="Informant Name"
                 value={informantName}
                 onChange={(e) => setInformantName(e.target.value)} />
-
+              
               <Input
                 label="Relationship to PWMI"
                 value={informantRelation}
                 onChange={(e) => setInformantRelation(e.target.value)} />
-
+              
               <div>
                 <label className="block text-sm font-medium text-neutral-secondary mb-2">
                   Was the PWMI referred by someone?
@@ -298,7 +298,7 @@ export function NewPatientForm() {
                       checked={referredBySomeone === 'Yes'}
                       onChange={() => setReferredBySomeone('Yes')}
                       className="text-teal focus:ring-teal" />
-
+                    
                     <span className="text-sm text-gray-700">Yes</span>
                   </label>
                   <label className="flex items-center gap-2 cursor-pointer">
@@ -308,7 +308,7 @@ export function NewPatientForm() {
                       checked={referredBySomeone === 'No'}
                       onChange={() => setReferredBySomeone('No')}
                       className="text-teal focus:ring-teal" />
-
+                    
                     <span className="text-sm text-gray-700">No</span>
                   </label>
                 </div>
@@ -319,12 +319,12 @@ export function NewPatientForm() {
                   label="Name of Referrer"
                   value={referrerName}
                   onChange={(e) => setReferrerName(e.target.value)} />
-
+                
                   <Input
                   label="Contact of Referrer"
                   value={referrerContact}
                   onChange={(e) => setReferrerContact(e.target.value)} />
-
+                
                 </>
               }
             </div>
@@ -339,7 +339,7 @@ export function NewPatientForm() {
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                   value={primaryCaregiver}
                   onChange={(e) => setPrimaryCaregiver(e.target.value)}>
-
+                  
                   <option value="">Select Caregiver</option>
                   <option value="Father">Father</option>
                   <option value="Mother">Mother</option>
@@ -362,7 +362,7 @@ export function NewPatientForm() {
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                   value={sourceOfInformation}
                   onChange={(e) => setSourceOfInformation(e.target.value)}>
-
+                  
                   <option value="">Select Source</option>
                   <option value="Source 1">Source 1</option>
                   <option value="Source 2">Source 2</option>
@@ -375,7 +375,7 @@ export function NewPatientForm() {
                 label="Name of Field Worker"
                 value={fieldWorker}
                 onChange={(e) => setFieldWorker(e.target.value)} />
-
+              
             </div>
           </div>
         </Accordion>
@@ -393,7 +393,7 @@ export function NewPatientForm() {
           variant="primary"
           leftIcon={<UserPlus className="h-4 w-4" />}
           onClick={handleSave}>
-
+          
           Register Patient
         </Button>
       </div>

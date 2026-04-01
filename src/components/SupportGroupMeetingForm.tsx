@@ -181,13 +181,13 @@ export function SupportGroupMeetingForm({
               onChange={(e) => setActivityDate(e.target.value)}
               disabled={isViewOnly}
               required />
-
+            
             <Input
               label="Organisation unit *"
               value={organisationUnit}
               readOnly
               className="bg-gray-100 text-gray-500" />
-
+            
           </div>
         </Accordion>
 
@@ -200,28 +200,28 @@ export function SupportGroupMeetingForm({
               value={time}
               onChange={(e) => setTime(e.target.value)}
               disabled={isViewOnly} />
-
+            
             <Input
               type="number"
               label="PWMIs participated"
               value={pwmisParticipated}
               onChange={(e) => setPwmisParticipated(e.target.value)}
               disabled={isViewOnly} />
-
+            
             <Input
               type="number"
               label="Caregivers participated"
               value={caregiversParticipated}
               onChange={(e) => setCaregiversParticipated(e.target.value)}
               disabled={isViewOnly} />
-
+            
             <Input
               type="number"
               label="Other participants (volunteers, etc.)"
               value={otherParticipants}
               onChange={(e) => setOtherParticipants(e.target.value)}
               disabled={isViewOnly} />
-
+            
           </div>
         </Accordion>
 
@@ -229,38 +229,38 @@ export function SupportGroupMeetingForm({
         <Accordion
           title="Topics Covered"
           icon={<MessageSquare className="h-5 w-5" />}>
-
+          
           <div className="space-y-4">
             <Input
               label="Name of topic (1)"
               value={topic1}
               onChange={(e) => setTopic1(e.target.value)}
               disabled={isViewOnly} />
-
+            
             <Input
               label="Name of topic (2)"
               value={topic2}
               onChange={(e) => setTopic2(e.target.value)}
               disabled={isViewOnly} />
-
+            
             <Input
               label="Name of topic (3)"
               value={topic3}
               onChange={(e) => setTopic3(e.target.value)}
               disabled={isViewOnly} />
-
+            
             <Input
               label="Name of topic (4)"
               value={topic4}
               onChange={(e) => setTopic4(e.target.value)}
               disabled={isViewOnly} />
-
+            
             <Input
               label="Name of topic (5)"
               value={topic5}
               onChange={(e) => setTopic5(e.target.value)}
               disabled={isViewOnly} />
-
+            
           </div>
         </Accordion>
 
@@ -268,7 +268,7 @@ export function SupportGroupMeetingForm({
         <Accordion
           title="Type of Activities"
           icon={<ListChecks className="h-5 w-5" />}>
-
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {activityOptions.map((opt) =>
             <Checkbox
@@ -290,28 +290,28 @@ export function SupportGroupMeetingForm({
             value={keyPointsDiscussed}
             onChange={(e) => setKeyPointsDiscussed(e.target.value)}
             disabled={isViewOnly} />
-
+          
         </Accordion>
 
         {/* 6. Action Items / Follow-Up */}
         <Accordion
           title="Action Items / Follow-Up"
           icon={<ListChecks className="h-5 w-5" />}>
-
+          
           <TextArea
             label="Action items for follow-up"
             rows={4}
             value={actionItemsFollowUp}
             onChange={(e) => setActionItemsFollowUp(e.target.value)}
             disabled={isViewOnly} />
-
+          
         </Accordion>
 
         {/* 7. Challenges */}
         <Accordion
           title="Challenges"
           icon={<AlertCircle className="h-5 w-5" />}>
-
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {challengeOptions.map((opt) =>
             <Checkbox
@@ -329,7 +329,7 @@ export function SupportGroupMeetingForm({
         <Accordion
           title="Supporting Documents"
           icon={<FileText className="h-5 w-5" />}>
-
+          
           <div className="text-sm text-gray-500 italic p-2">
             File upload functionality is not available in this demo.
           </div>
@@ -339,26 +339,26 @@ export function SupportGroupMeetingForm({
         <Accordion
           title="Meeting Facilitated by"
           icon={<UserCheck className="h-5 w-5" />}>
-
+          
           <div className="space-y-4">
             <Input
               label="Meeting notes written by"
               value={meetingNotesWrittenBy}
               onChange={(e) => setMeetingNotesWrittenBy(e.target.value)}
               disabled={isViewOnly} />
-
+            
             <Input
               label="Facilitator's name"
               value={facilitatorName}
               onChange={(e) => setFacilitatorName(e.target.value)}
               disabled={isViewOnly} />
-
+            
             <Input
               label="Facilitator's role"
               value={facilitatorRole}
               onChange={(e) => setFacilitatorRole(e.target.value)}
               disabled={isViewOnly} />
-
+            
           </div>
         </Accordion>
 
@@ -369,7 +369,7 @@ export function SupportGroupMeetingForm({
             checked={completeEvent}
             onChange={(e) => setCompleteEvent(e.target.checked)}
             disabled={isViewOnly} />
-
+          
         </Accordion>
 
         {/* 11. Notes */}
@@ -380,14 +380,14 @@ export function SupportGroupMeetingForm({
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             disabled={isViewOnly} />
-
+          
         </Accordion>
 
         {/* 12. Members Attended */}
         <Accordion
           title={`Members Attended (PWMI) — ${attendeePatientIds.length} selected`}
           icon={<Users className="h-5 w-5" />}>
-
+          
           <div className="space-y-3">
             <p className="text-sm text-neutral-secondary">
               Select patients who attended this meeting. This will add the
@@ -404,7 +404,7 @@ export function SupportGroupMeetingForm({
                 onChange={(e) => setMemberSearch(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal focus:border-teal"
                 disabled={isViewOnly} />
-
+              
             </div>
 
             {/* Table */}
@@ -438,7 +438,7 @@ export function SupportGroupMeetingForm({
                       <td
                       colSpan={6}
                       className="px-4 py-6 text-center text-gray-500">
-
+                      
                         No registered patients found.
                       </td>
                     </tr> :
@@ -465,7 +465,7 @@ export function SupportGroupMeetingForm({
                           handleAttendeeChange(patient.id, !isChecked);
                         }}
                         className={`border-b border-gray-100 transition-colors ${isChecked ? 'bg-teal/5' : 'bg-white'} ${!isViewOnly ? 'cursor-pointer hover:bg-teal/10' : ''}`}>
-
+                        
                             <td className="px-4 py-2.5 text-center border-r border-gray-100">
                               <input
                             type="checkbox"
@@ -478,7 +478,7 @@ export function SupportGroupMeetingForm({
                             }
                             disabled={isViewOnly}
                             className="h-4 w-4 rounded border-gray-300 text-teal focus:ring-teal cursor-pointer" />
-
+                          
                             </td>
                             <td className="px-4 py-2.5 font-medium text-gray-900 border-r border-gray-100">
                               {patient.name}
@@ -525,7 +525,7 @@ export function SupportGroupMeetingForm({
           variant="primary"
           leftIcon={<CheckCircle className="h-4 w-4" />}
           onClick={handleSave}>
-
+          
             Save Meeting
           </Button>
         </div>

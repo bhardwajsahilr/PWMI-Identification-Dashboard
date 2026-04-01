@@ -101,7 +101,7 @@ export function OrgUnitTree() {
                 <div
                   key={village.name}
                   className={`flex items-center gap-1.5 py-0.5 pl-3 ${village.active ? 'text-orange-600 font-bold bg-orange-50 rounded mx-1' : 'text-gray-600'}`}>
-
+                  
                     <span className="w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0"></span>
                     <span>{village.name}</span>
                   </div>

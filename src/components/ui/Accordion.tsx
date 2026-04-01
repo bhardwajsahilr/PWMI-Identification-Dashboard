@@ -18,11 +18,11 @@ export function Accordion({
   return (
     <div
       className={`rounded-lg overflow-hidden shadow-sm border border-gray-100 ${className}`}>
-
+      
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between px-6 py-4 bg-teal text-white hover:bg-teal-dark transition-colors text-left">
-
+        
         <div className="flex items-center gap-3">
           {icon}
           <span className="font-semibold text-lg">{title}</span>
@@ -36,7 +36,7 @@ export function Accordion({
 
       <div
         className={`bg-white transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-
+        
         <div className="p-6 border-t border-gray-100">{children}</div>
       </div>
     </div>);

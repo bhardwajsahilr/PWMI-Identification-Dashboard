@@ -305,7 +305,7 @@ export function PatientProvider({ children }: {children: ReactNode;}) {
         cancelNewPatient,
         deletePatient
       }}>
-
+      
       {children}
     </PatientContext.Provider>);
 

@@ -131,7 +131,7 @@ export function FollowUpForm() {
           checked={value === 'Yes'}
           onChange={() => onChange('Yes')}
           className="w-4 h-4 text-teal border-gray-300 focus:ring-teal" />
-
+        
           <span className="text-sm">Yes</span>
         </label>
         <label className="flex items-center gap-2 cursor-pointer">
@@ -141,7 +141,7 @@ export function FollowUpForm() {
           checked={value === 'No'}
           onChange={() => onChange('No')}
           className="w-4 h-4 text-teal border-gray-300 focus:ring-teal" />
-
+        
           <span className="text-sm">No</span>
         </label>
       </div>
@@ -169,7 +169,7 @@ export function FollowUpForm() {
           onClick={() => setShowNewForm(!showNewForm)}
           leftIcon={showNewForm ? undefined : <Plus className="h-4 w-4" />}
           variant={showNewForm ? 'ghost' : 'primary'}>
-
+          
           {showNewForm ? 'Cancel' : 'Add Follow-Up'}
         </Button>
       </div>
@@ -189,7 +189,7 @@ export function FollowUpForm() {
                 setFollowUpDate(e.target.value);
                 if (e.target.value) setDateError('');
               }} />
-
+            
               {dateError &&
             <p className="text-sm text-coral mt-1.5 font-medium">
                   {dateError}
@@ -201,14 +201,14 @@ export function FollowUpForm() {
             label="Date of next follow-up"
             value={nextFollowUpDate}
             onChange={(e) => setNextFollowUpDate(e.target.value)} />
-
+          
           </div>
 
           {/* Section 1: Follow-Up Details */}
           <Accordion
           title="Follow-Up Details"
           icon={<Calendar className="h-5 w-5" />}>
-
+          
             <div className="space-y-0 rounded-lg border border-gray-200 overflow-hidden">
               <div className="flex items-center justify-between py-3 px-4 bg-white border-b border-gray-100">
                 <span className="text-sm font-medium text-neutral-secondary">
@@ -220,23 +220,23 @@ export function FollowUpForm() {
                 value={mode}
                 onChange={(e) => setMode(e.target.value)}
                 placeholder="Enter mode" />
-
+              
               </div>
               <RadioGroup
               label="PWMI availed counselling?"
               value={availedCounselling}
               onChange={setAvailedCounselling} />
-
+            
               <RadioGroup
               label="PWMI availed therapy?"
               value={availedTherapy}
               onChange={setAvailedTherapy} />
-
+            
               <RadioGroup
               label="Medications taken?"
               value={medicationsTaken}
               onChange={setMedicationsTaken} />
-
+            
             </div>
           </Accordion>
 
@@ -244,20 +244,20 @@ export function FollowUpForm() {
           <Accordion
           title="Reason for Non-adherence to Medications"
           icon={<Pill className="h-5 w-5" />}>
-
+          
             <div className="space-y-0 rounded-lg border border-gray-200 overflow-hidden">
               {NON_ADHERENCE_REASONS.map((reason, i) =>
             <div
               key={reason}
               className={`flex items-center gap-3 py-3 px-4 ${i % 2 === 0 ? 'bg-gray-50/50' : 'bg-white'} border-b border-gray-100 last:border-b-0`}>
-
+              
                   <Checkbox
                 label={reason}
                 checked={nonAdherenceReasons.includes(reason)}
                 onChange={(e) =>
                 handleNonAdherenceReasonChange(reason, e.target.checked)
                 } />
-
+              
                 </div>
             )}
               <div className="flex items-center gap-3 py-3 px-4 bg-gray-50/50 border-t border-gray-100">
@@ -270,7 +270,7 @@ export function FollowUpForm() {
                 value={otherNonAdherenceReason}
                 onChange={(e) => setOtherNonAdherenceReason(e.target.value)}
                 placeholder="" />
-
+              
               </div>
             </div>
           </Accordion>
@@ -279,13 +279,13 @@ export function FollowUpForm() {
           <Accordion
           title="Side-Effects Details"
           icon={<AlertTriangle className="h-5 w-5" />}>
-
+          
             <div className="space-y-0 rounded-lg border border-gray-200 overflow-hidden">
               <RadioGroup
               label="Side-effects reported?"
               value={sideEffectsReported}
               onChange={setSideEffectsReported} />
-
+            
               <div className="flex items-center justify-between py-3 px-4 bg-white border-b border-gray-100">
                 <span className="text-sm font-medium text-neutral-secondary">
                   Days since symptoms onset
@@ -296,7 +296,7 @@ export function FollowUpForm() {
                 value={daysSinceOnset}
                 onChange={(e) => setDaysSinceOnset(e.target.value)}
                 placeholder="" />
-
+              
               </div>
               <div className="flex items-center justify-between py-3 px-4 bg-gray-50/50 border-b border-gray-100">
                 <span className="text-sm font-medium text-neutral-secondary">
@@ -308,7 +308,7 @@ export function FollowUpForm() {
                 value={sideEffectTypes}
                 onChange={(e) => setSideEffectTypes(e.target.value)}
                 placeholder="" />
-
+              
               </div>
               <div className="flex items-center justify-between py-3 px-4 bg-white">
                 <span className="text-sm font-medium text-neutral-secondary">
@@ -320,7 +320,7 @@ export function FollowUpForm() {
                 value={sideEffectSeverity}
                 onChange={(e) => setSideEffectSeverity(e.target.value)}
                 placeholder="" />
-
+              
               </div>
             </div>
           </Accordion>
@@ -329,7 +329,7 @@ export function FollowUpForm() {
           <Accordion
           title="Caregiver's Observations"
           icon={<Eye className="h-5 w-5" />}>
-
+          
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-neutral-secondary mb-2">
@@ -339,7 +339,7 @@ export function FollowUpForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={behaviourReported}
                 onChange={(e) => setBehaviourReported(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Aggression">Aggression</option>
                   <option value="Self-harm">Self-harm</option>
@@ -358,7 +358,7 @@ export function FollowUpForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={caregiverSupport}
                 onChange={(e) => setCaregiverSupport(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="High – Caregiver assists in nearly all daily activities (bathing, eating, meds, supervision)">
                     High – Caregiver assists in nearly all daily activities
@@ -385,7 +385,7 @@ export function FollowUpForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={functionalIndependence}
                 onChange={(e) => setFunctionalIndependence(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Independent – Manages self-care, work, and daily tasks without help">
                     Independent – Manages self-care, work, and daily tasks
@@ -411,7 +411,7 @@ export function FollowUpForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={severityRating}
                 onChange={(e) => setSeverityRating(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Mild – Symptoms manageable; PWMI largely functional">
                     Mild – Symptoms manageable; PWMI largely functional
@@ -441,7 +441,7 @@ export function FollowUpForm() {
             variant="primary"
             onClick={handleSave}
             leftIcon={<CheckCircle className="h-4 w-4" />}>
-
+            
               Save
             </Button>
           </div>
@@ -478,14 +478,14 @@ export function FollowUpForm() {
                     {entry.availedCounselling &&
                 <span
                   className={`inline-block text-xs px-2.5 py-1 rounded-full ${entry.availedCounselling === 'Yes' ? 'bg-teal/10 text-teal' : 'bg-gray-100 text-gray-600'}`}>
-
+                  
                         Counselling: {entry.availedCounselling}
                       </span>
                 }
                     {entry.medicationsTaken &&
                 <span
                   className={`inline-block text-xs px-2.5 py-1 rounded-full ${entry.medicationsTaken === 'Yes' ? 'bg-teal/10 text-teal' : 'bg-gray-100 text-gray-600'}`}>
-
+                  
                         Meds: {entry.medicationsTaken}
                       </span>
                 }

@@ -82,14 +82,14 @@ export function PatientList({
               search: e.target.value
             })
             } />
-
+          
         </div>
 
         <Button
           onClick={onAddNew}
           className="w-full"
           leftIcon={<Plus className="h-4 w-4" />}>
-
+          
           {activeTab === 'identification' ?
           'Register / Add New Client' :
           'Enroll Client'}
@@ -106,7 +106,7 @@ export function PatientList({
             })
             }
             className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${filter.status === option ? option === 'High Risk' ? 'bg-coral text-white border-coral' : 'bg-skyBlue text-white border-skyBlue' : option === 'High Risk' ? 'bg-white text-coral border-coral hover:bg-coral/5' : 'bg-white text-skyBlue border-skyBlue hover:bg-skyBlue/5'}`}>
-
+            
               {option}
             </button>
           )}
@@ -127,7 +127,7 @@ export function PatientList({
           accent="left"
           accentColor="softPink"
           className={`p-4 transition-all ${selectedId === patient.id ? 'ring-2 ring-teal ring-offset-2' : 'hover:translate-x-1'}`}>
-
+          
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <h3 className="font-bold text-neutral-text">
@@ -139,7 +139,7 @@ export function PatientList({
                 </div>
                 <Badge
               variant={patient.status === 'Completed' ? 'teal' : 'gray'}>
-
+              
                   {patient.status}
                 </Badge>
               </div>
@@ -156,7 +156,7 @@ export function PatientList({
               'softPink' :
               'teal'
               }>
-
+              
                   {patient.riskLevel} Risk
                 </Badge>
               </div>

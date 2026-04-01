@@ -157,7 +157,7 @@ export function PatientForm() {
                     variant={
                     patient.status === 'Completed' ? 'teal' : 'softPink'
                     }>
-
+                    
                     {patient.status}
                   </Badge>
                 </div>
@@ -168,7 +168,7 @@ export function PatientForm() {
                 variant="ghost"
                 size="sm"
                 leftIcon={<Printer className="h-4 w-4" />}>
-
+                
                 Print
               </Button>
               <Button
@@ -177,7 +177,7 @@ export function PatientForm() {
                 className="text-red-500 hover:text-red-600 hover:bg-red-50"
                 leftIcon={<Trash2 className="h-4 w-4" />}
                 onClick={() => deletePatient(patient.id)}>
-
+                
                 Delete
               </Button>
             </div>
@@ -225,7 +225,7 @@ export function PatientForm() {
         <Accordion
           title="Symptoms Screening (Tick all that apply)"
           icon={<Activity className="h-5 w-5" />}>
-
+          
           <div className="space-y-4">
             <div className="w-full md:w-1/3">
               <Input
@@ -233,7 +233,7 @@ export function PatientForm() {
                 label="Date of Screening"
                 value={screeningDate}
                 onChange={(e) => setScreeningDate(e.target.value)} />
-
+              
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               {symptomList.map((symptom) =>
@@ -254,7 +254,7 @@ export function PatientForm() {
                 placeholder="No other symptoms"
                 value={otherSymptoms}
                 onChange={(e) => setOtherSymptoms(e.target.value)} />
-
+              
             </div>
           </div>
         </Accordion>
@@ -263,7 +263,7 @@ export function PatientForm() {
         <Accordion
           title="Functional Impact Classification (Tick all that apply)"
           icon={<ClipboardCheck className="h-5 w-5" />}>
-
+          
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {impactList.map((impact) =>
@@ -278,7 +278,7 @@ export function PatientForm() {
                 label="Has tried to harm self or has suicidal thoughts"
                 checked={suicidalThoughts}
                 onChange={(e) => setSuicidalThoughts(e.target.checked)} />
-
+              
             </div>
             {suicidalThoughts &&
             <div className="bg-softPink/20 border border-softPink text-neutral-text p-4 rounded-lg flex items-start gap-3 animate-in fade-in slide-in-from-top-2">
@@ -298,7 +298,7 @@ export function PatientForm() {
                 placeholder="No other"
                 value={otherImpacts}
                 onChange={(e) => setOtherImpacts(e.target.value)} />
-
+              
             </div>
           </div>
         </Accordion>
@@ -307,7 +307,7 @@ export function PatientForm() {
         <Accordion
           title="Risk Level Classification"
           icon={<AlertTriangle className="h-5 w-5" />}>
-
+          
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-neutral-secondary mb-2">
@@ -317,7 +317,7 @@ export function PatientForm() {
                 className="w-full md:w-1/2 rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={riskLevel}
                 onChange={(e) => setRiskLevel(e.target.value as RiskLevel)}>
-
+                
                 <option value="Low">
                   Low - Can be managed at community level
                 </option>
@@ -343,7 +343,7 @@ export function PatientForm() {
                 placeholder="Describe the immediate intervention steps taken..."
                 value={riskNotes}
                 onChange={(e) => setRiskNotes(e.target.value)} />
-
+              
               </div>
             }
           </div>
@@ -353,7 +353,7 @@ export function PatientForm() {
         <Accordion
           title="Referral Details"
           icon={<Building2 className="h-5 w-5" />}>
-
+          
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -364,7 +364,7 @@ export function PatientForm() {
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                   value={pwmiReferred}
                   onChange={(e) => setPwmiReferred(e.target.value)}>
-
+                  
                   <option value="">Select or search from the list</option>
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
@@ -375,7 +375,7 @@ export function PatientForm() {
                 label="Date of Referral"
                 value={dateOfReferral}
                 onChange={(e) => setDateOfReferral(e.target.value)} />
-
+              
               <div>
                 <label className="block text-sm font-medium text-neutral-secondary mb-2">
                   Referral facility
@@ -384,7 +384,7 @@ export function PatientForm() {
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                   value={referralFacility}
                   onChange={(e) => setReferralFacility(e.target.value)}>
-
+                  
                   <option value="">Select or search from the list</option>
                   <option value="District Hospital">District Hospital</option>
                   <option value="PHC">PHC</option>
@@ -398,7 +398,7 @@ export function PatientForm() {
                 label="Name of Mental health facility"
                 value={mentalHealthFacilityName}
                 onChange={(e) => setMentalHealthFacilityName(e.target.value)} />
-
+              
             </div>
           </div>
         </Accordion>
@@ -407,7 +407,7 @@ export function PatientForm() {
         <Accordion
           title="Mental Disorder and Disability Details"
           icon={<Brain className="h-5 w-5" />}>
-
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-neutral-secondary mb-2">
@@ -417,7 +417,7 @@ export function PatientForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={mentalDisorderType}
                 onChange={(e) => setMentalDisorderType(e.target.value)}>
-
+                
                 <option value="">Select or search from the list</option>
                 <option value="Depression">Depression</option>
                 <option value="Anxiety Disorder">Anxiety Disorder</option>
@@ -441,7 +441,7 @@ export function PatientForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={disabilityType}
                 onChange={(e) => setDisabilityType(e.target.value)}>
-
+                
                 <option value="">Select or search from the list</option>
                 <option value="Mental Illness">Mental Illness</option>
                 <option value="Intellectual Disability">
@@ -461,7 +461,7 @@ export function PatientForm() {
         <Accordion
           title="Mental Illness Diagnosis"
           icon={<Stethoscope className="h-5 w-5" />}>
-
+          
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -472,7 +472,7 @@ export function PatientForm() {
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                   value={mentalIllnessType}
                   onChange={(e) => setMentalIllnessType(e.target.value)}>
-
+                  
                   <option value="">Select or search from the list</option>
                   <option value="Mild Depression">Mild Depression</option>
                   <option value="Moderate Depression">
@@ -500,7 +500,7 @@ export function PatientForm() {
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                   value={severityOfIllness}
                   onChange={(e) => setSeverityOfIllness(e.target.value)}>
-
+                  
                   <option value="">Select or search from the list</option>
                   <option value="Mild">Mild</option>
                   <option value="Moderate">Moderate</option>
@@ -515,7 +515,7 @@ export function PatientForm() {
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                   value={severityRating}
                   onChange={(e) => setSeverityRating(e.target.value)}>
-
+                  
                   <option value="">Select or search from the list</option>
                   <option value="1 - Minimal">1 - Minimal</option>
                   <option value="2 - Mild">2 - Mild</option>
@@ -534,7 +534,7 @@ export function PatientForm() {
         <Accordion
           title="Consent for Registration in CHMP Program"
           icon={<ShieldCheck className="h-5 w-5" />}>
-
+          
           <div className="space-y-4">
             <div className="w-full md:w-1/2">
               <label className="block text-sm font-medium text-neutral-secondary mb-2">
@@ -544,7 +544,7 @@ export function PatientForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={consentGiven}
                 onChange={(e) => setConsentGiven(e.target.value)}>
-
+                
                 <option value="">Select or search from the list</option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
@@ -568,7 +568,7 @@ export function PatientForm() {
             variant="primary"
             leftIcon={<CheckCircle className="h-4 w-4" />}
             onClick={() => handleSave(true)}>
-
+            
             Save
           </Button>
         </div>

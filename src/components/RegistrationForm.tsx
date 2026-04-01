@@ -30,7 +30,7 @@ export function RegistrationForm() {
               </h2>
               <Badge
                 variant={patient.status === 'Completed' ? 'teal' : 'softPink'}>
-
+                
                 {patient.status}
               </Badge>
               <Badge
@@ -41,7 +41,7 @@ export function RegistrationForm() {
                 'softPink' :
                 'teal'
                 }>
-
+                
                 {patient.riskLevel} Risk
               </Badge>
             </div>

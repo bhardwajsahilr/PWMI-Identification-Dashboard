@@ -161,13 +161,13 @@ export function CaregiverBurdenForm() {
       <Accordion
         title="Caregiver Burden Tool (Zarit Burden Interview)"
         icon={<Heart className="h-5 w-5" />}>
-
+        
         <div className="space-y-1">
           {QUESTIONS.map((question, index) =>
           <div
             key={index}
             className={`py-4 px-4 rounded-lg ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
-
+            
               <p className="font-medium text-neutral-text mb-3 text-sm">
                 {index + 1}. {question}
               </p>
@@ -176,14 +176,14 @@ export function CaregiverBurdenForm() {
               <label
                 key={option.label}
                 className="flex items-center gap-2 cursor-pointer">
-
+                
                     <input
                   type="radio"
                   name={`burden-q${index}`}
                   checked={responses[`q${index}`] === option.val}
                   onChange={() => handleChange(index, option.val)}
                   className="text-teal focus:ring-teal" />
-
+                
                     <span className="text-sm text-gray-700">
                       {option.label}
                     </span>
@@ -200,7 +200,7 @@ export function CaregiverBurdenForm() {
           variant="primary"
           onClick={handleSave}
           leftIcon={<CheckCircle className="h-4 w-4" />}>
-
+          
           Save Assessment
         </Button>
       </div>

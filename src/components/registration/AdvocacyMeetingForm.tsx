@@ -81,7 +81,7 @@ export function AdvocacyMeetingForm() {
           onClick={() => setShowNewForm(!showNewForm)}
           leftIcon={showNewForm ? undefined : <Plus className="h-4 w-4" />}
           variant={showNewForm ? 'ghost' : 'primary'}>
-
+          
           {showNewForm ? 'Cancel' : 'Add Meeting'}
         </Button>
       </div>
@@ -97,19 +97,19 @@ export function AdvocacyMeetingForm() {
             label="Report Date *"
             value={reportDate}
             onChange={(e) => setReportDate(e.target.value)} />
-
+          
             <Input
             type="date"
             label="Due Date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)} />
-
+          
           </div>
 
           <Accordion
           title="Advocacy Meeting"
           icon={<Megaphone className="h-5 w-5" />}>
-
+          
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-neutral-secondary mb-2">
@@ -119,7 +119,7 @@ export function AdvocacyMeetingForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={attended}
                 onChange={(e) => setAttended(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
@@ -138,7 +138,7 @@ export function AdvocacyMeetingForm() {
                     setOtherMeetingType('');
                   }
                 }}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Program Awareness and Sensitization">
                     Program Awareness and Sensitization
@@ -161,27 +161,27 @@ export function AdvocacyMeetingForm() {
               label="Name of topic (1)"
               value={topicName1}
               onChange={(e) => setTopicName1(e.target.value)} />
-
+            
               <Input
               label="Name of topic (2)"
               value={topicName2}
               onChange={(e) => setTopicName2(e.target.value)} />
-
+            
               <Input
               label="Name of topic (3)"
               value={topicName3}
               onChange={(e) => setTopicName3(e.target.value)} />
-
+            
               <Input
               label="Name of topic (4)"
               value={topicName4}
               onChange={(e) => setTopicName4(e.target.value)} />
-
+            
               <Input
               label="Name of topic (5)"
               value={topicName5}
               onChange={(e) => setTopicName5(e.target.value)} />
-
+            
             </div>
           </Accordion>
 
@@ -193,7 +193,7 @@ export function AdvocacyMeetingForm() {
             variant="primary"
             onClick={handleSave}
             leftIcon={<CheckCircle className="h-4 w-4" />}>
-
+            
               Save Meeting
             </Button>
           </div>
@@ -234,7 +234,7 @@ export function AdvocacyMeetingForm() {
                     <span
                       key={i}
                       className="inline-block bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-full">
-
+                      
                             {topic}
                           </span>
                     )}

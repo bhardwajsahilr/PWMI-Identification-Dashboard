@@ -7,7 +7,7 @@ export function Checkbox({ label, className = '', ...props }: CheckboxProps) {
   return (
     <label
       className={`flex items-start space-x-3 cursor-pointer group ${className}`}>
-
+      
       <div className="relative flex items-center">
         <input type="checkbox" className="peer sr-only" {...props} />
         <div className="h-5 w-5 rounded border border-gray-300 bg-white peer-checked:bg-teal peer-checked:border-teal transition-colors flex items-center justify-center">

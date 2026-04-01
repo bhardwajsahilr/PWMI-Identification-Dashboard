@@ -74,7 +74,7 @@ export function VocationalTrainingForm() {
           onClick={() => setShowNewForm(!showNewForm)}
           leftIcon={showNewForm ? undefined : <Plus className="h-4 w-4" />}
           variant={showNewForm ? 'ghost' : 'primary'}>
-
+          
           {showNewForm ? 'Cancel' : 'Add Training'}
         </Button>
       </div>
@@ -90,20 +90,20 @@ export function VocationalTrainingForm() {
             label="Report Date *"
             value={reportDate}
             onChange={(e) => setReportDate(e.target.value)} />
-
+          
           </div>
 
           <Accordion
           title="Vocational Training"
           icon={<GraduationCap className="h-5 w-5" />}>
-
+          
             <div className="space-y-4">
               <Input
               type="date"
               label="Date of the training"
               value={trainingDate}
               onChange={(e) => setTrainingDate(e.target.value)} />
-
+            
               <div>
                 <label className="block text-sm font-medium text-neutral-secondary mb-2">
                   Provider of the training
@@ -112,7 +112,7 @@ export function VocationalTrainingForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={provider}
                 onChange={(e) => setProvider(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Government Body">Government Body</option>
                   <option value="NGO">NGO</option>
@@ -126,7 +126,7 @@ export function VocationalTrainingForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={trainingApplied}
                 onChange={(e) => setTrainingApplied(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Beautification">Beautification</option>
                   <option value="Plumbing">Plumbing</option>
@@ -138,7 +138,7 @@ export function VocationalTrainingForm() {
               label="Date of application"
               value={applicationDate}
               onChange={(e) => setApplicationDate(e.target.value)} />
-
+            
               <div>
                 <label className="block text-sm font-medium text-neutral-secondary mb-2">
                   Current status of application
@@ -147,7 +147,7 @@ export function VocationalTrainingForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={applicationStatus}
                 onChange={(e) => setApplicationStatus(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Submitted">Submitted</option>
                   <option value="Enrolled">Enrolled</option>
@@ -165,7 +165,7 @@ export function VocationalTrainingForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={rejectionReason}
                 onChange={(e) => setRejectionReason(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Missing Documents">Missing Documents</option>
                   <option value="Verification Pending">
@@ -182,7 +182,7 @@ export function VocationalTrainingForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={trainingStarted}
                 onChange={(e) => setTrainingStarted(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
@@ -196,7 +196,7 @@ export function VocationalTrainingForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={trainingCompleted}
                 onChange={(e) => setTrainingCompleted(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
@@ -215,7 +215,7 @@ export function VocationalTrainingForm() {
                     setOtherEmploymentStatus('');
                   }
                 }}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Employed">Employed</option>
                   <option value="Self-employed">Self-employed</option>
@@ -242,7 +242,7 @@ export function VocationalTrainingForm() {
             variant="primary"
             onClick={handleSave}
             leftIcon={<CheckCircle className="h-4 w-4" />}>
-
+            
               Save Training
             </Button>
           </div>
@@ -291,14 +291,14 @@ export function VocationalTrainingForm() {
                     {entry.trainingStarted &&
                 <span
                   className={`inline-block text-xs px-2.5 py-1 rounded-full ${entry.trainingStarted === 'Yes' ? 'bg-teal/10 text-teal' : 'bg-gray-100 text-gray-600'}`}>
-
+                  
                         Started: {entry.trainingStarted}
                       </span>
                 }
                     {entry.trainingCompleted &&
                 <span
                   className={`inline-block text-xs px-2.5 py-1 rounded-full ${entry.trainingCompleted === 'Yes' ? 'bg-teal/10 text-teal' : 'bg-gray-100 text-gray-600'}`}>
-
+                  
                         Completed: {entry.trainingCompleted}
                       </span>
                 }

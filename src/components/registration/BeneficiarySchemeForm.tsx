@@ -60,7 +60,7 @@ export function BeneficiarySchemeForm() {
           onClick={() => setShowNewForm(!showNewForm)}
           leftIcon={showNewForm ? undefined : <Plus className="h-4 w-4" />}
           variant={showNewForm ? 'ghost' : 'primary'}>
-
+          
           {showNewForm ? 'Cancel' : 'Add Scheme Linkage'}
         </Button>
       </div>
@@ -76,31 +76,31 @@ export function BeneficiarySchemeForm() {
             label="Report Date *"
             value={reportDate}
             onChange={(e) => setReportDate(e.target.value)} />
-
+          
             <Input
             type="date"
             label="Due Date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)} />
-
+          
           </div>
 
           <Accordion
           title="Scheme Linkage"
           icon={<Building2 className="h-5 w-5" />}>
-
+          
             <div className="space-y-4">
               <Input
               label="Scheme applied for"
               value={schemeApplied}
               onChange={(e) => setSchemeApplied(e.target.value)} />
-
+            
               <Input
               type="date"
               label="Date of application"
               value={applicationDate}
               onChange={(e) => setApplicationDate(e.target.value)} />
-
+            
               <div>
                 <label className="block text-sm font-medium text-neutral-secondary mb-2">
                   Current status of application
@@ -109,7 +109,7 @@ export function BeneficiarySchemeForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={currentStatus}
                 onChange={(e) => setCurrentStatus(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Submitted">Submitted</option>
                   <option value="Enrolled">Enrolled</option>
@@ -130,7 +130,7 @@ export function BeneficiarySchemeForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={benefitsReceived}
                 onChange={(e) => setBenefitsReceived(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
@@ -147,7 +147,7 @@ export function BeneficiarySchemeForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={rejectionReason}
                 onChange={(e) => setRejectionReason(e.target.value)}>
-
+                
                   <option value="">Select or search from the list</option>
                   <option value="Missing Documents">Missing Documents</option>
                   <option value="Verification Pending">
@@ -170,7 +170,7 @@ export function BeneficiarySchemeForm() {
             variant="primary"
             onClick={handleSave}
             leftIcon={<CheckCircle className="h-4 w-4" />}>
-
+            
               Save
             </Button>
           </div>
@@ -210,7 +210,7 @@ export function BeneficiarySchemeForm() {
                     {entry.benefitsReceived &&
                 <span
                   className={`inline-block text-xs px-2.5 py-1 rounded-full ${entry.benefitsReceived === 'Yes' ? 'bg-teal/10 text-teal' : 'bg-gray-100 text-gray-600'}`}>
-
+                  
                         Benefits: {entry.benefitsReceived}
                       </span>
                 }

@@ -107,7 +107,7 @@ export function IdentificationSummary() {
       <SummarySection
         title="Symptoms Screening"
         icon={<Activity className="h-5 w-5" />}>
-
+        
         <div className="space-y-2">
           {data.symptoms.length > 0 ?
           <div className="flex flex-wrap gap-2">
@@ -115,7 +115,7 @@ export function IdentificationSummary() {
             <span
               key={symptom}
               className="inline-flex items-center gap-1.5 bg-softPink/15 text-neutral-text text-xs font-medium px-3 py-1.5 rounded-full">
-
+              
                   <span className="w-1.5 h-1.5 rounded-full bg-coral"></span>
                   {symptom}
                 </span>
@@ -139,7 +139,7 @@ export function IdentificationSummary() {
       <SummarySection
         title="Functional Impact Classification"
         icon={<ClipboardCheck className="h-5 w-5" />}>
-
+        
         <div className="space-y-2">
           {data.functionalImpacts.length > 0 ?
           <div className="flex flex-wrap gap-2">
@@ -147,7 +147,7 @@ export function IdentificationSummary() {
             <span
               key={impact}
               className="inline-flex items-center gap-1.5 bg-amber-50 text-amber-800 text-xs font-medium px-3 py-1.5 rounded-full">
-
+              
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
                   {impact}
                 </span>
@@ -181,7 +181,7 @@ export function IdentificationSummary() {
       <SummarySection
         title="Risk Level Classification"
         icon={<AlertTriangle className="h-5 w-5" />}>
-
+        
         <div className="flex items-center gap-3">
           <Badge variant={riskVariant} className="text-sm px-4 py-1.5">
             {data.riskLevel} Risk
@@ -205,7 +205,7 @@ export function IdentificationSummary() {
       <SummarySection
         title="Referral Details"
         icon={<Building2 className="h-5 w-5" />}>
-
+        
         <div className="space-y-0">
           <FieldRow label="PWMI Referred?" value={data.pwmiReferred} />
           <FieldRow label="Date of Referral" value={data.dateOfReferral} />
@@ -213,7 +213,7 @@ export function IdentificationSummary() {
           <FieldRow
             label="Mental Health Facility"
             value={data.mentalHealthFacilityName} />
-
+          
         </div>
       </SummarySection>
 
@@ -221,12 +221,12 @@ export function IdentificationSummary() {
       <SummarySection
         title="Mental Disorder and Disability Details"
         icon={<Brain className="h-5 w-5" />}>
-
+        
         <div className="space-y-0">
           <FieldRow
             label="Type of Mental Disorder"
             value={data.mentalDisorderType} />
-
+          
           <FieldRow label="Type of Disability" value={data.disabilityType} />
         </div>
       </SummarySection>
@@ -235,16 +235,16 @@ export function IdentificationSummary() {
       <SummarySection
         title="Mental Illness Diagnosis"
         icon={<Stethoscope className="h-5 w-5" />}>
-
+        
         <div className="space-y-0">
           <FieldRow
             label="Type of Mental Illness"
             value={data.mentalIllnessType} />
-
+          
           <FieldRow
             label="Severity of Illness"
             value={data.severityOfIllness} />
-
+          
           <FieldRow label="Severity Rating" value={data.severityRating} />
         </div>
       </SummarySection>
@@ -253,7 +253,7 @@ export function IdentificationSummary() {
       <SummarySection
         title="Consent for Registration in CHMP Program"
         icon={<ShieldCheck className="h-5 w-5" />}>
-
+        
         <div className="flex items-center gap-3">
           {data.consentGiven === 'Yes' ?
           <Badge variant="teal" className="text-sm px-4 py-1.5">

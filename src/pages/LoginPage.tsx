@@ -27,7 +27,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
         style={{
           backgroundImage: `url('https://cdn.magicpatterns.com/uploads/bBx2s9PL78xkSLtLfeuDR6/Generated_Image_February_14,_2026_-_3_01PM.jpg')`
         }} />
-
+      
 
       {/* Subtle overlay on left for readability */}
       <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/40 to-transparent" />
@@ -41,7 +41,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
               src="/Untitled_design_(2).png"
               alt="TLLLF Logo"
               className="h-20 w-auto" />
-
+            
             <span className="text-base font-bold text-neutral-text tracking-[0.1em] uppercase leading-tight">
               The Live Love Laugh
               <br />
@@ -73,7 +73,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Enter your username"
                   className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-neutral-text placeholder-gray-400 focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/20 transition-all" />
-
+                
               </div>
 
               <div>
@@ -87,12 +87,12 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
                     className="w-full rounded-lg border border-gray-300 px-4 py-2.5 pr-11 text-neutral-text placeholder-gray-400 focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/20 transition-all" />
-
+                  
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-neutral-text transition-colors">
-
+                    
                     {showPassword ?
                     <EyeOff className="h-4.5 w-4.5" /> :
 
@@ -111,7 +111,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
               <button
                 type="submit"
                 className="w-full bg-teal hover:bg-teal-dark text-white font-semibold py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
-
+                
                 <LogIn className="h-4 w-4" />
                 Sign In
               </button>

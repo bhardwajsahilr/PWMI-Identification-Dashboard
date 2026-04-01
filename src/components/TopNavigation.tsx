@@ -2,7 +2,11 @@ import React from 'react';
 import { usePatient } from '../context/PatientContext';
 import { ModuleTab } from '../types';
 import { ChevronDown, ArrowLeft } from 'lucide-react';
-export function TopNavigation() {
+import { ProgramType } from '../App';
+interface TopNavigationProps {
+  program?: ProgramType | null;
+}
+export function TopNavigation({ program }: TopNavigationProps) {
   const {
     activeTab,
     setActiveTab,
@@ -79,15 +83,25 @@ export function TopNavigation() {
                 value={activeTab}
                 onChange={handleTabChange}
                 className="appearance-none bg-gray-50 border border-gray-300 text-gray-800 font-semibold text-sm py-1.5 pl-4 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal focus:border-teal cursor-pointer hover:bg-gray-100 transition-colors">
-
-                <option value="identification">PWMI Identification</option>
-                <option value="registration">
-                  PWMI Registration &amp; Services
-                </option>
-                <option value="monthly-monitoring">Monthly Monitoring</option>
-                <option value="support-group-meeting">
-                  Support Group Meeting
-                </option>
+                
+                {(!program || program === 'clinical') &&
+                <>
+                    <option value="identification">PWMI Identification</option>
+                    <option value="registration">
+                      PWMI Registration &amp; Services
+                    </option>
+                  </>
+                }
+                {(!program || program === 'community') &&
+                <>
+                    <option value="monthly-monitoring">
+                      Monthly Monitoring
+                    </option>
+                    <option value="support-group-meeting">
+                      Support Group Meeting
+                    </option>
+                  </>
+                }
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
                 <ChevronDown className="h-4 w-4" />
@@ -98,7 +112,7 @@ export function TopNavigation() {
             <button
               onClick={handleBack}
               className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-teal transition-colors">
-
+              
                 <ArrowLeft className="h-4 w-4" />
                 {backLabel}
               </button>

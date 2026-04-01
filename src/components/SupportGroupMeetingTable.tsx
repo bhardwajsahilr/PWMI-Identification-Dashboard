@@ -39,14 +39,14 @@ export function SupportGroupMeetingTable({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal focus:border-teal" />
-
+          
         </div>
 
         <Button
           onClick={onNewMeeting}
           leftIcon={<Plus className="h-4 w-4" />}
           className="flex-shrink-0">
-
+          
           New Support Group Meeting
         </Button>
       </div>
@@ -92,7 +92,7 @@ export function SupportGroupMeetingTable({
                 <td
                 colSpan={6}
                 className="px-6 py-10 text-center text-gray-500">
-
+                
                   No support group meetings found.
                 </td>
               </tr> :
@@ -102,7 +102,7 @@ export function SupportGroupMeetingTable({
               key={record.id}
               onClick={() => onSelectRecord(record.id)}
               className="bg-white border-b border-gray-100 hover:bg-teal/5 cursor-pointer transition-colors">
-
+              
                   <td className="px-6 py-3 font-medium text-gray-900 border-r border-gray-100">
                     {record.activityDate}
                   </td>
@@ -129,7 +129,7 @@ export function SupportGroupMeetingTable({
                     onSelectRecord(record.id);
                   }}
                   className="inline-flex items-center gap-1 text-xs font-medium text-teal hover:text-teal-dark transition-colors">
-
+                  
                       <Eye className="h-3.5 w-3.5" /> View
                     </button>
                   </td>

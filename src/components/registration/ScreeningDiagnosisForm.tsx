@@ -150,14 +150,14 @@ export function ScreeningDiagnosisForm() {
         <div
           key={stage.label}
           className="flex items-center flex-1 last:flex-none">
-
+          
             <div className="flex flex-col items-center relative z-10">
               <div
               className={`w-4 h-4 rounded-full border-2 ${stage.status === 'completed' ? 'bg-teal border-teal' : stage.status === 'active' ? 'bg-coral border-coral animate-pulse' : 'bg-white border-gray-300'}`} />
-
+            
               <span
               className={`text-xs mt-2 font-medium ${stage.status === 'active' ? 'text-coral' : stage.status === 'completed' ? 'text-teal' : 'text-gray-400'}`}>
-
+              
                 {stage.label}
               </span>
             </div>
@@ -173,7 +173,7 @@ export function ScreeningDiagnosisForm() {
       <Accordion
         title="Symptoms Screening"
         icon={<Activity className="h-5 w-5" />}>
-
+        
         <div className="space-y-4">
           <div className="bg-softPink/20 p-3 rounded-md text-sm text-neutral-text">
             Carried forward from PWMI Identification. You may update if symptoms
@@ -194,14 +194,14 @@ export function ScreeningDiagnosisForm() {
             rows={2}
             value={otherSymptoms}
             onChange={(e) => setOtherSymptoms(e.target.value)} />
-
+          
         </div>
       </Accordion>
 
       <Accordion
         title="Functional Impact Classification"
         icon={<ClipboardCheck className="h-5 w-5" />}>
-
+        
         <div className="space-y-4">
           <div className="bg-softPink/20 p-3 rounded-md text-sm text-neutral-text">
             Carried forward from PWMI Identification. You may update if impacts
@@ -220,7 +220,7 @@ export function ScreeningDiagnosisForm() {
               label="Self-harm attempt or suicidal thoughts"
               checked={suicidalThoughts}
               onChange={(e) => setSuicidalThoughts(e.target.checked)} />
-
+            
           </div>
           {suicidalThoughts &&
           <div className="bg-softPink/20 border border-softPink text-neutral-text p-4 rounded-lg flex items-start gap-3">
@@ -238,14 +238,14 @@ export function ScreeningDiagnosisForm() {
             label="Other (Specify)"
             value={otherImpacts}
             onChange={(e) => setOtherImpacts(e.target.value)} />
-
+          
         </div>
       </Accordion>
 
       <Accordion
         title="Risk Level Classification"
         icon={<AlertTriangle className="h-5 w-5" />}>
-
+        
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-neutral-secondary mb-2">
@@ -255,7 +255,7 @@ export function ScreeningDiagnosisForm() {
               className="w-full md:w-1/2 rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
               value={riskLevel}
               onChange={(e) => setRiskLevel(e.target.value as RiskLevel)}>
-
+              
               <option value="Low">Low – Monitor</option>
               <option value="Moderate">Moderate – Needs consultation</option>
               <option value="High">High – Urgent attention</option>
@@ -274,7 +274,7 @@ export function ScreeningDiagnosisForm() {
               className="border-coral focus:border-coral focus:ring-coral"
               value={riskNotes}
               onChange={(e) => setRiskNotes(e.target.value)} />
-
+            
             </div>
           }
         </div>
@@ -283,7 +283,7 @@ export function ScreeningDiagnosisForm() {
       <Accordion
         title="Referral Facility"
         icon={<Building2 className="h-5 w-5" />}>
-
+        
         <div className="bg-softPink/10 p-4 rounded-lg space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -294,7 +294,7 @@ export function ScreeningDiagnosisForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={referralFacility}
                 onChange={(e) => setReferralFacility(e.target.value)}>
-
+                
                 <option value="">Select Facility</option>
                 <option value="District Hospital">District Hospital</option>
                 <option value="PHC">PHC</option>
@@ -312,7 +312,7 @@ export function ScreeningDiagnosisForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={mentalHealthFacility}
                 onChange={(e) => setMentalHealthFacility(e.target.value)}>
-
+                
                 <option value="">Select Facility</option>
                 <option value="DMHP Center">DMHP Center</option>
                 <option value="Psychiatric Hospital">
@@ -330,7 +330,7 @@ export function ScreeningDiagnosisForm() {
               label="Referral Date"
               value={referralDate}
               onChange={(e) => setReferralDate(e.target.value)} />
-
+            
           </div>
         </div>
       </Accordion>
@@ -338,7 +338,7 @@ export function ScreeningDiagnosisForm() {
       <Accordion
         title="Mental Disorder & Disability Type"
         icon={<Brain className="h-5 w-5" />}>
-
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-neutral-secondary mb-2">
@@ -348,7 +348,7 @@ export function ScreeningDiagnosisForm() {
               className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
               value={mentalDisorderType}
               onChange={(e) => setMentalDisorderType(e.target.value)}>
-
+              
               <option value="">Select Type</option>
               <option value="Depression">Depression</option>
               <option value="Anxiety Disorder">Anxiety Disorder</option>
@@ -372,7 +372,7 @@ export function ScreeningDiagnosisForm() {
               className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
               value={disabilityType}
               onChange={(e) => setDisabilityType(e.target.value)}>
-
+              
               <option value="">Select Type</option>
               <option value="Mental Illness">Mental Illness</option>
               <option value="Intellectual Disability">
@@ -391,7 +391,7 @@ export function ScreeningDiagnosisForm() {
       <Accordion
         title="Diagnosis of Mental Illness"
         icon={<Stethoscope className="h-5 w-5" />}>
-
+        
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -402,7 +402,7 @@ export function ScreeningDiagnosisForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={mentalIllnessType}
                 onChange={(e) => setMentalIllnessType(e.target.value)}>
-
+                
                 <option value="">Select Illness</option>
                 <option value="Mild Depression">Mild Depression</option>
                 <option value="Moderate Depression">Moderate Depression</option>
@@ -426,7 +426,7 @@ export function ScreeningDiagnosisForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={severityOfIllness}
                 onChange={(e) => setSeverityOfIllness(e.target.value)}>
-
+                
                 <option value="">Select Severity</option>
                 <option value="Mild">Mild</option>
                 <option value="Moderate">Moderate</option>
@@ -441,7 +441,7 @@ export function ScreeningDiagnosisForm() {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-teal focus:ring-teal"
                 value={severityRating}
                 onChange={(e) => setSeverityRating(e.target.value)}>
-
+                
                 <option value="">Select Rating</option>
                 <option value="1 - Minimal">1 - Minimal</option>
                 <option value="2 - Mild">2 - Mild</option>
@@ -468,7 +468,7 @@ export function ScreeningDiagnosisForm() {
       <Accordion
         title="Consent & Enrollment"
         icon={<ShieldCheck className="h-5 w-5" />}>
-
+        
         <div className="space-y-6">
           <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
             <div>
@@ -480,21 +480,21 @@ export function ScreeningDiagnosisForm() {
             <button
               onClick={() => setConsentGiven(!consentGiven)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${consentGiven ? 'bg-teal' : 'bg-gray-300'}`}>
-
+              
               <span
                 className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${consentGiven ? 'translate-x-6' : 'translate-x-1'}`} />
-
+              
             </button>
           </div>
           <div
             className={`transition-opacity ${consentGiven ? 'opacity-100' : 'opacity-50 pointer-events-none'}`}>
-
+            
             <Checkbox
               label="Enrollment completed"
               checked={enrollmentCompleted}
               onChange={(e) => setEnrollmentCompleted(e.target.checked)}
               disabled={!consentGiven} />
-
+            
           </div>
           {!consentGiven &&
           <div className="bg-softPink/20 border border-softPink text-neutral-text p-4 rounded-lg">
@@ -521,7 +521,7 @@ export function ScreeningDiagnosisForm() {
               leftIcon={<CheckCircle className="h-4 w-4" />}
               onClick={() => handleSave(true)}
               disabled={!consentGiven}>
-
+              
               Complete Enrollment
             </Button>
             {!consentGiven &&
